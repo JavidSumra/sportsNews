@@ -2,14 +2,12 @@ import { createBrowserRouter } from "react-router-dom";
 
 import Signin from "../pages/signin";
 import Signup from "../pages/signup";
-import Dashboard from "../pages/dashboard";
 import Logout from "../pages/logout";
 import AccounLayout from "../layouts/account";
 import ReadArticle from "../pages/LiveNews/ReadArticle";
 import LiveMatch from "../pages/LiveMatch";
-import LiveNews from "../pages/LiveNews/LiveNews";
 import { Navigate } from "react-router-dom";
-import LiveNewsContainer from "../pages/LiveNews/LiveNewsContainer";
+import LiveNews from "../pages/LiveNews/LiveNews";
 
 const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/dashboard" replace /> },
@@ -31,18 +29,11 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <LiveMatch />,
+        element: [<LiveMatch />, <LiveNews />],
       },
       {
-        path: "News",
-        element: <LiveNewsContainer />,
-        children: [
-          { index: true, element: <LiveNews /> },
-          {
-            path: ":Id",
-            element: <ReadArticle />,
-          },
-        ],
+        path: "News/:Id",
+        element: <ReadArticle />,
       },
     ],
   },

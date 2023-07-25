@@ -7,6 +7,7 @@ import "react-toastify/ReactToastify.css";
 import router from "./routes";
 import { MatchesProvider } from "./context/Match/context";
 import { NewsProvider } from "./context/News/context";
+import { SportsProvider } from "./context/Sports/context";
 
 function App() {
   const { theme } = useContext(ThemeContext);
@@ -17,11 +18,13 @@ function App() {
         theme === "Dark" ? "dark" : ""
       } dark:bg-slate-600`}
     >
-      <MatchesProvider>
-        <NewsProvider>
-          <RouterProvider router={router} />
-        </NewsProvider>
-      </MatchesProvider>
+      <SportsProvider>
+        <MatchesProvider>
+          <NewsProvider>
+            <RouterProvider router={router} />
+          </NewsProvider>
+        </MatchesProvider>
+      </SportsProvider>
       <ToastContainer />
     </div>
   );

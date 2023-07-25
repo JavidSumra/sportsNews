@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 import { API_ENDPOINT } from "../../config/constants";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { TailSpin } from "react-loader-spinner";
-
 interface propState {
   sportId: number;
 }

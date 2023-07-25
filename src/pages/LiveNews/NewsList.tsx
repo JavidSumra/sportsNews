@@ -1,19 +1,33 @@
-import React from "react";
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import React, { useEffect } from "react";
 import { useNewsState } from "../../context/News/context";
 import { NewsState, NewsData } from "../../context/News/types";
 import { Link } from "react-router-dom";
 
-const NewsList = () => {
+const NewsList = (props: any) => {
+  const { sportName } = props;
+  // console.log(sportName);
   const state: NewsState = useNewsState();
+  const { isError, isLoading, errorMessage } = state;
+  let { news } = state;
 
-  const { news, isError, isLoading, errorMessage } = state;
-  console.log(news);
+  if (sportName) {
+    // console.log("Called");
+    news = news.filter((newsData) => {
+      return newsData.sport.name === sportName;
+    });
+    console.log(news);
+  }
+  // console.log(news);
+
   if (news.length === 0 && isLoading) {
     return <span>Loading...</span>;
   }
+
   if (isError) {
     return <span>{errorMessage}</span>;
   }
+
   return (
     <>
       {news.map((data: NewsData) => (
