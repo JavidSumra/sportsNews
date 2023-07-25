@@ -1,10 +1,10 @@
-import LiveNews from "./LiveNews";
+import * as React from "react";
 import { Outlet } from "react-router-dom";
-
-const NewsSection = () => {
+import Navbar from "./Navbar";
+const AccounLayout = () => {
   return (
     <>
-      <LiveNews />
+      <Navbar />
       <main>
         <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
           <Outlet />
@@ -14,4 +14,4 @@ const NewsSection = () => {
   );
 };
 
-export default NewsSection;
+export default AccounLayout;

@@ -6,6 +6,7 @@ import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { API_ENDPOINT } from "../../config/constants";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 interface UserInputs {
   name: string;
@@ -39,9 +40,29 @@ const SignupForm = () => {
 
       localStorage.setItem("authToken", data?.auth_token);
       localStorage.setItem("userData", JSON.stringify(data?.user));
+      toast.success(`Welcome ${data?.user.name}`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
       navigate("/dashboard");
     } catch (error) {
       console.log(`Operation Failed:${error}`);
+      toast.error(`${error}`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   };
   return (

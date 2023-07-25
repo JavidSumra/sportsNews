@@ -13,9 +13,9 @@ function App() {
 
   return (
     <div
-      className={`h-screen w-full mx-auto ${
+      className={`h-screen w-full mx-auto  ${
         theme === "Dark" ? "dark" : ""
-      }dark:bg-slate-600`}
+      } dark:bg-slate-600`}
     >
       <MatchesProvider>
         <NewsProvider>

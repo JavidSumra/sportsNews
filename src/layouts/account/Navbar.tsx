@@ -9,9 +9,12 @@ import {
 } from "@heroicons/react/24/outline";
 import { ThemeContext } from "../../context/theme";
 import Logo from "../../assets/images/Logo.png";
+
+const isLoggedIn = !!localStorage.getItem("authToken");
 const userNavigation = [
-  { name: "Profile", href: "#" },
-  { name: "Sign out", href: "/logout" },
+  isLoggedIn
+    ? { name: "Sign out", href: "/logout" }
+    : { name: "Signin", href: "/login" },
 ];
 
 const classNames = (...classes: string[]): string =>
@@ -36,7 +39,10 @@ const Navbar = () => {
 
   return (
     <>
-      <Disclosure as="nav" className="border-b border-slate-200 ">
+      <Disclosure
+        as="nav"
+        className="border-b border-slate-200 dark:bg-gray-500"
+      >
         {({ open }) => (
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex h-16 items-center justify-between">
@@ -55,27 +61,31 @@ const Navbar = () => {
               <div className="hidden md:block">
                 <div className="ml-4 flex items-center md:ml-6">
                   <button
-                    className="w-7"
+                    className="w-7 "
                     onClick={toggleTheme}
                     title={`Change Mode to ${theme}`}
                   >
                     {theme === "Light" ? (
                       <MoonIcon
                         className="
-                      rounded-full bg-white  text-gray-400 hover:text-blue-600"
+                      rounded-full  dark:bg-gray-500 bg-white  text-gray-400 hover:text-blue-600"
                       />
                     ) : (
-                      <SunIcon className="w-8 bg-white  text-gray-400 hover:text-blue-600" />
+                      <SunIcon className="w-8 dark:text-white bg-white dark:bg-gray-500  dark:hover:text-blue-500  text-gray-400 hover:text-blue-600" />
                     )}
                   </button>
-                  <button className="w-7 mx-5" title="User Preference">
-                    <Cog6ToothIcon className="w-8 bg-white  text-gray-400 hover:text-blue-600" />
-                  </button>
+                  {isLoggedIn ? (
+                    <button className="w-7 mx-5" title="User Preference">
+                      <Cog6ToothIcon className="w-8 dark:bg-gray-500 bg-white  text-gray-400  dark:hover:text-blue-500 hover:text-blue-600" />
+                    </button>
+                  ) : (
+                    <></>
+                  )}
                   <Menu as="div" className="relative ml-3">
                     <div>
-                      <Menu.Button className="w-8 bg-white p-1 text-gray-400 hover:text-blue-600">
+                      <Menu.Button className="w-8 dark:text-white dark:hover:text-blue-500 dark:bg-gray-500 bg-white p-1 text-gray-400 hover:text-blue-600">
                         <UserCircleIcon
-                          className="h-8 w-8"
+                          className="h-8 w-8 "
                           aria-hidden="true"
                         />
                       </Menu.Button>

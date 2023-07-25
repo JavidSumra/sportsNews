@@ -1,8 +1,7 @@
 import React from "react";
-import Navbar from "./Navbar";
+import Navbar from "../../layouts/account/Navbar";
 import LiveScore from "../LiveMatch";
 import NewsSection from "../LiveNews";
-
 const Dashboard = () => {
   return (
     <>

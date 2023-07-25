@@ -38,15 +38,17 @@ const SportCard = (props: propState) => {
         "Content-Type": "application/json",
       },
     });
-    const data = await response.json();
+    const data: LiveScore = await response.json();
     // console.log(data);
-    setData(data);
+    if (data.isRunning) {
+      setData(data);
+    }
   };
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     fetchData(props.sportId);
   }, [props.sportId]);
-  const { score, location, sportName, id } = data;
+  const { score, location, sportName, id, isRunning } = data;
 
   if (score) {
     return (
@@ -72,6 +74,8 @@ const SportCard = (props: propState) => {
         ))}
       </div>
     );
+  } else if (!isRunning) {
+    return <></>;
   } else {
     return (
       <div className="w-60 flex items-center justify-center p-2 mx-4 bg-white border border-gray-200 rounded shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">

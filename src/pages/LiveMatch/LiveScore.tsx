@@ -10,12 +10,12 @@ const LiveScore: React.FC = () => {
     FetchMatches(dispactchMatches);
   }, []);
   return (
-    <div className="m-4">
+    <>
       <div className="font-[Poppins] text-2xl font-bold">Live Score</div>
-      <div className="flex overflow-auto ">
+      <div className="flex overflow-auto">
         <MatchesList />
       </div>
-    </div>
+    </>
   );
 };
 export default LiveScore;

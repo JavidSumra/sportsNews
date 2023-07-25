@@ -45,7 +45,7 @@ const SigninForm: React.FC = () => {
       console.log(data);
 
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-      toast.success(`Welcome ${data?.user.name}`, {
+      toast.success(`Welcome Back ${data?.user.name}`, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
