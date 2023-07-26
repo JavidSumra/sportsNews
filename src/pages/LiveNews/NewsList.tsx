@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React, { useEffect } from "react";
 import { useNewsState } from "../../context/News/context";
@@ -5,7 +6,7 @@ import { NewsState, NewsData } from "../../context/News/types";
 import { Link } from "react-router-dom";
 
 const NewsList = (props: any) => {
-  const { sportName } = props;
+  const { sportName, filter } = props;
   // console.log(sportName);
   const state: NewsState = useNewsState();
   const { isError, isLoading, errorMessage } = state;
@@ -17,6 +18,20 @@ const NewsList = (props: any) => {
       return newsData.sport.name === sportName;
     });
     console.log(news);
+  }
+
+  if (filter) {
+    console.log(filter);
+    if (filter.name == "Date") {
+      news.sort(
+        (a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf()
+      );
+    } else if (filter.name == "Title") {
+      news.sort((a, b) => a.title.localeCompare(b.title));
+    } else {
+      news.sort((a, b) => a.sport.name.localeCompare(b.sport.name));
+    }
+    // news.sort();
   }
   // console.log(news);
 

@@ -51,7 +51,10 @@ const SportCard = (props: propState) => {
 
   if (score) {
     return (
-      <div className="w-60 p-2 mx-4 bg-white border border-gray-200 rounded shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+      <div
+        key={id}
+        className="w-60 p-2 mx-4 bg-white border border-gray-200 rounded shadow hover:bg-gray-100 dark:bg-gray-500 dark:border-gray-300 dark:hover:bg-gray-600 duration-150 dark:text-gray-50"
+      >
         <div className="flex justify-between items-center">
           <div className="text-sm font-bold">{sportName}</div>
           <button onClick={() => fetchData(id)}>
@@ -62,9 +65,9 @@ const SportCard = (props: propState) => {
           </button>
         </div>
         <div>{location}</div>
-        {Object.keys(score).map((key, index) => (
+        {Object.keys(score).map((key) => (
           <div
-            key={index}
+            key={key}
             className="flex justify-between items-center font-bold text-xl"
           >
             <div>{key}</div>
