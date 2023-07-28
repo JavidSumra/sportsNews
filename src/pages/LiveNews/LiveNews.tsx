@@ -1,16 +1,21 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import React, { useState } from "react";
 import NewsList from "./NewsList";
-import { useNewsDispatch } from "../../context/News/context";
 import { FetchNews } from "../../context/News/actions";
 import { FunnelIcon } from "@heroicons/react/24/outline";
+import { FetchSports } from "../../context/Sports/actions";
+import { FetchTeams } from "../../context/Teams/actions";
+
+import { useTeamsDispatch } from "../../context/Teams/context";
+import { useNewsDispatch } from "../../context/News/context";
 import {
   useSportsDispatch,
   useSportsState,
 } from "../../context/Sports/context";
-import { FetchSports } from "../../context/Sports/actions";
+
 import { Listbox, Transition } from "@headlessui/react";
 
+import Favourite from "./Favourite";
 interface sorting {
   name: string;
   id: number;
@@ -27,8 +32,10 @@ const isLoggedIn = !!localStorage.getItem("authToken");
 const LiveNews = () => {
   const [selectedSort, setSelectedSort] = useState("");
   const [sportName, setSportName] = useState("");
+
   const dispacth = useNewsDispatch();
   const SportDispatch = useSportsDispatch();
+  const teamDispatch = useTeamsDispatch();
 
   const changeFilter = (name: string): void => {
     setSportName(name);
@@ -37,10 +44,11 @@ const LiveNews = () => {
   React.useEffect(() => {
     FetchNews(dispacth);
     FetchSports(SportDispatch);
+    FetchTeams(teamDispatch);
   }, []);
 
   const { sports, isLoading, isError, errorMessage } = useSportsState();
-  console.log(sports);
+  // console.log(sports);
   return (
     <div className="m-4">
       <div className="font-[Poppins] text-2xl font-bold">Trending News</div>
@@ -87,7 +95,9 @@ const LiveNews = () => {
                     <div className="relative flex items-center justify-around">
                       <span className="inline-block w-full">
                         <Listbox.Button className="pl-3 py-2 w-full text-left focus:outline-none focus:shadow-outline-blue focus:border-blue-300 relative border shadow-md border-gray-300 rounded text-gray-800">
-                          <span className="block truncate">{sort[0].name}</span>
+                          <span className="block truncate">
+                            {selectedSort ? selectedSort?.name : "Date"}
+                          </span>
                           <Transition
                             show={open}
                             leave="transition ease-in duration-100"
@@ -159,8 +169,10 @@ const LiveNews = () => {
           </div>
           <NewsList sportName={sportName} filter={selectedSort} />
         </div>
-        <div className="bg-gray-300 w-3/12 rounded-r-lg">
-          <aside>Favourite</aside>
+        <div className="bg-gray-300 w-3/12 rounded-r-lg dark:bg-gray-500">
+          <aside>
+            <Favourite />
+          </aside>
         </div>
       </div>
     </div>

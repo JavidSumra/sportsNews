@@ -5,14 +5,12 @@ import React, { useEffect, useState } from "react";
 import { API_ENDPOINT } from "../../config/constants";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { TailSpin } from "react-loader-spinner";
+import { nanoid } from "nanoid";
+import { Sports } from "../../context/Sports/types";
 interface propState {
   sportId: number;
 }
 
-type team = {
-  id: number;
-  name: string;
-};
 interface LiveScore {
   id: number;
   isRunning: boolean;
@@ -21,7 +19,7 @@ interface LiveScore {
   startsAt: string;
   endsAt: string;
   score: { [key: string]: string };
-  teams: team[];
+  teams: Sports[];
   sportName: string;
   playingTeam: number;
   story: string;
@@ -52,7 +50,7 @@ const SportCard = (props: propState) => {
   if (score) {
     return (
       <div
-        key={id}
+        key={nanoid()}
         className="w-60 p-2 mx-4 bg-white border border-gray-200 rounded shadow hover:bg-gray-100 dark:bg-gray-500 dark:border-gray-300 dark:hover:bg-gray-600 duration-150 dark:text-gray-50"
       >
         <div className="flex justify-between items-center">
@@ -67,7 +65,7 @@ const SportCard = (props: propState) => {
         <div>{location}</div>
         {Object.keys(score).map((key) => (
           <div
-            key={key}
+            key={nanoid()}
             className="flex justify-between items-center font-bold text-xl"
           >
             <div>{key}</div>
@@ -77,7 +75,7 @@ const SportCard = (props: propState) => {
       </div>
     );
   } else if (!isRunning) {
-    return <></>;
+    return;
   } else {
     return (
       <div className="w-60 flex items-center justify-center p-2 mx-4 bg-white border border-gray-200 rounded shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">

@@ -8,6 +8,7 @@ import router from "./routes";
 import { MatchesProvider } from "./context/Match/context";
 import { NewsProvider } from "./context/News/context";
 import { SportsProvider } from "./context/Sports/context";
+import { TeamsProvider } from "./context/Teams/context";
 
 function App() {
   const { theme } = useContext(ThemeContext);
@@ -20,9 +21,11 @@ function App() {
     >
       <SportsProvider>
         <MatchesProvider>
-          <NewsProvider>
-            <RouterProvider router={router} />
-          </NewsProvider>
+          <TeamsProvider>
+            <NewsProvider>
+              <RouterProvider router={router} />
+            </NewsProvider>
+          </TeamsProvider>
         </MatchesProvider>
       </SportsProvider>
       <ToastContainer />

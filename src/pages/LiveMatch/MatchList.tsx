@@ -1,13 +1,9 @@
 import React from "react";
-import {
-  useMatchesState,
-  useMatchesDispatch,
-} from "../../context/Match/context";
+import { useMatchesState } from "../../context/Match/context";
 import SportCard from "./SportCard";
 import { LiveMatchState, LiveMatchData } from "../../context/Match/types";
 
 export default function MatchList() {
-  
   const state: LiveMatchState = useMatchesState();
   const { matches, isLoading, isError, errorMessage } = state;
 
