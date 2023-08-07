@@ -1,4 +1,4 @@
-type sportData = {
+type Data = {
     id: number,
     name: string
 }
@@ -7,9 +7,10 @@ export interface NewsData {
     id: number,
     title: string,
     thumbnail: string,
-    sport: sportData,
+    sport: Data,
     date: string,
-    summary: string
+    summary: string,
+    teams: Data[]
 }
 
 export interface NewsState {

@@ -1,4 +1,4 @@
-import { Fragment, useState, useContext } from "react";
+import { Fragment, useState, useContext, useEffect } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import "../../App.css";
 import {
@@ -9,6 +9,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { ThemeContext } from "../../context/theme";
 import Logo from "../../assets/images/Logo.png";
+import { Link } from "react-router-dom";
 
 const isLoggedIn = !!localStorage.getItem("authToken");
 const userNavigation = [
@@ -22,6 +23,7 @@ const classNames = (...classes: string[]): string =>
 
 const Navbar = () => {
   const { theme, setTheme } = useContext(ThemeContext);
+  const [isLogInUser, setIsLoginUser] = useState(isLoggedIn);
   const [enabled, setEnabled] = useState(false);
 
   const toggleTheme = () => {
@@ -36,7 +38,9 @@ const Navbar = () => {
     setEnabled(!enabled);
     setTheme(newTheme);
   };
-
+  useEffect(() => {
+    setIsLoginUser(isLoggedIn);
+  }, [isLoggedIn]);
   return (
     <>
       <Disclosure
@@ -74,10 +78,14 @@ const Navbar = () => {
                       <SunIcon className="w-8 dark:text-white bg-white dark:bg-gray-500  dark:hover:text-blue-500  text-gray-400 hover:text-blue-600" />
                     )}
                   </button>
-                  {isLoggedIn ? (
-                    <button className="w-7 mx-5" title="User Preference">
+                  {isLogInUser ? (
+                    <Link
+                      to={"prefrences"}
+                      className="w-7 mx-5"
+                      title="User Preference"
+                    >
                       <Cog6ToothIcon className="w-8 dark:bg-gray-500 bg-white  text-gray-400  dark:hover:text-blue-500 hover:text-blue-600" />
-                    </button>
+                    </Link>
                   ) : (
                     <></>
                   )}

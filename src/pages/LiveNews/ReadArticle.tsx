@@ -10,18 +10,6 @@ import { NewsData } from "../../context/News/types";
 type ArticleDetail = NewsData & {
   content: string;
 };
-// interface Article {
-//   id: number;
-//   title: string;
-//   summary: string;
-//   thumbnail: string;
-//   sport: {
-//     id: 1;
-//     name: "Basketball";
-//   };
-//   date: "2023-06-08T15:25:16.492Z";
-//   content: string;
-// }
 
 const ReadArticle = () => {
   const { Id } = useParams();

@@ -8,6 +8,7 @@ import ReadArticle from "../pages/LiveNews/ReadArticle";
 import LiveMatch from "../pages/LiveMatch";
 import { Navigate } from "react-router-dom";
 import LiveNews from "../pages/LiveNews/LiveNews";
+import Prefrences from "../layouts/account/prefrences";
 
 const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/dashboard" replace /> },
@@ -24,7 +25,7 @@ const router = createBrowserRouter([
     element: <Logout />,
   },
   {
-    path: "/dashboard",
+    path: "dashboard",
     element: <AccounLayout />,
     children: [
       {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "News/:Id",
         element: <ReadArticle />,
+      },
+      {
+        path: "prefrences",
+        element: <Prefrences />,
       },
     ],
   },

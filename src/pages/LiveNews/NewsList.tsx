@@ -1,13 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import React, { useEffect } from "react";
+import React from "react";
 import { useNewsState } from "../../context/News/context";
 import { NewsState, NewsData } from "../../context/News/types";
 import { Link } from "react-router-dom";
 
-const NewsList = (props: any) => {
-  const { sportName, filter } = props;
-  // console.log(sportName);
+interface PropsState {
+  sportName: string;
+  filter: string;
+}
+
+const NewsList = ({ sportName, filter }: PropsState) => {
+  // const { sportName, filter } = props;
+  // console.log(filter);
   const state: NewsState = useNewsState();
   const { isError, isLoading, errorMessage } = state;
   let { news } = state;
@@ -17,16 +22,16 @@ const NewsList = (props: any) => {
     news = news.filter((newsData) => {
       return newsData.sport.name === sportName;
     });
-    console.log(news);
+    // console.log(news);
   }
 
   if (filter) {
     console.log(filter);
-    if (filter.name == "Date") {
+    if (filter == "Date") {
       news.sort(
         (a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf()
       );
-    } else if (filter.name == "Title") {
+    } else if (filter == "Title") {
       news.sort((a, b) => a.title.localeCompare(b.title));
     } else {
       news.sort((a, b) => a.sport.name.localeCompare(b.sport.name));
@@ -48,7 +53,7 @@ const NewsList = (props: any) => {
       {news.map((data: NewsData) => (
         <div
           key={data.id}
-          className="card flex flex-col lg:flex-row m-2 bg-white rounded-lg hover:shadow-xl duration-300 justify-between "
+          className="card flex flex-col lg:flex-row bg-white rounded-lg hover:shadow-xl duration-300 m-2 "
         >
           <div className="">
             <img

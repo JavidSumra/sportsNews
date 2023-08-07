@@ -4,6 +4,7 @@ import { Listbox } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { useTeamsState } from "../../context/Teams/context";
 import { Team } from "../../context/Teams/types";
+import FavCard from "./FavCard";
 
 const Favourite = () => {
   let { teams } = useTeamsState();
@@ -16,9 +17,9 @@ const Favourite = () => {
     teams = teams.filter((team) => {
       return team.plays == selectedSport;
     });
-    console.log(teams);
+    // console.log(teams);
   }
-  //   console.log(teams);
+
   if (sports) {
     return (
       <>
@@ -97,6 +98,7 @@ const Favourite = () => {
               ))}
             </Listbox.Options>
           </Listbox>
+          <FavCard team={selectedTeam} sport={selectedSport} />
         </div>
       </>
     );
