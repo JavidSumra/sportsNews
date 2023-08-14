@@ -62,7 +62,7 @@ const SportCard = (props: propState) => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     fetchData(props.sportId);
   }, [props.sportId]);
-  if (data != null) {
+  if (data != null && data != initialLiveScore) {
     const { score, location, sportName, id, isRunning } = data;
 
     if (score) {
