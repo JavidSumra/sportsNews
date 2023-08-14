@@ -17,6 +17,7 @@ import { CheckIcon } from "@heroicons/react/24/outline";
 import { Listbox } from "@headlessui/react";
 
 import Favourite from "./Favourite";
+import { Outlet } from "react-router-dom";
 interface Sorting {
   name: string;
   id: number;
@@ -130,8 +131,9 @@ const LiveNews = () => {
             </div>
           </div>
           <NewsList sportName={sportName} filter={selectedSort} />
+          <Outlet />
         </div>
-        <div className="bg-gray-300 w-3/12 rounded-r-lg dark:bg-gray-500">
+        <div className="bg-gray-300 w-3/12 rounded-r-lg dark:bg-gray-400">
           <aside>
             <Favourite />
           </aside>

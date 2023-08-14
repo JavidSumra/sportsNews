@@ -24,14 +24,14 @@ const SigninForm: React.FC = () => {
 
   const onSubmit: SubmitHandler<UserInputs> = async (data) => {
     const { email, password } = data;
+    const response = await fetch(`${API_ENDPOINT}/users/sign_in`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
     try {
-      const response = await fetch(`${API_ENDPOINT}/users/sign_in`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
       if (!response.ok) {
         throw new Error("Sign in Failed");
       }
@@ -117,7 +117,7 @@ const SigninForm: React.FC = () => {
         )}
         <div className="flex items-center justify-between w-full my-3">
           <div className="hover:underline hover:text-blue-600 duration-150 cursor-pointer">
-            Forgot Password?
+            <a href="/ForgotPass"> Forgot Password?</a>
           </div>
           <div>
             <input

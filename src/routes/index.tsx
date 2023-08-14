@@ -9,6 +9,7 @@ import LiveMatch from "../pages/LiveMatch";
 import { Navigate } from "react-router-dom";
 import LiveNews from "../pages/LiveNews/LiveNews";
 import Prefrences from "../layouts/account/prefrences";
+import ForgotPassword from "../pages/Forgotpass";
 
 const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/dashboard" replace /> },
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: "/logout",
     element: <Logout />,
+  },
+  {
+    path: "/ForgotPass",
+    element: <ForgotPassword />,
   },
   {
     path: "dashboard",

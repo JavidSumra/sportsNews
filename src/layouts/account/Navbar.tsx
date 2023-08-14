@@ -40,7 +40,7 @@ const Navbar = () => {
   };
   useEffect(() => {
     setIsLoginUser(isLoggedIn);
-  }, [isLoggedIn]);
+  }, []);
   return (
     <>
       <Disclosure
