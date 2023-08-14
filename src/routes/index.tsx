@@ -14,19 +14,19 @@ import ForgotPassword from "../pages/Forgotpass";
 const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/dashboard" replace /> },
   {
-    path: "/login",
+    path: "login",
     element: <Signin />,
   },
   {
-    path: "/signup",
+    path: "signup",
     element: <Signup />,
   },
   {
-    path: "/logout",
+    path: "logout",
     element: <Logout />,
   },
   {
-    path: "/ForgotPass",
+    path: "ForgotPass",
     element: <ForgotPassword />,
   },
   {
