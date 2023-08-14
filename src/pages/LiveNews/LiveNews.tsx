@@ -47,9 +47,9 @@ const LiveNews = () => {
     FetchNews(dispacth);
     FetchSports(SportDispatch);
     FetchTeams(teamDispatch);
-  }, []);
+  }, [SportDispatch, dispacth, teamDispatch]);
 
-  const { sports, isLoading, isError, errorMessage } = useSportsState();
+  const { sports } = useSportsState();
   // console.log(sports);
   return (
     <div className="m-4">

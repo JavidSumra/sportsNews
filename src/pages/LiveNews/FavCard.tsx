@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useNewsState } from "../../context/News/context";
 import { NewsData } from "../../context/News/types";
 import { Link } from "react-router-dom";
@@ -14,7 +14,7 @@ const FavCard = ({ sport, team }: PropState) => {
   const dispacth = useNewsDispatch();
   useEffect(() => {
     void FetchNews(dispacth);
-  }, []);
+  }, [dispacth]);
   //   const { isLoading, isError, errorMessage } = useNewsState();
   const state = useNewsState();
   const { isLoading, isError, errorMessage } = state;

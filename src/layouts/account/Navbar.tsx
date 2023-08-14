@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
+// tslint:disable-next-line: no-unused-variable
+
 import { Fragment, useState, useContext, useEffect } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import "../../App.css";
@@ -47,7 +51,7 @@ const Navbar = () => {
         as="nav"
         className="border-b border-slate-200 dark:bg-gray-500"
       >
-        {({ open }) => (
+        {() => (
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex h-16 items-center justify-between">
               <div className="flex items-center">

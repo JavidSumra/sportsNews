@@ -1,4 +1,3 @@
-import React from "react";
 import { useMatchesState } from "../../context/Match/context";
 import SportCard from "./SportCard";
 import { LiveMatchState, LiveMatchData } from "../../context/Match/types";
