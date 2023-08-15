@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { useEffect } from "react";
 import { useNewsState } from "../../context/News/context";
-import { Data, NewsData } from "../../context/News/types";
+import { NewsData } from "../../context/News/types";
 import { Link } from "react-router-dom";
 import { useNewsDispatch } from "../../context/News/context";
 import { FetchNews } from "../../context/News/actions";
