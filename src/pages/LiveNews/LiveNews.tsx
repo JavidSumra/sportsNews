@@ -29,7 +29,7 @@ const Sort: Sorting[] = [
   { id: 3, name: "Sport Type" },
 ];
 
-const isLoggedIn = !!localStorage.getItem("authToken");
+const isLoggedIn = !!localStorage.getItem("userData");
 
 const LiveNews = () => {
   const [selectedSort, setSelectedSort] = useState("");
@@ -57,12 +57,12 @@ const LiveNews = () => {
         Trending News
       </div>
       <div className="flex  m-3 bg-gray-200 rounded-lg">
-        <div className="flex  p-2 overflow-auto flex-col   items-start w-4/5">
+        <div className="flex  p-2 overflow-auto flex-col items-start w-4/5">
           <div className="flex items-center justify-between mb-8 w-full px-4 ">
             {!isLoggedIn && sports.length > 0 ? (
               <div className="flex items-center justify-around overflow-x-auto mx-4 w-4/5">
                 <button
-                  className={`font-lg  mx-4 duration-150 ${
+                  className={`font-lg  mx-1 duration-150 ${
                     sportName === ""
                       ? "border-b-2 border-black p-2 font-bold text-black   text-lg"
                       : "text-gray-400 text-sm"
@@ -89,10 +89,12 @@ const LiveNews = () => {
               "Not Implemented"
             )}
 
-            <div className=" flex items-center justify-between">
+            <div className="flex items-center justify-between ">
               <Listbox value={selectedSort} onChange={setSelectedSort}>
-                <Listbox.Label>Sort By:</Listbox.Label>
-                <Listbox.Button className=" border rounded-md py-2 px-3 my-2 mx-2 bg-gray-100 text-base text-left">
+                <Listbox.Button className=" border rounded-md py-2 px-3 my-2 mx-2 bg-gray-100 text-base text-left w-full">
+                  <Listbox.Label className="font-medium">
+                    Sort By:
+                  </Listbox.Label>
                   {selectedSort ? selectedSort : "Team"}
                 </Listbox.Button>
                 <Listbox.Options className="absolute overflow-y-auto mt-1 max-h-60 rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
@@ -129,7 +131,7 @@ const LiveNews = () => {
                   ))}
                 </Listbox.Options>
               </Listbox>
-              <FunnelIcon className="w-8 h-8 bg-gray-300 mx-2 p-1 rounded" />
+              <FunnelIcon className="w-10 h-10 bg-gray-300 mx-2 p-1 rounded" />
             </div>
           </div>
           <NewsList sportName={sportName} filter={selectedSort} />

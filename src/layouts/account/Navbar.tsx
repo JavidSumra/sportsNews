@@ -3,7 +3,7 @@
 
 // tslint:disable-next-line: no-unused-variable
 
-import { Fragment, useState, useContext, useEffect } from "react";
+import React, { Fragment, useState, useContext, useMemo } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import "../../App.css";
 import {
@@ -16,7 +16,7 @@ import { ThemeContext } from "../../context/theme";
 import Logo from "../../assets/images/Logo.png";
 import { Link } from "react-router-dom";
 
-const isLoggedIn = !!localStorage.getItem("authToken");
+const isLoggedIn = !!localStorage.getItem("userData");
 const userNavigation = [
   isLoggedIn
     ? { name: "Sign out", href: "/logout" }
@@ -26,11 +26,11 @@ const userNavigation = [
 const classNames = (...classes: string[]): string =>
   classes.filter(Boolean).join(" ");
 
-const Navbar = () => {
+const Navbar = React.memo(() => {
+  const isLogInUser = useMemo(() => isLoggedIn, [isLoggedIn]);
   const { theme, setTheme } = useContext(ThemeContext);
-  const [isLogInUser, setIsLoginUser] = useState(isLoggedIn);
   const [enabled, setEnabled] = useState(false);
-
+  console.log(isLogInUser);
   const toggleTheme = () => {
     let newTheme = "";
     if (theme === "Light") {
@@ -43,9 +43,7 @@ const Navbar = () => {
     setEnabled(!enabled);
     setTheme(newTheme);
   };
-  useEffect(() => {
-    setIsLoginUser(isLoggedIn);
-  }, [isLogInUser]);
+
   return (
     <>
       <Disclosure
@@ -139,6 +137,6 @@ const Navbar = () => {
       </Disclosure>
     </>
   );
-};
+});
 
 export default Navbar;

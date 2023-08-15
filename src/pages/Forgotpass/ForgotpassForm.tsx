@@ -66,7 +66,7 @@ const ForgotpassForm: React.FC = () => {
         progress: undefined,
         theme: "colored",
       });
-      navigate(-1);
+      navigate("/ForgotPass");
     }
   };
   return (
