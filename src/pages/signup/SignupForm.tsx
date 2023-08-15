@@ -133,12 +133,15 @@ const SignupForm = () => {
           />
         </div>
         <fieldset className="border-t border-slate-300">
-          <legend className="mx-auto px-4 text-gray-600 text-2xl italic text-center">
+          <legend className="mx-auto px-4 text-gray-600 text-base italic text-center">
             OR
           </legend>
-          <div className="text-center text-small">
+          <div className="flex text-base items-center justify-center flex-wrap ">
             Already have an Account?
-            <a href="/login" className="text-blue-500 hover:underline">
+            <a
+              href="/login"
+              className="text-blue-500 font-bold mx-2 hover:underline"
+            >
               Login
             </a>
           </div>

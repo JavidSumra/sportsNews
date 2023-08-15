@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 
@@ -11,7 +12,7 @@ interface UserInputs {
   new_password: string;
 }
 
-const ForgotpassForm = () => {
+const ForgotpassForm: React.FC = () => {
   const navigate = useNavigate();
   const {
     register,
@@ -20,11 +21,13 @@ const ForgotpassForm = () => {
   } = useForm<UserInputs>();
 
   const onSubmit: SubmitHandler<UserInputs> = async (data) => {
+    const token = localStorage.getItem("authToken");
     const { current_password, new_password } = data;
     const response = await fetch(`${API_ENDPOINT}/user/password`, {
-      method: "POST",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ current_password, new_password }),
     });
@@ -63,14 +66,12 @@ const ForgotpassForm = () => {
         progress: undefined,
         theme: "colored",
       });
-      navigate("back");
+      navigate(-1);
     }
-
-    return (
-      <form
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onSubmit={handleSubmit(onSubmit)}
-      >
+  };
+  return (
+    <>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="text-3xl font-bold text-center text-gray-800 mb-8 pr-6">
           Update Password
         </div>
@@ -109,21 +110,27 @@ const ForgotpassForm = () => {
           {errors.new_password && (
             <span className="text-red-500 text-sm">This field is required</span>
           )}
-
-          <fieldset className="border-t border-slate-300">
-            <legend className="mx-auto px-4 text-black text-2xl italic text-center">
-              OR
-            </legend>
-            <div className="flex items-center justify-center gap-10 flex-wrap text-3xl">
-              Go Back To
-              <a href="/login">Login</a>
-              Page
-            </div>
-          </fieldset>
+          <input
+            type="submit"
+            value="Update Password"
+            className="w-full text-xl my-4 p-2 bg-blue-500 text-white font-bold rounded cursor-pointer"
+          />
         </div>
       </form>
-    );
-  };
+      <fieldset className="border-t border-slate-300">
+        <legend className="mx-auto text-lg px-4 text-black  italic text-center">
+          OR
+        </legend>
+        <div className="flex text-base items-center justify-center flex-wrap ">
+          Go Back To
+          <a href="/login" className="text-blue-500 mx-2 font-bold">
+            Login
+          </a>
+          Page
+        </div>
+      </fieldset>
+    </>
+  );
 };
 
 export default ForgotpassForm;

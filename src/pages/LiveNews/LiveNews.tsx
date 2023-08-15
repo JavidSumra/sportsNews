@@ -53,7 +53,9 @@ const LiveNews = () => {
   // console.log(sports);
   return (
     <div className="m-4">
-      <div className="font-[Poppins] text-2xl font-bold">Trending News</div>
+      <div className="font-[Poppins] text-2xl font-bold dark:text-gray-50">
+        Trending News
+      </div>
       <div className="flex  m-3 bg-gray-200 rounded-lg">
         <div className="flex  p-2 overflow-auto flex-col   items-start w-4/5">
           <div className="flex items-center justify-between mb-8 w-full px-4 ">
@@ -84,7 +86,7 @@ const LiveNews = () => {
                 ))}
               </div>
             ) : (
-              "Not Loaded"
+              "Not Implemented"
             )}
 
             <div className=" flex items-center justify-between">
@@ -127,7 +129,7 @@ const LiveNews = () => {
                   ))}
                 </Listbox.Options>
               </Listbox>
-              <FunnelIcon className="w-10 h-10 bg-gray-300 mx-4 p-1 rounded" />
+              <FunnelIcon className="w-8 h-8 bg-gray-300 mx-2 p-1 rounded" />
             </div>
           </div>
           <NewsList sportName={sportName} filter={selectedSort} />

@@ -23,7 +23,7 @@ const Favourite = () => {
   if (sports) {
     return (
       <>
-        <div className="p-4 text-2xl font-bold dark:text-gray-100">
+        <div className="p-4 text-2xl font-bold dark:text-gray-50">
           Favourites
         </div>
         <div>

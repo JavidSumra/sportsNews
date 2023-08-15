@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 // tslint:disable-next-line: no-unused-variable
@@ -44,7 +45,7 @@ const Navbar = () => {
   };
   useEffect(() => {
     setIsLoginUser(isLoggedIn);
-  }, []);
+  }, [isLogInUser]);
   return (
     <>
       <Disclosure
@@ -88,7 +89,7 @@ const Navbar = () => {
                       className="w-7 mx-5"
                       title="User Preference"
                     >
-                      <Cog6ToothIcon className="w-8 dark:bg-gray-500 bg-white  text-gray-400  dark:hover:text-blue-500 hover:text-blue-600" />
+                      <Cog6ToothIcon className="w-8 dark:bg-gray-500 dark:text-white bg-white  text-gray-400  dark:hover:text-blue-500 hover:text-blue-600" />
                     </Link>
                   ) : (
                     <></>

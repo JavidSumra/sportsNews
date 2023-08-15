@@ -1,4 +1,5 @@
-type Data = {
+export type Data = {
+
     id: number,
     name: string
 }

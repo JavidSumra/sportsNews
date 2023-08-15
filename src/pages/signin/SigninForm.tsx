@@ -116,7 +116,7 @@ const SigninForm: React.FC = () => {
           <span className="text-red-500 text-sm">This field is required</span>
         )}
         <div className="flex items-center justify-between w-full my-3">
-          <div className="hover:underline hover:text-blue-600 duration-150 cursor-pointer">
+          <div className="hover:underline font-medium hover:text-blue-600 duration-150 cursor-pointer">
             <a href="/ForgotPass"> Forgot Password?</a>
           </div>
           <div>
@@ -128,15 +128,16 @@ const SigninForm: React.FC = () => {
           </div>
         </div>
         <fieldset className="border-t border-slate-300">
-          <legend className="mx-auto px-4 text-black text-2xl italic text-center">
+          <legend className="mx-auto px-4 text-black text-base italic text-center">
             OR
           </legend>
-          <div className="flex items-center justify-center gap-10 flex-wrap text-3xl">
-            <a href="">
-              <FcGoogle />
-            </a>
-            <a href="" className="text-blue-500">
-              <FaFacebookSquare />
+          <div className="flex text-base items-center justify-center flex-wrap ">
+            Don't have an Account
+            <a
+              href="/signup"
+              className="text-blue-500 mx-2 font-bold hover:underline"
+            >
+              Signup
             </a>
           </div>
         </fieldset>

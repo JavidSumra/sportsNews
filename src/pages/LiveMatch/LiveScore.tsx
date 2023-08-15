@@ -11,7 +11,9 @@ const LiveScore: React.FC = () => {
   }, []);
   return (
     <>
-      <div className="font-[Poppins] text-2xl font-bold">Live Score</div>
+      <div className="font-[Poppins] text-2xl font-bold dark:text-gray-50">
+        Live Score
+      </div>
       <div className="flex overflow-auto">
         <MatchesList />
       </div>
