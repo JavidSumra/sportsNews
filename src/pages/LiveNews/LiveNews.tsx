@@ -35,9 +35,8 @@ const Sort: Sorting[] = [
   { id: 3, name: "Sport Type" },
 ];
 
-const isLoggedIn = !!localStorage.getItem("userData");
-
 const LiveNews = () => {
+  const isLoggedIn = !!localStorage.getItem("userData");
   const [selectedSort, setSelectedSort] = useState("");
   const [sportName, setSportName] = useState("");
   const [preferences, setPreferences] = useState<string[]>([]);

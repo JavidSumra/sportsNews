@@ -12,9 +12,9 @@ export interface Preferences {
 }
 
 
-const token: string | null = localStorage.getItem("authToken");
 
 const FetchPreferences = async () => {
+    const token: string | null = localStorage.getItem("authToken");
     const response = await fetch(`${API_ENDPOINT}/user/preferences`, {
         method: "GET",
         headers: {
