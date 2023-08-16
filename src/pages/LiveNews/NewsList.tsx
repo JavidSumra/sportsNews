@@ -16,50 +16,53 @@ const NewsList = ({ sportName, filter }: PropsState) => {
   const state: NewsState = useNewsState();
   const { news, isError, isLoading, errorMessage } = state;
 
-  const [newsList, setNewsList] = useState(news);
-
-  if (sportName) {
-    setNewsList(
-      news.filter((newsData) => {
-        return newsData.sport.name === sportName;
-      })
-    );
-  }
-
-  if (filter) {
-    if (filter == "Date") {
-      newsList.sort(
-        (a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf()
-      );
-    } else if (filter == "Title") {
-      newsList.sort((a, b) => a.title.localeCompare(b.title));
-    } else {
-      newsList.sort((a, b) => a.sport.name.localeCompare(b.sport.name));
-    }
-    // news.sort();
-  }
-  // console.log(news);
+  const [newsList, setNewsList] = useState<NewsData[]>(news);
 
   useEffect(() => {
-    const fetchPreferences = async (): Promise<void> => {
-      if (isLoggedin) {
+    let filteredNews = news;
+
+    if (sportName) {
+      filteredNews = filteredNews.filter((newsData) => {
+        return newsData.sport.name === sportName;
+      });
+    }
+
+    if (filter) {
+      if (filter === "Date") {
+        filteredNews.sort(
+          (a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf()
+        );
+      } else if (filter === "Title") {
+        filteredNews.sort((a, b) => a.title.localeCompare(b.title));
+      } else {
+        filteredNews.sort((a, b) => a.sport.name.localeCompare(b.sport.name));
+      }
+    }
+
+    if (isLoggedin) {
+      const fetchPreferences = async (): Promise<void> => {
         try {
           const data: Preferences = await FetchPreferences();
-          const selectedSports: string[] = data.preferences.SelectedSport;
-          const filtered: NewsData[] = news.filter((newsData) =>
-            selectedSports.includes(newsData.sport.name)
-          );
-          setNewsList(filtered);
+          if (data?.preferences?.SelectedSport.length !== 0) {
+            const selectedSports: string[] =
+              data?.preferences?.SelectedSport ?? [];
+            filteredNews = filteredNews.filter((newsData) =>
+              selectedSports.includes(newsData.sport.name)
+            );
+            setNewsList(filteredNews);
+          } else {
+            setNewsList(news);
+          }
         } catch (error) {
           console.log("Error fetching preferences:", error);
         }
-      } else {
-        setNewsList(news);
-      }
-    };
+      };
 
-    void fetchPreferences();
-  }, [isLoggedin, news]);
+      void fetchPreferences();
+    } else {
+      setNewsList(filteredNews);
+    }
+  }, [isLoggedin, news, sportName, filter]);
 
   if (news.length === 0 && isLoading) {
     return <span>Loading...</span>;
@@ -68,7 +71,7 @@ const NewsList = ({ sportName, filter }: PropsState) => {
   if (isError) {
     return <span>{errorMessage}</span>;
   }
-
+  console.log(newsList);
   return (
     <>
       {newsList.map((data: NewsData) => (

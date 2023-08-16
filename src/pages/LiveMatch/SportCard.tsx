@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React, { useState } from "react";
+import { useState } from "react";
 import { API_ENDPOINT } from "../../config/constants";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { TailSpin } from "react-loader-spinner";
@@ -53,11 +55,11 @@ const SportCard = (props: SportCardProps) => {
       },
     });
     const data: LiveScore = await response.json();
-    // console.log(data);
     if (data.isRunning) {
       setData(data);
     }
   };
+  // console.log(data);
 
   if (teams && isRunning) {
     return (
@@ -75,9 +77,9 @@ const SportCard = (props: SportCardProps) => {
           </button>
         </div>
         <div>{location}</div>
-        {Object.keys(teams).map((key) => (
+        {Object.keys(teams).map((key: any) => (
           <div
-            key={key}
+            key={nanoid()}
             className="flex justify-between items-center font-bold text-xl"
           >
             <div>{key}</div>

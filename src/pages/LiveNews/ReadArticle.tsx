@@ -85,6 +85,9 @@ const ReadArticle = () => {
                         className="w-full h-[180px] object-cover rounded-lg"
                         alt="Thumbnail"
                       />
+                      <div className="text-lg text-center font-medium mt-2">
+                        Sport Type : {data.sport.name}
+                      </div>
                       <div className="overflow-y-auto text-lg font-medium mt-4 h-[300px]">
                         {data.content}
                       </div>

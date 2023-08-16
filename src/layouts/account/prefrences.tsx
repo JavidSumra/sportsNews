@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
@@ -12,10 +13,7 @@ import { Sports } from "../../context/Sports/types";
 import { Team } from "../../context/Teams/types";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { API_ENDPOINT } from "../../config/constants";
-import FetchPreferences, {
-  Preferences,
-  UserPreferences,
-} from "../../pages/FetchPrefrences";
+import FetchPreferences, { UserPreferences } from "../../pages/FetchPrefrences";
 
 const token: string | null = localStorage?.getItem("authToken");
 
@@ -36,12 +34,47 @@ const Prefrences: React.FC = () => {
     teams: false,
   });
 
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = event.target;
-    setPreferences((prevPreferences: FormValues) => ({
-      ...prevPreferences,
-      [name]: checked,
-    }));
+  const handleCheckboxChange = (
+    event: React.MouseEvent<HTMLInputElement, MouseEvent>
+  ) => {
+    const { name, checked } = event.target as HTMLInputElement;
+    const type = event.currentTarget.getAttribute("data-type");
+
+    if (type === "sport") {
+      setPreferences((prevPreferences: FormValues) => ({
+        ...prevPreferences,
+        sports: checked,
+      }));
+      setPrevPreferences((prevPreferences: UserPreferences | undefined) => {
+        if (prevPreferences?.SelectedSport) {
+          const updatedPreferences = {
+            ...prevPreferences,
+            SelectedSport: checked
+              ? [...prevPreferences.SelectedSport, name]
+              : prevPreferences.SelectedSport.filter((sport) => sport !== name),
+          };
+          return updatedPreferences;
+        }
+        return prevPreferences;
+      });
+    } else if (type === "team") {
+      setPreferences((prevPreferences: FormValues) => ({
+        ...prevPreferences,
+        teams: checked,
+      }));
+      setPrevPreferences((prevPreferences: UserPreferences | undefined) => {
+        if (prevPreferences?.SelectedTeams) {
+          const updatedPreferences = {
+            ...prevPreferences,
+            SelectedTeams: checked
+              ? [...prevPreferences.SelectedTeams, name]
+              : prevPreferences.SelectedTeams.filter((team) => team !== name),
+          };
+          return updatedPreferences;
+        }
+        return prevPreferences;
+      });
+    }
   };
 
   const { register, handleSubmit } = useForm<FormData>();
@@ -54,36 +87,23 @@ const Prefrences: React.FC = () => {
     setIsOpen(false);
     navigate("/dashboard");
   }
-
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    let SelectedSport: string[] = prevPreferences?.SelectedSport ?? [];
-    let SelectedTeams: string[] = prevPreferences?.SelectedTeams ?? [];
-    console.log(data);
+    const SelectedSport: string[] = prevPreferences?.SelectedSport ?? [];
+    const SelectedTeams: string[] = prevPreferences?.SelectedTeams ?? [];
+
     Object.entries(data).forEach(([key, value]) => {
       // ! Function to Check Weather it is sport or team
+
       const sport: Sports | undefined = sports.find(
         (sport) => sport.name === key
       );
-      console.log(sport);
+      // console.log(sport);
       const team: Sports | undefined = teams.find((team) => team.name === key);
 
       if (value && sport?.name && !SelectedSport.includes(key)) {
-        console.log("Here The Data is Not Available");
         SelectedSport.push(sport?.name);
       } else if (value && team?.name && !SelectedTeams.includes(key)) {
         SelectedTeams.push(team?.name);
-      }
-      if (!value && SelectedSport.includes(key)) {
-        SelectedSport = SelectedSport.filter((sport) => {
-          console.log(sport);
-          return sport === key;
-        });
-        console.log(SelectedSport);
-      }
-      if (!value && SelectedTeams.includes(key)) {
-        SelectedTeams = SelectedTeams.filter((sport) => {
-          return sport === key;
-        });
       }
     });
     try {
@@ -100,7 +120,6 @@ const Prefrences: React.FC = () => {
       if (!res.ok) {
         throw new Error("Failed To Upload Prefrences");
       }
-      console.log("Uploaded Successfully");
       navigate("/dashboard");
     } catch (error) {
       console.log(`Operation Failed: ${error}`);
@@ -116,7 +135,6 @@ const Prefrences: React.FC = () => {
         console.log(err);
       });
   }, []);
-  console.log(prevPreferences);
   return (
     <Transition appear show={isOpen} as={React.Fragment}>
       <Dialog as="div" className="relative z-10" onClose={closeModal}>
@@ -169,7 +187,8 @@ const Prefrences: React.FC = () => {
                           className="mx-2 w-5 h-5"
                           {...register(sport.name)}
                           id={`sport-${sport.id}`}
-                          onChange={handleCheckboxChange}
+                          data-type="sport"
+                          onClick={handleCheckboxChange}
                         />
                         <label htmlFor={`sport-${sport.id}`}>
                           <div className="text-2xl font-medium">
@@ -185,13 +204,14 @@ const Prefrences: React.FC = () => {
                       <div key={team.id} className="m-4 flex items-center ">
                         <input
                           type="checkbox"
-                          className="mx-2 w-5 h-5"
-                          {...register(team.name)}
-                          id={`team-${team.id}`}
-                          onChange={handleCheckboxChange}
                           defaultChecked={prevPreferences?.SelectedTeams.includes(
                             team.name
                           )}
+                          className="mx-2 w-5 h-5"
+                          {...register(team.name)}
+                          id={`team-${team.id}`}
+                          data-type="team"
+                          onClick={handleCheckboxChange}
                         />
                         <label htmlFor={`team-${team.id}`}>
                           <div className="text-2xl font-medium">

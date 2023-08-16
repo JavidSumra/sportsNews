@@ -21,8 +21,12 @@ export default function MatchList(): JSX.Element {
         try {
           const data: Preferences = await FetchPreferences();
           const selectedSports: string[] = data.preferences.SelectedSport;
-          const filtered: LiveMatchData[] = matches.filter((match) =>
-            selectedSports.includes(match.sportName)
+          const SelectedTeams: string[] = data.preferences.SelectedTeams;
+          const filtered: LiveMatchData[] = matches.filter(
+            (match) =>
+              selectedSports.includes(match.sportName) &&
+              (SelectedTeams.includes(match?.teams[1]?.name) ||
+                SelectedTeams.includes(match?.teams[0]?.name))
           );
           setFilteredMatches(filtered);
         } catch (error) {
@@ -50,7 +54,7 @@ export default function MatchList(): JSX.Element {
     </div>
   ) : (
     <div className="flex items-center justify-between m-4 text-center text-2xl font-medium">
-      No Match Live Yet
+      There is currently no live match.
     </div>
   );
 }

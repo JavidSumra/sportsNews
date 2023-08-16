@@ -126,7 +126,7 @@ const LiveNews = () => {
               </div>
             )}
 
-            <div className="flex items-center justify-between">
+            <div className="flex items-center w-1/3 justify-around">
               <div>
                 <Listbox value={selectedSort} onChange={setSelectedSort}>
                   <Listbox.Button className="flex justify-around border rounded-md py-2 px-3 my-2 mx-2 bg-gray-100 text-base text-left w-full">
