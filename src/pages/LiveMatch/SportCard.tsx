@@ -59,7 +59,7 @@ const SportCard = (props: SportCardProps) => {
       setData(data);
     }
   };
-  // console.log(data);
+  console.log(data);
 
   if (teams && isRunning) {
     return (

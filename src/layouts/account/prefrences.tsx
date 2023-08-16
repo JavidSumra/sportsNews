@@ -125,7 +125,7 @@ const Prefrences: React.FC = () => {
       console.log(`Operation Failed: ${error}`);
     }
   };
-
+  console.log(preferences);
   useEffect(() => {
     FetchPreferences()
       .then((data: { preferences: UserPreferences }) => {
