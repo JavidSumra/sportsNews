@@ -43,7 +43,7 @@ const Navbar = React.memo(() => {
     setEnabled(!enabled);
     setTheme(newTheme);
   };
-  const isLogInUser = React.useEffect(() => setIsLoggedIn(isLogin), [isLogin]);
+  React.useEffect(() => setIsLoggedIn(isLogin), [isLogin]);
 
   return (
     <>
