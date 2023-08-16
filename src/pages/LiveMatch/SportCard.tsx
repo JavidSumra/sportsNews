@@ -75,7 +75,7 @@ const SportCard = (props: SportCardProps) => {
           </button>
         </div>
         <div>{location}</div>
-        {Object.keys(teams).map((key) => (
+        {Object.keys(teams).map((key: string) => (
           <div
             key={key}
             className="flex justify-between items-center font-bold text-xl"
