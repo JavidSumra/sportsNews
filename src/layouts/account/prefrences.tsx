@@ -15,8 +15,6 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { API_ENDPOINT } from "../../config/constants";
 import FetchPreferences, { UserPreferences } from "../../pages/FetchPrefrences";
 
-const token: string | null = localStorage?.getItem("authToken");
-
 type FormData = {
   [key: string]: boolean;
 };
@@ -27,6 +25,7 @@ type FormValues = {
 };
 
 const Prefrences: React.FC = () => {
+  const token: string | null = localStorage?.getItem("authToken");
   const [prevPreferences, setPrevPreferences] =
     React.useState<UserPreferences>();
   const [preferences, setPreferences] = React.useState<FormValues>({
