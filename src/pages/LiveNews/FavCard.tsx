@@ -39,7 +39,7 @@ const FavCard = ({ sport, team }: PropState) => {
       });
     }
   }
-  console.log(news);
+  // console.log(news);
   return (
     <>
       {news.map((data: NewsData) => (

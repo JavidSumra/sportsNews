@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { FetchMatches } from "../../context/Match/actions";
 import { useMatchesDispatch } from "../../context/Match/context";
 import MatchesList from "./MatchList";
+import { nanoid } from "nanoid";
 
 const LiveScore: React.FC = () => {
   const dispactchMatches = useMatchesDispatch();
@@ -15,7 +16,7 @@ const LiveScore: React.FC = () => {
         Live Score
       </div>
       <div className="flex overflow-auto">
-        <MatchesList />
+        <MatchesList key={nanoid()} />
       </div>
     </>
   );

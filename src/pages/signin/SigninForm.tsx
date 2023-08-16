@@ -75,9 +75,7 @@ const SigninForm: React.FC = () => {
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onSubmit={handleSubmit(onSubmit)}
     >
-      <div className="text-3xl font-bold text-center text-gray-800 mb-8 pr-6">
-        Login
-      </div>
+      <div className="text-3xl font-bold  text-gray-800 mb-8 pr-6">Login</div>
       <div>
         <label
           htmlFor="email"
@@ -115,7 +113,7 @@ const SigninForm: React.FC = () => {
         )}
         <div className="flex items-center justify-between w-full my-3">
           <div className="hover:underline font-medium hover:text-blue-600 duration-150 cursor-pointer">
-            <a href="/ForgotPass"> Forgot Password?</a>
+            <a href="/ForgotPass">Forgot Password?</a>
           </div>
           <div>
             <input
@@ -126,7 +124,7 @@ const SigninForm: React.FC = () => {
           </div>
         </div>
         <fieldset className="border-t border-slate-300">
-          <legend className="mx-auto px-4 text-black text-base italic text-center">
+          <legend className="mx-auto border  rounded px-4 text-black text-base italic text-center">
             OR
           </legend>
           <div className="flex text-base items-center justify-center flex-wrap ">
@@ -136,6 +134,14 @@ const SigninForm: React.FC = () => {
               className="text-blue-500 mx-2 font-bold hover:underline"
             >
               Signup
+            </a>
+          </div>
+          <div className="flex text-base items-center justify-center flex-wrap ">
+            <a
+              href="/dashboard"
+              className="text-blue-500 mx-2 font-bold hover:underline"
+            >
+              Start As Guest
             </a>
           </div>
         </fieldset>

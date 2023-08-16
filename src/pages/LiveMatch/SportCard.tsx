@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-misused-promises */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { useEffect, useState } from "react";
+/* eslint-disable @typescript-eslint/no-misused-promises */
+import React, { useState } from "react";
 import { API_ENDPOINT } from "../../config/constants";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { TailSpin } from "react-loader-spinner";
 import { nanoid } from "nanoid";
 import { Sports } from "../../context/Sports/types";
-interface propState {
-  sportId: number;
+import { LiveMatchData } from "../../context/Match/types";
+
+interface SportCardProps {
+  detail: LiveMatchData;
 }
 
 interface LiveScore {
@@ -20,7 +21,7 @@ interface LiveScore {
   startsAt: string;
   endsAt: string;
   score: { [key: string]: string };
-  teams: Sports[];
+  teams: { [key: string]: Sports };
   sportName: string;
   playingTeam: number;
   story: string;
@@ -34,15 +35,14 @@ const initialLiveScore: LiveScore = {
   startsAt: "",
   endsAt: "",
   score: { team1: "", team2: "" },
-  teams: [
-    { id: 0, name: "" },
-    { id: 0, name: "" },
-  ],
+  teams: { team1: { id: 0, name: "" }, team2: { id: 0, name: "" } },
   sportName: "",
   playingTeam: 0,
   story: "",
 };
-const SportCard = (props: propState) => {
+
+const SportCard = (props: SportCardProps) => {
+  const { isRunning, teams, location, sportName, id } = props.detail;
   const [data, setData] = useState<LiveScore | null>(initialLiveScore);
 
   const fetchData = async (id: number) => {
@@ -58,58 +58,53 @@ const SportCard = (props: propState) => {
       setData(data);
     }
   };
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    fetchData(props.sportId);
-  }, [props.sportId]);
-  if (data != null && data != initialLiveScore) {
-    const { score, location, sportName, id, isRunning } = data;
 
-    if (score) {
-      return (
-        <div
-          key={nanoid()}
-          className="w-60 p-2 mx-4 bg-white border border-gray-200 rounded shadow hover:bg-gray-100 dark:bg-gray-500 dark:border-gray-300 dark:hover:bg-gray-600 duration-150 dark:text-gray-50"
-        >
-          <div className="flex justify-between items-center">
-            <div className="text-sm font-bold">{sportName}</div>
-            <button onClick={() => fetchData(id)}>
-              <ArrowPathIcon
-                className="h-6 w-6 font-bold hover:rotate-180 ease-linear duration-1000"
-                title="Refresh"
-              />
-            </button>
+  if (teams && isRunning) {
+    return (
+      <div
+        key={nanoid()}
+        className="w-60 p-2 mx-4 bg-white border border-gray-200 rounded shadow hover:bg-gray-100 dark:bg-gray-500 dark:border-gray-300 dark:hover:bg-gray-600 duration-150 dark:text-gray-50"
+      >
+        <div className="flex justify-between items-center">
+          <div className="text-sm font-bold">{sportName}</div>
+          <button onClick={() => fetchData(id)}>
+            <ArrowPathIcon
+              className="h-6 w-6 font-bold hover:rotate-180 ease-linear duration-1000"
+              title="Refresh"
+            />
+          </button>
+        </div>
+        <div>{location}</div>
+        {Object.keys(teams).map((key) => (
+          <div
+            key={key}
+            className="flex justify-between items-center font-bold text-xl"
+          >
+            <div>{key}</div>
+            <div>{teams[key].name}</div>
           </div>
-          <div>{location}</div>
-          {Object.keys(score).map((key) => (
-            <div
-              key={nanoid()}
-              className="flex justify-between items-center font-bold text-xl"
-            >
-              <div>{key}</div>
-              <div>{score[key]}</div>
-            </div>
-          ))}
-        </div>
-      );
-    } else if (!isRunning) {
-      return;
-    } else {
-      return (
-        <div className="w-60 flex items-center justify-center p-2 mx-4 bg-white border border-gray-200 rounded shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-          <TailSpin
-            height="60"
-            width="60"
-            color="#414141"
-            ariaLabel="tail-spin-loading"
-            radius="2"
-            wrapperStyle={{}}
-            wrapperClass=""
-            visible={true}
-          />
-        </div>
-      );
-    }
+        ))}
+      </div>
+    );
+  } else if (!isRunning) {
+    return null;
+  } else {
+    return (
+      <div className="w-60 flex items-center justify-center p-2 mx-4 bg-white border border-gray-200 rounded shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+        <TailSpin
+          height="60"
+          width="60"
+          color="#414141"
+          ariaLabel="tail-spin-loading"
+          radius="2"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+          key={nanoid()}
+        />
+      </div>
+    );
   }
 };
+
 export default SportCard;

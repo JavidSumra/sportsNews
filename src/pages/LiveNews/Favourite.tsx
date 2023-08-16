@@ -13,7 +13,6 @@ const Favourite = () => {
   const [selectedTeam, setSelectedTeam] = React.useState("");
 
   if (selectedSport) {
-    console.log(selectedSport);
     teams = teams.filter((team) => {
       return team.plays == selectedSport;
     });

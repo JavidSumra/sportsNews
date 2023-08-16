@@ -1,9 +1,12 @@
+import { Sports } from "../Sports/types";
 export interface LiveMatchData {
-    id: number,
-    name: string,
-    location: string,
-    sportName: string,
-    endsAt: string
+    id: number;
+    isRunning: boolean;
+    name: string;
+    location: string;
+    endsAt: string;
+    teams: Sports[];
+    sportName: string;
 }
 
 export interface LiveMatchState {

@@ -118,12 +118,15 @@ const ForgotpassForm: React.FC = () => {
         </div>
       </form>
       <fieldset className="border-t border-slate-300">
-        <legend className="mx-auto text-lg px-4 text-black  italic text-center">
+        <legend className="mx-auto border rounded text-lg px-4 text-black  italic text-center">
           OR
         </legend>
         <div className="flex text-base items-center justify-center flex-wrap ">
           Go Back To
-          <a href="/login" className="text-blue-500 mx-2 font-bold">
+          <a
+            href="/login"
+            className="text-blue-500 mx-2 font-bold hover:underline"
+          >
             Login
           </a>
           Page

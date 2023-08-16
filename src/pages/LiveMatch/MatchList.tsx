@@ -1,24 +1,56 @@
-import { useMatchesState } from "../../context/Match/context";
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+import { useEffect, useState } from "react";
 import SportCard from "./SportCard";
-import { LiveMatchState, LiveMatchData } from "../../context/Match/types";
+import FetchPreferences, { Preferences } from "../FetchPrefrences";
+import { useMatchesState } from "../../context/Match/context";
+import { LiveMatchData, LiveMatchState } from "../../context/Match/types";
+import { nanoid } from "nanoid";
 
-export default function MatchList() {
-  const state: LiveMatchState = useMatchesState();
-  const { matches, isLoading, isError, errorMessage } = state;
+export default function MatchList(): JSX.Element {
+  const isLoggedIn = !!localStorage.getItem("userData");
+  const { matches, isLoading, isError, errorMessage }: LiveMatchState =
+    useMatchesState();
+  const [filteredMatches, setFilteredMatches]: [
+    LiveMatchData[],
+    React.Dispatch<React.SetStateAction<LiveMatchData[]>>
+  ] = useState(matches);
 
-  if (matches.length === 0 && isLoading) {
+  useEffect(() => {
+    const fetchPreferences = async (): Promise<void> => {
+      if (isLoggedIn) {
+        try {
+          const data: Preferences = await FetchPreferences();
+          const selectedSports: string[] = data.preferences.SelectedSport;
+          const filtered: LiveMatchData[] = matches.filter((match) =>
+            selectedSports.includes(match.sportName)
+          );
+          setFilteredMatches(filtered);
+        } catch (error) {
+          console.log("Error fetching preferences:", error);
+        }
+      } else {
+        setFilteredMatches(matches);
+      }
+    };
+
+    void fetchPreferences();
+  }, [isLoggedIn, matches]);
+
+  if (isLoading) {
     return <span>Loading...</span>;
   }
   if (isError) {
     return <span>{errorMessage}</span>;
   }
-  return (
-    <>
-      <div className="flex items-center justify-between m-4">
-        {matches.map((sport: LiveMatchData) => (
-          <SportCard sportId={sport.id} key={sport.id} />
-        ))}
-      </div>
-    </>
+  return filteredMatches.some((match) => match.isRunning === true) ? (
+    <div className="flex items-center justify-between m-4">
+      {filteredMatches.map((match: LiveMatchData) => (
+        <SportCard detail={match} key={nanoid()} />
+      ))}
+    </div>
+  ) : (
+    <div className="flex items-center justify-between m-4 text-center text-2xl font-medium">
+      No Match Live Yet
+    </div>
   );
 }

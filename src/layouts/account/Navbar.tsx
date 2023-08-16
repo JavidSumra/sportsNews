@@ -3,7 +3,7 @@
 
 // tslint:disable-next-line: no-unused-variable
 
-import React, { Fragment, useState, useContext, useMemo } from "react";
+import React, { Fragment, useState, useContext } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import "../../App.css";
 import {
@@ -16,21 +16,21 @@ import { ThemeContext } from "../../context/theme";
 import Logo from "../../assets/images/Logo.png";
 import { Link } from "react-router-dom";
 
-const isLoggedIn = !!localStorage.getItem("userData");
-const userNavigation = [
-  isLoggedIn
-    ? { name: "Sign out", href: "/logout" }
-    : { name: "Signin", href: "/login" },
-];
-
 const classNames = (...classes: string[]): string =>
   classes.filter(Boolean).join(" ");
 
 const Navbar = React.memo(() => {
-  const isLogInUser = useMemo(() => isLoggedIn, [isLoggedIn]);
+  const isLogin = !!localStorage.getItem("userData");
+  const userNavigation = [
+    isLogin
+      ? { name: "Sign out", href: "/logout" }
+      : { name: "Signin", href: "/login" },
+  ];
+
   const { theme, setTheme } = useContext(ThemeContext);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [enabled, setEnabled] = useState(false);
-  console.log(isLogInUser);
+
   const toggleTheme = () => {
     let newTheme = "";
     if (theme === "Light") {
@@ -43,6 +43,7 @@ const Navbar = React.memo(() => {
     setEnabled(!enabled);
     setTheme(newTheme);
   };
+  const isLogInUser = React.useEffect(() => setIsLoggedIn(isLogin), [isLogin]);
 
   return (
     <>
@@ -81,7 +82,7 @@ const Navbar = React.memo(() => {
                       <SunIcon className="w-8 dark:text-white bg-white dark:bg-gray-500  dark:hover:text-blue-500  text-gray-400 hover:text-blue-600" />
                     )}
                   </button>
-                  {isLogInUser ? (
+                  {isLoggedIn ? (
                     <Link
                       to={"prefrences"}
                       className="w-7 mx-5"

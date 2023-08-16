@@ -133,7 +133,7 @@ const SignupForm = () => {
           />
         </div>
         <fieldset className="border-t border-slate-300">
-          <legend className="mx-auto px-4 text-gray-600 text-base italic text-center">
+          <legend className="mx-auto border rounded px-4 text-gray-600 text-base italic text-center">
             OR
           </legend>
           <div className="flex text-base items-center justify-center flex-wrap ">

@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { useEffect, useState } from "react";
 import { useNewsState } from "../../context/News/context";
 import { NewsState, NewsData } from "../../context/News/types";
 import { Link } from "react-router-dom";
+import FetchPreferences, { Preferences } from "../FetchPrefrences";
 
 interface PropsState {
   sportName: string;
@@ -10,34 +12,54 @@ interface PropsState {
 }
 
 const NewsList = ({ sportName, filter }: PropsState) => {
-  // const { sportName, filter } = props;
-  // console.log(filter);
+  const isLoggedin = !!localStorage.getItem("userData");
   const state: NewsState = useNewsState();
-  const { isError, isLoading, errorMessage } = state;
-  let { news } = state;
+  const { news, isError, isLoading, errorMessage } = state;
+
+  const [newsList, setNewsList] = useState(news);
 
   if (sportName) {
-    // console.log("Called");
-    news = news.filter((newsData) => {
-      return newsData.sport.name === sportName;
-    });
-    // console.log(news);
+    setNewsList(
+      news.filter((newsData) => {
+        return newsData.sport.name === sportName;
+      })
+    );
   }
 
   if (filter) {
-    console.log(filter);
     if (filter == "Date") {
-      news.sort(
+      newsList.sort(
         (a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf()
       );
     } else if (filter == "Title") {
-      news.sort((a, b) => a.title.localeCompare(b.title));
+      newsList.sort((a, b) => a.title.localeCompare(b.title));
     } else {
-      news.sort((a, b) => a.sport.name.localeCompare(b.sport.name));
+      newsList.sort((a, b) => a.sport.name.localeCompare(b.sport.name));
     }
     // news.sort();
   }
   // console.log(news);
+
+  useEffect(() => {
+    const fetchPreferences = async (): Promise<void> => {
+      if (isLoggedin) {
+        try {
+          const data: Preferences = await FetchPreferences();
+          const selectedSports: string[] = data.preferences.SelectedSport;
+          const filtered: NewsData[] = news.filter((newsData) =>
+            selectedSports.includes(newsData.sport.name)
+          );
+          setNewsList(filtered);
+        } catch (error) {
+          console.log("Error fetching preferences:", error);
+        }
+      } else {
+        setNewsList(news);
+      }
+    };
+
+    void fetchPreferences();
+  }, [isLoggedin, news]);
 
   if (news.length === 0 && isLoading) {
     return <span>Loading...</span>;
@@ -49,7 +71,7 @@ const NewsList = ({ sportName, filter }: PropsState) => {
 
   return (
     <>
-      {news.map((data: NewsData) => (
+      {newsList.map((data: NewsData) => (
         <div
           key={data.id}
           className="card flex flex-col lg:flex-row bg-white rounded-lg hover:shadow-xl duration-300 m-2 "
@@ -58,7 +80,7 @@ const NewsList = ({ sportName, filter }: PropsState) => {
             <img
               src={data.thumbnail}
               alt="Thumbnail"
-              className="w-[300px] h-full max-h-[200px]  object-cover rounded-l-lg"
+              className="w-[300px] h-full max-h-[200px] max-[1023px]:w-full max-[1023px]:rounded-t-lg  object-cover min-[1024px]:rounded-l-lg"
             />
           </div>
           <div className="flex flex-col justify-between">
