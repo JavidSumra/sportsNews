@@ -35,7 +35,12 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: [<LiveMatch />, <LiveNews />],
+        element: (
+          <>
+            <LiveMatch />
+            <LiveNews />
+          </>
+        ),
       },
       {
         path: "News/:Id",

@@ -20,15 +20,31 @@ export default function MatchList(): JSX.Element {
       if (isLoggedIn) {
         try {
           const data: Preferences = await FetchPreferences();
-          const selectedSports: string[] = data.preferences.SelectedSport;
-          const SelectedTeams: string[] = data.preferences.SelectedTeams;
-          const filtered: LiveMatchData[] = matches.filter(
-            (match) =>
-              selectedSports.includes(match.sportName) &&
-              (SelectedTeams.includes(match?.teams[1]?.name) ||
-                SelectedTeams.includes(match?.teams[0]?.name))
-          );
-          setFilteredMatches(filtered);
+          if (
+            data?.preferences?.SelectedSport.length !== 0 &&
+            data?.preferences?.SelectedSport !== undefined
+          ) {
+            const selectedSports: string[] =
+              data?.preferences?.SelectedSport ?? [];
+            const SelectedTeams: string[] =
+              data?.preferences?.SelectedTeams ?? [];
+            if (SelectedTeams.length > 0) {
+              const filtered: LiveMatchData[] = matches.filter(
+                (match) =>
+                  selectedSports.includes(match.sportName) &&
+                  (SelectedTeams.includes(match?.teams[1]?.name) ||
+                    SelectedTeams.includes(match?.teams[0]?.name))
+              );
+              setFilteredMatches(filtered);
+            } else {
+              const filtered: LiveMatchData[] = matches.filter((match) =>
+                selectedSports.includes(match.sportName)
+              );
+              setFilteredMatches(filtered);
+            }
+          } else {
+            setFilteredMatches(matches);
+          }
         } catch (error) {
           console.log("Error fetching preferences:", error);
         }

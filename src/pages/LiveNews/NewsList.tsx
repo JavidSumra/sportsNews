@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useNewsState } from "../../context/News/context";
 import { NewsState, NewsData } from "../../context/News/types";
 import { Link } from "react-router-dom";
@@ -18,7 +16,7 @@ const NewsList = ({ sportName, filter }: PropsState) => {
 
   const [newsList, setNewsList] = useState<NewsData[]>(news);
 
-  useEffect(() => {
+  const filteredNews = useMemo(() => {
     let filteredNews = news;
 
     if (sportName) {
@@ -43,15 +41,15 @@ const NewsList = ({ sportName, filter }: PropsState) => {
       const fetchPreferences = async (): Promise<void> => {
         try {
           const data: Preferences = await FetchPreferences();
-          if (data?.preferences?.SelectedSport.length !== 0) {
+          if (
+            data?.preferences?.SelectedSport.length !== 0 &&
+            data?.preferences?.SelectedSport !== undefined
+          ) {
             const selectedSports: string[] =
               data?.preferences?.SelectedSport ?? [];
             filteredNews = filteredNews.filter((newsData) =>
               selectedSports.includes(newsData.sport.name)
             );
-            setNewsList(filteredNews);
-          } else {
-            setNewsList(news);
           }
         } catch (error) {
           console.log("Error fetching preferences:", error);
@@ -59,10 +57,14 @@ const NewsList = ({ sportName, filter }: PropsState) => {
       };
 
       void fetchPreferences();
-    } else {
-      setNewsList(filteredNews);
     }
+
+    return filteredNews;
   }, [isLoggedin, news, sportName, filter]);
+
+  useEffect(() => {
+    setNewsList(filteredNews);
+  }, [filteredNews]);
 
   if (news.length === 0 && isLoading) {
     return <span>Loading...</span>;
@@ -71,7 +73,7 @@ const NewsList = ({ sportName, filter }: PropsState) => {
   if (isError) {
     return <span>{errorMessage}</span>;
   }
-  console.log(newsList);
+
   return (
     <>
       {newsList.map((data: NewsData) => (

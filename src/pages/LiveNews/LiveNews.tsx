@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-floating-promises */
@@ -52,18 +53,26 @@ const LiveNews = () => {
   const { sports } = useSportsState();
 
   React.useEffect(() => {
+    console.log("Api Call Made");
+
     FetchNews(dispacth);
     FetchSports(SportDispatch);
     FetchTeams(teamDispatch);
 
     const fetchPreferences = async () => {
-      if (isLoggedIn) {
-        const data: Preferences = await FetchPreferences();
+      const data: Preferences = await FetchPreferences();
+      if (
+        isLoggedIn &&
+        data?.preferences?.SelectedSport.length !== 0 &&
+        data?.preferences?.SelectedSport !== undefined
+      ) {
         setPreferences(data.preferences.SelectedSport ?? []);
+      } else {
+        setPreferences(sports.map((sport) => sport.name));
       }
     };
     fetchPreferences();
-  }, [SportDispatch, dispacth, teamDispatch]);
+  }, []);
   return (
     <div className="m-4">
       <div className="font-[Poppins] text-2xl font-bold dark:text-gray-50">
