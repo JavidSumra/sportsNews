@@ -62,7 +62,7 @@ const Favourite = () => {
 
     void fetchPreferences();
   }, [isLoggedIn]);
-
+  // console.log(teamPreferences);
   if (sports) {
     return (
       <>

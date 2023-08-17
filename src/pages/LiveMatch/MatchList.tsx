@@ -62,7 +62,8 @@ export default function MatchList(): JSX.Element {
   if (isError) {
     return <span>{errorMessage}</span>;
   }
-  return filteredMatches.some((match) => match.isRunning === true) ? (
+  return filteredMatches.some((match) => match.isRunning === true) &&
+    !isLoading ? (
     <div className="flex items-center justify-between m-4">
       {filteredMatches.map((match: LiveMatchData) => (
         <SportCard detail={match} key={nanoid()} />

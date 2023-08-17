@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState, useMemo } from "react";
 import { useNewsState } from "../../context/News/context";
 import { NewsState, NewsData } from "../../context/News/types";
@@ -16,7 +17,7 @@ const NewsList = ({ sportName, filter }: PropsState) => {
 
   const [newsList, setNewsList] = useState<NewsData[]>(news);
 
-  const filteredNews = useMemo(() => {
+  useMemo(() => {
     let filteredNews = news;
 
     if (sportName) {
@@ -50,6 +51,7 @@ const NewsList = ({ sportName, filter }: PropsState) => {
             filteredNews = filteredNews.filter((newsData) =>
               selectedSports.includes(newsData.sport.name)
             );
+            setNewsList(filteredNews);
           }
         } catch (error) {
           console.log("Error fetching preferences:", error);
@@ -61,10 +63,6 @@ const NewsList = ({ sportName, filter }: PropsState) => {
 
     return filteredNews;
   }, [isLoggedin, news, sportName, filter]);
-
-  useEffect(() => {
-    setNewsList(filteredNews);
-  }, [filteredNews]);
 
   if (news.length === 0 && isLoading) {
     return <span>Loading...</span>;

@@ -68,7 +68,7 @@ const LiveNews = () => {
       }
     };
     fetchPreferences();
-  }, []);
+  }, [isLoggedIn]);
   return (
     <div className="m-4 ">
       <div className="font-[Poppins] text-2xl font-bold ">Trending News</div>
