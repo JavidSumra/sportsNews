@@ -71,11 +71,9 @@ const LiveNews = () => {
     fetchPreferences();
   }, []);
   return (
-    <div className="m-4">
-      <div className="font-[Poppins] text-2xl font-bold dark:text-gray-50">
-        Trending News
-      </div>
-      <div className="flex  m-3 bg-gray-200 rounded-lg">
+    <div className="m-4 ">
+      <div className="font-[Poppins] text-2xl font-bold ">Trending News</div>
+      <div className="flex  m-3 bg-gray-200 rounded-lg dark:bg-gray-600 dark:text-white">
         <div className="flex  p-2 overflow-auto flex-col items-start w-4/5">
           <div className="flex items-center justify-between mb-8 w-full px-4 ">
             {!isLoggedIn && sports.length > 0 ? (
@@ -107,10 +105,10 @@ const LiveNews = () => {
             ) : (
               <div className="flex items-center justify-around overflow-x-auto mx-4 w-4/5">
                 <button
-                  className={`font-lg  mx-1 duration-150 ${
+                  className={`font-lg  mx-1 duration-75 ${
                     sportName === ""
-                      ? "border-b-2 border-black p-2 font-bold text-black   text-lg"
-                      : "text-gray-400 text-sm"
+                      ? "border-b-2 border-black dark:text-gray-50 dark:border-gray-900  p-2 font-bold text-black   text-lg"
+                      : "text-gray-400 text-sm dark:text-gray-300"
                   }`}
                   onClick={() => changeFilter("")}
                 >
@@ -119,10 +117,10 @@ const LiveNews = () => {
                 {preferences.map((sport) => (
                   <button
                     key={nanoid()}
-                    className={`font-lg  mx-4 duration-150 ${
+                    className={`font-lg  mx-4 duration-75 ${
                       sportName === sport
-                        ? "border-b-2 border-black p-2 font-bold text-black text-lg "
-                        : "text-gray-400 text-sm"
+                        ? "border-b-2 dark:text-gray-50 dark:border-gray-900 border-black p-2 font-bold text-black text-lg "
+                        : "text-gray-400 dark:text-gray-300 text-sm"
                     }`}
                     onClick={() => changeFilter(sport)}
                   >
@@ -135,7 +133,7 @@ const LiveNews = () => {
             <div className="flex items-center w-1/3 justify-around">
               <div>
                 <Listbox value={selectedSort} onChange={setSelectedSort}>
-                  <Listbox.Button className="flex justify-around border rounded-md py-2 px-3 my-2 mx-2 bg-gray-100 text-base text-left w-full">
+                  <Listbox.Button className="flex justify-around border rounded-md py-2 px-3 my-2 mx-2 bg-gray-100 text-base text-left w-full dark:bg-gray-500 dark:border-gray-400 dark:text-white">
                     <Listbox.Label className="font-medium">
                       Sort By:
                     </Listbox.Label>
@@ -179,14 +177,13 @@ const LiveNews = () => {
                 </Listbox>
               </div>
               <div className="mx-2 cursor-pointer">
-                <FunnelIcon className="w-10 h-10 bg-gray-300 mx-2 p-1 rounded" />
+                <FunnelIcon className="w-10 h-10 bg-gray-300 dark:bg-gray-500 dark:border-gray-200 border mx-2 p-1 rounded" />
               </div>
             </div>
           </div>
           <NewsList sportName={sportName} filter={selectedSort} />
-          <Outlet />
         </div>
-        <div className="bg-gray-300 w-3/12 rounded-r-lg dark:bg-gray-400">
+        <div className="bg-gray-300 w-3/12 rounded-r-lg dark:bg-gray-700">
           <aside>
             <Favourite />
           </aside>

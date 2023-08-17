@@ -15,9 +15,9 @@ function App() {
 
   return (
     <div
-      className={`h-screen w-full mx-auto  ${
-        theme === "Dark" ? "dark bg-gray-500 h-full overflow-auto" : ""
-      } dark:bg-slate-600`}
+      className={`h-screen w-full mx-auto  dark:bg-gray-800 ${
+        theme === "Dark" ? "dark bg-white h-full overflow-auto " : ""
+      } `}
     >
       <SportsProvider>
         <MatchesProvider>

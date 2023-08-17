@@ -65,7 +65,7 @@ const SportCard = (props: SportCardProps) => {
     return (
       <div
         key={nanoid()}
-        className="w-60 p-2 mx-4 bg-white border border-gray-200 rounded shadow hover:bg-gray-100 dark:bg-gray-500 dark:border-gray-300 dark:hover:bg-gray-600 duration-150 dark:text-gray-50"
+        className="w-60 p-2 mx-4 bg-white border border-gray-200 rounded shadow hover:bg-gray-100 dark:bg-gray-700 dark:border-gray-400 dark:hover:bg-gray-600 duration-150"
       >
         <div className="flex justify-between items-center">
           <div className="text-sm font-bold">{sportName}</div>

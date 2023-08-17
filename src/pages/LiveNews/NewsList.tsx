@@ -79,7 +79,7 @@ const NewsList = ({ sportName, filter }: PropsState) => {
       {newsList.map((data: NewsData) => (
         <div
           key={data.id}
-          className="card flex flex-col lg:flex-row bg-white rounded-lg hover:shadow-xl duration-300 m-2 "
+          className="card  border-gray-200  shadow hover:bg-gray-100 dark:bg-gray-700  dark:hover:bg-gray-500  flex flex-col lg:flex-row bg-white rounded-lg hover:shadow-xl duration-300 m-2 "
         >
           <div className="">
             <img
@@ -90,7 +90,9 @@ const NewsList = ({ sportName, filter }: PropsState) => {
           </div>
           <div className="flex flex-col justify-between">
             <div className="top flex flex-row justify-between mx-4 font-semibold text-gray-500">
-              <div className="tag mt-4">{data.sport.name}</div>
+              <div className="tag mt-4 dark:text-gray-400">
+                {data.sport.name}
+              </div>
             </div>
             <div className="middle mx-6 my-3">
               <div className="title text-lg font-bold">{data.title}</div>

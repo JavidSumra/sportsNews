@@ -49,21 +49,17 @@ const Navbar = React.memo(() => {
     <>
       <Disclosure
         as="nav"
-        className="border-b border-slate-200 dark:bg-gray-500"
+        className="border-b border-slate-200 dark:border-white dark:bg-gray-800"
       >
         {() => (
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex h-16 items-center justify-between">
               <div className="flex items-center">
-                <div className="flex-shrink-0 mix-blend-color-burn ">
-                  <img
-                    className="h-20 mix-blend-color-burn dark:invert"
-                    src={Logo}
-                    alt="Smarter Tasks "
-                  />
+                <div className="flex-shrink-0  ">
+                  <img className="h-20  z-10" src={Logo} alt="Smarter Tasks " />
                 </div>
               </div>
-              <div className="font-[BroLink] text-center font-medium text-3xl">
+              <div className="font-[BroLink] text-center font-medium text-3xl dark:text-white">
                 Sports Edge
               </div>
               <div className="hidden md:block">
@@ -76,10 +72,10 @@ const Navbar = React.memo(() => {
                     {theme === "Light" ? (
                       <MoonIcon
                         className="
-                      rounded-full  dark:bg-gray-500 bg-white  text-gray-400 hover:text-blue-600"
+                      rounded-full  dark:bg-gray-800 bg-white  text-gray-400 hover:text-blue-600"
                       />
                     ) : (
-                      <SunIcon className="w-8 dark:text-white bg-white dark:bg-gray-500  dark:hover:text-blue-500  text-gray-400 hover:text-blue-600" />
+                      <SunIcon className="w-8 dark:text-white bg-white dark:bg-gray-800  dark:hover:text-blue-500  text-gray-400 hover:text-blue-600" />
                     )}
                   </button>
                   {isLoggedIn ? (
@@ -88,14 +84,14 @@ const Navbar = React.memo(() => {
                       className="w-7 mx-5"
                       title="User Preference"
                     >
-                      <Cog6ToothIcon className="w-8 dark:bg-gray-500 dark:text-white bg-white  text-gray-400  dark:hover:text-blue-500 hover:text-blue-600" />
+                      <Cog6ToothIcon className="w-8 dark:bg-gray-800 dark:text-white bg-white  text-gray-400  dark:hover:text-blue-500 hover:text-blue-600" />
                     </Link>
                   ) : (
                     <></>
                   )}
                   <Menu as="div" className="relative ml-3">
                     <div>
-                      <Menu.Button className="w-8 dark:text-white dark:hover:text-blue-500 dark:bg-gray-500 bg-white p-1 text-gray-400 hover:text-blue-600">
+                      <Menu.Button className="w-8 dark:text-white dark:hover:text-blue-500 dark:bg-gray-800 bg-white p-1 text-gray-400 hover:text-blue-600">
                         <UserCircleIcon
                           className="h-8 w-8 "
                           aria-hidden="true"

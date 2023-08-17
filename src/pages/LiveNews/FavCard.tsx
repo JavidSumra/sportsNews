@@ -45,7 +45,7 @@ const FavCard = ({ sport, team }: PropState) => {
       {news.map((data: NewsData) => (
         <div
           key={data.id}
-          className="card flex flex-col lg:flex-row m-2 bg-white rounded-lg hover:shadow-xl duration-300 justify-between "
+          className="card border-gray-200  shadow hover:bg-gray-100 dark:bg-gray-600  dark:hover:bg-gray-500 flex flex-col lg:flex-row m-2 bg-white rounded-lg hover:shadow-xl duration-300 justify-between "
         >
           <div className="flex flex-col justify-between">
             <div className="middle mx-6 my-3">
@@ -55,7 +55,7 @@ const FavCard = ({ sport, team }: PropState) => {
             <div className="bottom flex justify-between items-center text-sm font-bold w-full">
               <div className="readmore my-2 p-2 text-xl duration-75 w-full">
                 <Link to={`News/${data.id}`}>
-                  <button className="bg-gray-500 rounded text-white w-full">
+                  <button className="bg-gray-500 dark:bg-gray-700 rounded text-white w-full">
                     Read more
                   </button>
                 </Link>
