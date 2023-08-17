@@ -25,7 +25,6 @@ type FormValues = {
 };
 
 const Prefrences: React.FC = () => {
-  const token: string | null = localStorage?.getItem("authToken");
   const [prevPreferences, setPrevPreferences] =
     React.useState<UserPreferences>();
   const [preferences, setPreferences] = React.useState<FormValues>({
@@ -87,6 +86,8 @@ const Prefrences: React.FC = () => {
     navigate("/dashboard");
   }
   const onSubmit: SubmitHandler<FormData> = async (data) => {
+    const token: string | null = localStorage?.getItem("authToken");
+
     const SelectedSport: string[] = prevPreferences?.SelectedSport ?? [];
     const SelectedTeams: string[] = prevPreferences?.SelectedTeams ?? [];
 
