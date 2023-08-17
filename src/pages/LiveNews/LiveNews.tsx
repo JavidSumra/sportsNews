@@ -52,8 +52,6 @@ const LiveNews = () => {
   const { sports } = useSportsState();
 
   React.useEffect(() => {
-    console.log("Api Call Made");
-
     FetchNews(dispacth);
     FetchSports(SportDispatch);
     FetchTeams(teamDispatch);

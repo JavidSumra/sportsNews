@@ -1,23 +1,66 @@
-import React from "react";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from "react";
 import { useSportsState } from "../../context/Sports/context";
 import { Listbox } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { useTeamsState } from "../../context/Teams/context";
-import { Team } from "../../context/Teams/types";
 import FavCard from "./FavCard";
+import FetchPreferences, { Preferences } from "../FetchPrefrences";
+import { nanoid } from "nanoid";
 
 const Favourite = () => {
-  let { teams } = useTeamsState();
+  const isLoggedIn = !!localStorage.getItem("userData");
+
+  const { teams } = useTeamsState();
   const { sports } = useSportsState();
   const [selectedSport, setSelectedSport] = React.useState("");
   const [selectedTeam, setSelectedTeam] = React.useState("");
+  const [teamData, setTeamData] = React.useState<string[]>([]);
+  const [teamPreferences, setTeamPreferences] = React.useState<string[]>(
+    teams.map((team) => team.name)
+  );
+  const [sportPreferences, setSportPreferences] = React.useState<string[]>(
+    sports.map((sport) => sport.name)
+  );
 
-  if (selectedSport) {
-    teams = teams.filter((team) => {
-      return team.plays == selectedSport;
-    });
-    // console.log(teams);
-  }
+  const handleTeamFilter = (selectedSport: string) => {
+    if (selectedSport) {
+      const getTeams = teams.filter((team) => {
+        return team.plays === selectedSport && teamData.includes(team.name);
+      });
+      setTeamPreferences(getTeams.map((team) => team.name));
+    } else {
+      setTeamPreferences(teams.map((team) => team.name));
+    }
+  };
+
+  useEffect(() => {
+    const fetchPreferences = async () => {
+      const data: Preferences = await FetchPreferences();
+      if (
+        isLoggedIn &&
+        data?.preferences?.SelectedSport.length !== 0 &&
+        data?.preferences?.SelectedSport !== undefined
+      ) {
+        setSportPreferences(data.preferences.SelectedSport ?? []);
+      } else {
+        setSportPreferences(sports.map((sport) => sport.name));
+      }
+      if (
+        isLoggedIn &&
+        data?.preferences?.SelectedTeams.length !== 0 &&
+        data?.preferences?.SelectedTeams !== undefined
+      ) {
+        setTeamData(data?.preferences?.SelectedTeams);
+        setTeamPreferences(data.preferences.SelectedTeams ?? []);
+      } else {
+        setTeamPreferences(teams.map((team) => team.name));
+      }
+    };
+
+    void fetchPreferences();
+  }, [isLoggedIn]);
 
   if (sports) {
     return (
@@ -31,15 +74,16 @@ const Favourite = () => {
               {selectedSport ? selectedSport : "Select Sport"}
             </Listbox.Button>
             <Listbox.Options className="absolute mt-1 max-h-60 rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-              {sports.map((sport) => (
+              {sportPreferences.map((sport) => (
                 <Listbox.Option
-                  key={sport.id}
+                  key={nanoid()}
                   className={({ active }) =>
                     `relative cursor-default select-none py-2 pl-10 pr-4 ${
                       active ? "bg-blue-100 text-blue-900" : "text-gray-900"
                     }`
                   }
-                  value={sport.name}
+                  value={sport}
+                  onClick={() => handleTeamFilter(sport)}
                 >
                   {({ selected }) => (
                     <>
@@ -48,7 +92,7 @@ const Favourite = () => {
                           selected ? "font-medium" : "font-normal"
                         }`}
                       >
-                        {sport.name}
+                        {sport}
                       </span>
                       {selected ? (
                         <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-600">
@@ -67,15 +111,15 @@ const Favourite = () => {
               {selectedTeam ? selectedTeam : "Select Team"}
             </Listbox.Button>
             <Listbox.Options className="absolute overflow-y-auto mt-1 max-h-60 rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-              {teams.map((team: Team) => (
+              {teamPreferences.map((team: string) => (
                 <Listbox.Option
-                  key={team.id}
+                  key={nanoid()}
                   className={({ active }) =>
                     `relative cursor-default select-none py-2 pl-10 pr-4 ${
                       active ? "bg-blue-100 text-blue-900" : "text-gray-900"
                     }`
                   }
-                  value={team.name}
+                  value={team}
                 >
                   {({ selected }) => (
                     <>
@@ -84,7 +128,7 @@ const Favourite = () => {
                           selected ? "font-medium" : "font-normal"
                         }`}
                       >
-                        {team.name}
+                        {team}
                       </span>
                       {selected ? (
                         <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-600">
