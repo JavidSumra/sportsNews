@@ -34,21 +34,23 @@ const router = createBrowserRouter([
     element: <AccounLayout />,
     children: [
       {
-        index: true,
+        path: "",
         element: (
           <>
             <LiveMatch />
             <LiveNews />
           </>
         ),
-      },
-      {
-        path: "News/:Id",
-        element: <ReadArticle />,
-      },
-      {
-        path: "prefrences",
-        element: <Prefrences />,
+        children: [
+          {
+            path: "News/:Id",
+            element: <ReadArticle />,
+          },
+          {
+            path: "prefrences",
+            element: <Prefrences />,
+          },
+        ],
       },
     ],
   },

@@ -22,6 +22,7 @@ import { Listbox } from "@headlessui/react";
 import Favourite from "./Favourite";
 import { nanoid } from "nanoid";
 import FetchPreferences, { Preferences } from "../FetchPrefrences";
+import { Outlet } from "react-router-dom";
 
 interface Sorting {
   name: string;
@@ -181,6 +182,7 @@ const LiveNews = () => {
             </div>
           </div>
           <NewsList sportName={sportName} filter={selectedSort} />
+          <Outlet />
         </div>
         <div className="bg-gray-300 w-3/12 rounded-r-lg dark:bg-gray-700 max-[766px]:hidden">
           <aside>
