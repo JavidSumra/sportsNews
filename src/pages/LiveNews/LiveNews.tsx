@@ -20,7 +20,6 @@ import { CheckIcon } from "@heroicons/react/24/outline";
 import { Listbox } from "@headlessui/react";
 
 import Favourite from "./Favourite";
-import { Outlet } from "react-router-dom";
 import { nanoid } from "nanoid";
 import FetchPreferences, { Preferences } from "../FetchPrefrences";
 
