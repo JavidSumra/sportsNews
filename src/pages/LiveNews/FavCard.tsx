@@ -1,9 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useNewsState } from "../../context/News/context";
 import { NewsData } from "../../context/News/types";
 import { Link } from "react-router-dom";
-import { useNewsDispatch } from "../../context/News/context";
-import { FetchNews } from "../../context/News/actions";
 import FetchPreferences, { Preferences } from "../FetchPrefrences";
 
 interface PropState {

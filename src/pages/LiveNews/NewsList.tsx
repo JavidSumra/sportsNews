@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useEffect, useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { useNewsState } from "../../context/News/context";
 import { NewsState, NewsData } from "../../context/News/types";
 import { Link } from "react-router-dom";
