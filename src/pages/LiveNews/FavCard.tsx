@@ -52,6 +52,8 @@ const FavCard = ({ sport, team }: PropState) => {
       };
 
       void fetchPreferences();
+    } else {
+      setNewsList(news);
     }
 
     return filteredNews;

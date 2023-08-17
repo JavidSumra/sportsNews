@@ -59,6 +59,8 @@ const NewsList = ({ sportName, filter }: PropsState) => {
       };
 
       void fetchPreferences();
+    } else {
+      setNewsList(news);
     }
 
     return filteredNews;
@@ -71,7 +73,6 @@ const NewsList = ({ sportName, filter }: PropsState) => {
   if (isError) {
     return <span>{errorMessage}</span>;
   }
-
   return (
     <>
       {newsList.map((data: NewsData) => (
