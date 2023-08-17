@@ -74,7 +74,7 @@ const LiveNews = () => {
     <div className="m-4 ">
       <div className="font-[Poppins] text-2xl font-bold ">Trending News</div>
       <div className="flex  m-3 bg-gray-200 rounded-lg dark:bg-gray-600 dark:text-white">
-        <div className="flex  p-2 overflow-auto flex-col items-start w-4/5">
+        <div className="flex  p-2 overflow-auto flex-col items-start w-4/5 max-[766px]:w-full">
           <div className="flex items-center justify-between mb-8 w-full px-4 ">
             {!isLoggedIn && sports.length > 0 ? (
               <div className="flex items-center justify-around overflow-x-auto mx-4 w-4/5">
@@ -183,7 +183,7 @@ const LiveNews = () => {
           </div>
           <NewsList sportName={sportName} filter={selectedSort} />
         </div>
-        <div className="bg-gray-300 w-3/12 rounded-r-lg dark:bg-gray-700">
+        <div className="bg-gray-300 w-3/12 rounded-r-lg dark:bg-gray-700 max-[766px]:hidden">
           <aside>
             <Favourite />
           </aside>
