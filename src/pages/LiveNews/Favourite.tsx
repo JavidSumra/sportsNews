@@ -55,6 +55,7 @@ const Favourite = () => {
         setTeamData(data?.preferences?.SelectedTeams);
         setTeamPreferences(data.preferences.SelectedTeams ?? []);
       } else {
+        setTeamData(teams.map((team) => team.name));
         setTeamPreferences(teams.map((team) => team.name));
       }
     };
