@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import NewsList from "./NewsList";
 import { FetchNews } from "../../context/News/actions";
 import { FunnelIcon } from "@heroicons/react/24/outline";
