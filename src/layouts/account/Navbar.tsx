@@ -3,7 +3,7 @@
 
 // tslint:disable-next-line: no-unused-variable
 
-import React, { Fragment, useState, useContext, useEffect } from "react";
+import React, { Fragment, useState, useContext } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import "../../App.css";
 import {

@@ -76,6 +76,8 @@ const Prefrences: React.FC = () => {
     }
   };
 
+  console.log(preferences);
+
   const { register, handleSubmit } = useForm<FormData>();
   const { teams } = useTeamsState();
   const { sports } = useSportsState();

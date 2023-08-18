@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useNewsDispatch, useNewsState } from "../../context/News/context";
 import { NewsData } from "../../context/News/types";
 import { Link } from "react-router-dom";
