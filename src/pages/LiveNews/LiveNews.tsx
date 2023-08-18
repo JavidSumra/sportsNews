@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import NewsList from "./NewsList";
 import { FetchNews } from "../../context/News/actions";
 import { FunnelIcon } from "@heroicons/react/24/outline";
@@ -37,6 +37,7 @@ const Sort: Sorting[] = [
 
 const LiveNews = () => {
   const isLoggedIn = !!localStorage.getItem("userData");
+
   const [selectedSort, setSelectedSort] = useState("");
   const [sportName, setSportName] = useState("");
   const [preferences, setPreferences] = useState<string[]>([]);
@@ -73,11 +74,13 @@ const LiveNews = () => {
     if (isLoggedIn) {
       fetchPreferences();
     } else {
+      console.log("Live News");
       setPreferences(sports.map((sport) => sport.name));
     }
   }, [FetchPreferences]);
+
   return (
-    <div className="m-4 ">
+    <div className="m-4">
       <div className="font-[Poppins] text-2xl font-bold ">Trending News</div>
       <div className="flex  m-3 bg-gray-200 rounded-lg dark:bg-gray-600 dark:text-white">
         <div className="flex  p-2 overflow-auto flex-col items-start w-4/5 max-[766px]:w-full">

@@ -22,7 +22,7 @@ const FavCard = ({ sport, team }: PropState) => {
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     FetchNews(dispatch);
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     let filteredNews = [...news];
@@ -63,7 +63,7 @@ const FavCard = ({ sport, team }: PropState) => {
       const filteredNewsList = [...filteredNews];
       setNewsList(filteredNewsList);
     }
-  }, [sport, team, isLoggedIn]);
+  }, [sport, team, isLoggedIn, isLoading]);
 
   if (isError && news.length === 0) {
     return <>{errorMessage}</>;
@@ -78,7 +78,7 @@ const FavCard = ({ sport, team }: PropState) => {
       {newsList.map((data: NewsData) => (
         <div
           key={data.id}
-          className="card border-gray-200  shadow hover:bg-gray-100 dark:bg-gray-600  dark:hover:bg-gray-500 flex flex-col lg:flex-row m-2 bg-white rounded-lg hover:shadow-xl duration-300 justify-between "
+          className="card  border-gray-200  shadow hover:bg-gray-100 dark:bg-gray-600  dark:hover:bg-gray-500 flex flex-col lg:flex-row m-2 bg-white rounded-lg hover:shadow-xl duration-300 justify-between "
         >
           <div className="flex flex-col  justify-between">
             <div className="type text-start mt-2 ml-4 text-gray-300 font-medium text-sm">

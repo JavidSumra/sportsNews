@@ -4,12 +4,12 @@ interface ThemeContextProps {
   setTheme: (color: string) => void;
 }
 const ThemeContext = createContext<ThemeContextProps>({
-  theme: "Light",
+  theme: localStorage.getItem("theme") ?? "Light",
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setTheme: () => {},
 });
 const ThemeProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const [theme, setTheme] = useState("Light");
+  const [theme, setTheme] = useState(localStorage.getItem("theme") ?? "Light");
   const valueToShare = {
     theme,
     setTheme,

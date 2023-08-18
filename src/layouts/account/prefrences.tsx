@@ -89,6 +89,7 @@ const Prefrences: React.FC = () => {
     navigate("/dashboard");
   }
   const onSubmit: SubmitHandler<FormData> = async (data) => {
+    closeModal();
     const token: string | null = localStorage?.getItem("authToken");
 
     const SelectedSport: string[] = prevPreferences?.SelectedSport ?? [];
@@ -174,7 +175,7 @@ const Prefrences: React.FC = () => {
                     <div className="flex items-center justify-between mb-3">
                       <div className="font-bold text-3xl">Prefrences</div>
                       <button
-                        onClick={closeModal}
+                        onClick={handleSubmit(onSubmit)}
                         className="inline-flex justify-center "
                       >
                         <XMarkIcon className="w-8 h-8 text-black" />

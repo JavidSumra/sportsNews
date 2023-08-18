@@ -62,7 +62,6 @@ const Favourite = () => {
       ) {
         setSportPreferences(data.preferences.SelectedSport ?? []);
       } else if (sports.length > 0) {
-        console.log("Else 1");
         setSportPreferences(sports.map((sport) => sport.name));
       }
       if (
@@ -73,7 +72,6 @@ const Favourite = () => {
         setTeamData(data?.preferences?.SelectedTeams);
         setTeamPreferences(data.preferences.SelectedTeams ?? []);
       } else if (teams.length > 0) {
-        console.log("Else 2");
         setTeamData(teams.map((team) => team.name));
         setTeamPreferences(teams.map((team) => team.name));
       }
@@ -82,7 +80,6 @@ const Favourite = () => {
     if (isLoggedIn) {
       void fetchPreferences();
     } else {
-      console.log("Else 2");
       setTeamData(teams.map((team) => team.name));
       setSportPreferences(sports.map((sport) => sport.name));
       setTeamPreferences(teams.map((team) => team.name));
@@ -169,7 +166,9 @@ const Favourite = () => {
               ))}
             </Listbox.Options>
           </Listbox>
-          <FavCard team={selectedTeam} sport={selectedSport} />
+          <div className="overflow-auto">
+            <FavCard team={selectedTeam} sport={selectedSport} />
+          </div>
         </div>
       </>
     );

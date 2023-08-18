@@ -24,11 +24,11 @@ const Navbar = React.memo(() => {
   const userNavigation = [
     isLogin
       ? [
-          { name: "Sign out", href: "/logout" },
+          { name: "SignOut", href: "/logout" },
           { name: "SignUp", href: "/signup" },
         ]
       : [
-          { name: "Signin", href: "/login" },
+          { name: "SignIn", href: "/login" },
           { name: "SignUp", href: "/signup" },
         ],
   ];
@@ -46,6 +46,9 @@ const Navbar = React.memo(() => {
       newTheme = "Light";
       // document.documentElement.classList.remove("dark");
     }
+
+    localStorage.setItem("theme", newTheme);
+
     setEnabled(!enabled);
     setTheme(newTheme);
   };
