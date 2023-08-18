@@ -8,11 +8,11 @@ const LiveScore: React.FC = () => {
   const dispactchMatches = useMatchesDispatch();
   useEffect(() => {
     FetchMatches(dispactchMatches);
-  }, [dispactchMatches]);
+  }, []);
   return (
     <>
       <div className="font-[Poppins] text-2xl font-bold ">Live Score</div>
-      <div className="flex overflow-auto ">
+      <div className="flex overflow-auto">
         <MatchesList />
       </div>
     </>

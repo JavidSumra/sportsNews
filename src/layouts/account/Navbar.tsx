@@ -3,7 +3,7 @@
 
 // tslint:disable-next-line: no-unused-variable
 
-import React, { Fragment, useState, useContext } from "react";
+import React, { Fragment, useState, useContext, useEffect } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import "../../App.css";
 import {
@@ -23,8 +23,14 @@ const Navbar = React.memo(() => {
   const isLogin = !!localStorage.getItem("userData");
   const userNavigation = [
     isLogin
-      ? { name: "Sign out", href: "/logout" }
-      : { name: "Signin", href: "/login" },
+      ? [
+          { name: "Sign out", href: "/logout" },
+          { name: "SignUp", href: "/signup" },
+        ]
+      : [
+          { name: "Signin", href: "/login" },
+          { name: "SignUp", href: "/signup" },
+        ],
   ];
 
   const { theme, setTheme } = useContext(ThemeContext);
@@ -44,7 +50,6 @@ const Navbar = React.memo(() => {
     setTheme(newTheme);
   };
   React.useEffect(() => setIsLoggedIn(isLogin), [isLogin]);
-
   return (
     <>
       <Disclosure
@@ -108,7 +113,7 @@ const Navbar = React.memo(() => {
                       leaveTo="transform opacity-0 scale-95"
                     >
                       <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                        {userNavigation.map((item) => (
+                        {userNavigation.flat(1).map((item) => (
                           <Menu.Item key={item.name}>
                             {({ active }) => (
                               <a

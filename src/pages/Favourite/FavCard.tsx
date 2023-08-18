@@ -1,8 +1,9 @@
-import { useMemo, useState } from "react";
-import { useNewsState } from "../../context/News/context";
+import { useState, useEffect, useMemo } from "react";
+import { useNewsDispatch, useNewsState } from "../../context/News/context";
 import { NewsData } from "../../context/News/types";
 import { Link } from "react-router-dom";
 import FetchPreferences, { Preferences } from "../FetchPrefrences";
+import { FetchNews } from "../../context/News/actions";
 
 interface PropState {
   sport: string;
@@ -12,52 +13,57 @@ interface PropState {
 const FavCard = ({ sport, team }: PropState) => {
   const isLoggedIn = !!localStorage.getItem("userData");
 
+  const dispatch = useNewsDispatch();
+
   const state = useNewsState();
   const { news, isLoading, isError, errorMessage } = state;
-  const [newsList, setNewsList] = useState(news);
+  const [newsList, setNewsList] = useState<NewsData[]>(news);
 
-  useMemo(() => {
-    let filteredNews = news;
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    FetchNews(dispatch);
+  }, [dispatch]);
+
+  useEffect(() => {
+    let filteredNews = [...news];
 
     if (sport) {
-      filteredNews = filteredNews.filter((newsData) => {
-        return newsData.sport.name === sport;
-      });
+      filteredNews = filteredNews.filter(
+        (newsData) => newsData.sport.name === sport
+      );
     }
 
     if (team) {
-      filteredNews = filteredNews.filter((newsData) => {
-        return newsData.teams.some(({ name }) => name === team);
-      });
+      filteredNews = filteredNews.filter((newsData) =>
+        newsData.teams.some(({ name }) => name === team)
+      );
     }
 
     if (isLoggedIn) {
-      const fetchPreferences = async (): Promise<void> => {
+      const fetchPreferences = async () => {
         try {
           const data: Preferences = await FetchPreferences();
-          if (
-            data?.preferences?.SelectedSport.length !== 0 &&
-            data?.preferences?.SelectedSport !== undefined
-          ) {
-            const selectedSports: string[] =
-              data?.preferences?.SelectedSport ?? [];
+          if (data?.preferences?.SelectedSport?.length) {
+            const selectedSports: string[] = data.preferences.SelectedSport;
             filteredNews = filteredNews.filter((newsData) =>
               selectedSports.includes(newsData.sport.name)
             );
-            setNewsList(filteredNews);
           }
         } catch (error) {
           console.log("Error fetching preferences:", error);
         }
+
+        const filteredNewsList = [...filteredNews];
+        setNewsList(filteredNewsList);
       };
 
-      void fetchPreferences();
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      fetchPreferences();
     } else {
-      setNewsList(news);
+      const filteredNewsList = [...filteredNews];
+      setNewsList(filteredNewsList);
     }
-
-    return filteredNews;
-  }, [isLoggedIn, news, sport, team]);
+  }, [sport, team, isLoggedIn]);
 
   if (isError && news.length === 0) {
     return <>{errorMessage}</>;
@@ -65,7 +71,7 @@ const FavCard = ({ sport, team }: PropState) => {
   if (isLoading) {
     return <>Loading...</>;
   }
-  // console.log(newsList);
+  console.log(newsList);
 
   return (
     <>

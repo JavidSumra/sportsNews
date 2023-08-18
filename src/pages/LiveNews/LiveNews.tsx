@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NewsList from "./NewsList";
 import { FetchNews } from "../../context/News/actions";
 import { FunnelIcon } from "@heroicons/react/24/outline";
@@ -19,7 +19,7 @@ import {
 import { CheckIcon } from "@heroicons/react/24/outline";
 import { Listbox } from "@headlessui/react";
 
-import Favourite from "./Favourite";
+import Favourite from "../Favourite";
 import { nanoid } from "nanoid";
 import FetchPreferences, { Preferences } from "../FetchPrefrences";
 import { Outlet } from "react-router-dom";
@@ -51,11 +51,13 @@ const LiveNews = () => {
 
   const { sports } = useSportsState();
 
-  React.useEffect(() => {
+  useEffect(() => {
     FetchNews(dispacth);
     FetchSports(SportDispatch);
     FetchTeams(teamDispatch);
+  }, []);
 
+  useEffect(() => {
     const fetchPreferences = async () => {
       const data: Preferences = await FetchPreferences();
       if (
@@ -68,8 +70,12 @@ const LiveNews = () => {
         setPreferences(sports.map((sport) => sport.name));
       }
     };
-    fetchPreferences();
-  }, [isLoggedIn]);
+    if (isLoggedIn) {
+      fetchPreferences();
+    } else {
+      setPreferences(sports.map((sport) => sport.name));
+    }
+  }, [FetchPreferences]);
   return (
     <div className="m-4 ">
       <div className="font-[Poppins] text-2xl font-bold ">Trending News</div>

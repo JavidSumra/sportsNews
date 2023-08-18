@@ -48,12 +48,14 @@ export default function MatchList(): JSX.Element {
         } catch (error) {
           console.log("Error fetching preferences:", error);
         }
-      } else {
-        setFilteredMatches(matches);
       }
     };
 
-    void fetchPreferences();
+    if (isLoggedIn) {
+      void fetchPreferences();
+    } else {
+      setFilteredMatches(matches);
+    }
   }, [isLoggedIn, matches]);
 
   if (isLoading) {

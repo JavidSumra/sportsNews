@@ -23,6 +23,7 @@ type FormValues = {
   sports: boolean;
   teams: boolean;
 };
+const isLoggedIn = !!localStorage.getItem("userData");
 
 const Prefrences: React.FC = () => {
   const [prevPreferences, setPrevPreferences] =
@@ -125,15 +126,17 @@ const Prefrences: React.FC = () => {
       console.log(`Operation Failed: ${error}`);
     }
   };
-  console.log(preferences);
+
   useEffect(() => {
-    FetchPreferences()
-      .then((data: { preferences: UserPreferences }) => {
-        setPrevPreferences(data.preferences);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (isLoggedIn) {
+      FetchPreferences()
+        .then((data: { preferences: UserPreferences }) => {
+          setPrevPreferences(data.preferences);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }, []);
   return (
     <Transition appear show={isOpen} as={React.Fragment}>

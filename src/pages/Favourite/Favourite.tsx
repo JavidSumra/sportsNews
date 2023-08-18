@@ -1,39 +1,56 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from "react";
-import { useSportsState } from "../../context/Sports/context";
+
+import { useEffect, useState } from "react";
+import {
+  useSportsDispatch,
+  useSportsState,
+} from "../../context/Sports/context";
 import { Listbox } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/20/solid";
-import { useTeamsState } from "../../context/Teams/context";
+import { useTeamsDispatch, useTeamsState } from "../../context/Teams/context";
 import FavCard from "./FavCard";
 import FetchPreferences, { Preferences } from "../FetchPrefrences";
 import { nanoid } from "nanoid";
+import { FetchSports } from "../../context/Sports/actions";
+import { FetchTeams } from "../../context/Teams/actions";
 
 const Favourite = () => {
+  console.log("State Updated");
   const isLoggedIn = !!localStorage.getItem("userData");
 
+  const SportDispatch = useSportsDispatch();
+  const teamDispatch = useTeamsDispatch();
+
   const { teams } = useTeamsState();
-  const { sports } = useSportsState();
-  const [selectedSport, setSelectedSport] = React.useState("");
-  const [selectedTeam, setSelectedTeam] = React.useState("");
-  const [teamData, setTeamData] = React.useState<string[]>([]);
-  const [teamPreferences, setTeamPreferences] = React.useState<string[]>(
+  const { sports, isLoading } = useSportsState();
+
+  const [selectedSport, setSelectedSport] = useState("");
+  const [selectedTeam, setSelectedTeam] = useState("");
+  const [teamData, setTeamData] = useState<string[]>([]);
+  const [teamPreferences, setTeamPreferences] = useState<string[]>(
     teams.map((team) => team.name)
   );
-  const [sportPreferences, setSportPreferences] = React.useState<string[]>(
+  const [sportPreferences, setSportPreferences] = useState<string[]>(
     sports.map((sport) => sport.name)
   );
 
   const handleTeamFilter = (selectedSport: string) => {
+    console.log("called");
     if (selectedSport) {
       const getTeams = teams.filter((team) => {
         return team.plays === selectedSport && teamData.includes(team.name);
       });
+      console.log(getTeams);
       setTeamPreferences(getTeams.map((team) => team.name));
     } else {
       setTeamPreferences(teams.map((team) => team.name));
     }
   };
+
+  useEffect(() => {
+    void FetchSports(SportDispatch);
+    void FetchTeams(teamDispatch);
+  }, []);
 
   useEffect(() => {
     const fetchPreferences = async () => {
@@ -44,7 +61,8 @@ const Favourite = () => {
         data?.preferences?.SelectedSport !== undefined
       ) {
         setSportPreferences(data.preferences.SelectedSport ?? []);
-      } else {
+      } else if (sports.length > 0) {
+        console.log("Else 1");
         setSportPreferences(sports.map((sport) => sport.name));
       }
       if (
@@ -54,15 +72,26 @@ const Favourite = () => {
       ) {
         setTeamData(data?.preferences?.SelectedTeams);
         setTeamPreferences(data.preferences.SelectedTeams ?? []);
-      } else {
+      } else if (teams.length > 0) {
+        console.log("Else 2");
         setTeamData(teams.map((team) => team.name));
         setTeamPreferences(teams.map((team) => team.name));
       }
     };
 
-    void fetchPreferences();
-  }, [isLoggedIn]);
-  // console.log(teamPreferences);
+    if (isLoggedIn) {
+      void fetchPreferences();
+    } else {
+      console.log("Else 2");
+      setTeamData(teams.map((team) => team.name));
+      setSportPreferences(sports.map((sport) => sport.name));
+      setTeamPreferences(teams.map((team) => team.name));
+    }
+  }, [sports, FetchPreferences, isLoggedIn]);
+
+  if (isLoading) {
+    return <>Loading...</>;
+  }
   if (sports) {
     return (
       <>

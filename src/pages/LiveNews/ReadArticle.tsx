@@ -13,7 +13,6 @@ type ArticleDetail = NewsData & {
 
 const ReadArticle = () => {
   const { Id } = useParams();
-  console.log(Id);
   const [data, setData] = useState<ArticleDetail>();
   const FetchMatchData = async () => {
     const res = await fetch(`${API_ENDPOINT}/articles/${Id}`, {
