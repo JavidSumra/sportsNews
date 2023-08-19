@@ -122,7 +122,7 @@ const NewsList = ({ sportName, filter }: PropsState) => {
             <img
               src={data.thumbnail}
               alt="Thumbnail"
-              className="w-[300px] h-full max-h-[200px] max-[1023px]:w-full max-[1023px]:rounded-t-lg  object-cover min-[1024px]:rounded-l-lg"
+              className="w-[300px] min-h-full max-h-[200px] max-[1023px]:w-full max-[1023px]:rounded-t-lg  object-cover min-[1024px]:rounded-l-lg"
             />
           </div>
           <div className="flex flex-col justify-between">

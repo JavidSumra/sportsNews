@@ -15,11 +15,14 @@ import {
 import { ThemeContext } from "../../context/theme";
 import Logo from "../../assets/images/Logo.png";
 import { Link } from "react-router-dom";
+import { OutletContext } from "../../context/outlet";
 
 const classNames = (...classes: string[]): string =>
   classes.filter(Boolean).join(" ");
 
 const Navbar = React.memo(() => {
+  const { isOpen, setIsOpen } = useContext(OutletContext);
+
   const isLogin = !!localStorage.getItem("userData");
   const userNavigation = [
     isLogin
@@ -36,6 +39,10 @@ const Navbar = React.memo(() => {
   const { theme, setTheme } = useContext(ThemeContext);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [enabled, setEnabled] = useState(false);
+
+  const toggleOutlet = () => {
+    setIsOpen(!isOpen);
+  };
 
   const toggleTheme = () => {
     let newTheme = "";
@@ -89,6 +96,7 @@ const Navbar = React.memo(() => {
                       to={"prefrences"}
                       className="w-7 mx-5"
                       title="User Preference"
+                      onClick={toggleOutlet}
                     >
                       <Cog6ToothIcon className="w-8 dark:bg-gray-800 dark:text-white bg-white  text-gray-400  dark:hover:text-blue-500 hover:text-blue-600" />
                     </Link>

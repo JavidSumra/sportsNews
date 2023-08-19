@@ -36,6 +36,7 @@ const Prefrences: React.FC = () => {
     teams: false,
   });
 
+  // Following Function Handle Check box on Change and Also Maintain State of Previously Checky Checkbox
   const handleCheckboxChange = (
     event: React.MouseEvent<HTMLInputElement, MouseEvent>
   ) => {
@@ -87,11 +88,14 @@ const Prefrences: React.FC = () => {
 
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(true);
+
   function closeModal() {
     setIsOpen(false);
     setIsModalOpen(false);
     navigate("/dashboard");
   }
+
+  //Folllowing Function Handle Submit Event
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     closeModal();
     const token: string | null = localStorage?.getItem("authToken");
@@ -125,6 +129,7 @@ const Prefrences: React.FC = () => {
         },
         body: JSON.stringify({ preferences }),
       });
+      console.log(res);
       if (!res.ok) {
         throw new Error("Failed To Upload Prefrences");
       }
@@ -144,7 +149,8 @@ const Prefrences: React.FC = () => {
           console.log(err);
         });
     }
-  }, [isOpen]);
+  }, [isOpen, isLoggedIn]);
+
   return (
     <Transition appear show={isModalOpen} as={React.Fragment}>
       <Dialog as="div" className="relative z-10" onClose={closeModal}>

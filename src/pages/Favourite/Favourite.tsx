@@ -1,18 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { useContext, useEffect, useState } from "react";
-import {
-  useSportsDispatch,
-  useSportsState,
-} from "../../context/Sports/context";
+import { useSportsState } from "../../context/Sports/context";
 import { Listbox } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/20/solid";
-import { useTeamsDispatch, useTeamsState } from "../../context/Teams/context";
+import { useTeamsState } from "../../context/Teams/context";
 import FavCard from "./FavCard";
 import FetchPreferences, { Preferences } from "../FetchPrefrences";
 import { nanoid } from "nanoid";
-import { FetchSports } from "../../context/Sports/actions";
-import { FetchTeams } from "../../context/Teams/actions";
+
 import { OutletContext } from "../../context/outlet";
 
 const Favourite = () => {
@@ -20,15 +16,13 @@ const Favourite = () => {
 
   const { isOpen } = useContext(OutletContext);
 
-  const SportDispatch = useSportsDispatch();
-  const teamDispatch = useTeamsDispatch();
-
   const { teams } = useTeamsState();
   const { sports, isLoading } = useSportsState();
 
   const [selectedSport, setSelectedSport] = useState("");
   const [selectedTeam, setSelectedTeam] = useState("");
   const [teamData, setTeamData] = useState<string[]>([]);
+
   const [teamPreferences, setTeamPreferences] = useState<string[]>(
     teams.map((team) => team.name)
   );
@@ -36,6 +30,7 @@ const Favourite = () => {
     sports.map((sport) => sport.name)
   );
 
+  // Following Functioon Handle Filter of Team For Particular Sport
   const handleTeamFilter = (selectedSport: string) => {
     if (selectedSport) {
       const getTeams = teams.filter((team) => {
@@ -49,11 +44,7 @@ const Favourite = () => {
   };
 
   useEffect(() => {
-    void FetchSports(SportDispatch);
-    void FetchTeams(teamDispatch);
-  }, []);
-
-  useEffect(() => {
+    // Following Function is Used For Fetching Prefrences For Login User
     const fetchPreferences = async () => {
       const data: Preferences = await FetchPreferences();
       if (

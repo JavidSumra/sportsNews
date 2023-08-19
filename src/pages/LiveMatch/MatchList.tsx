@@ -6,9 +6,12 @@ import { useMatchesState } from "../../context/Match/context";
 import { LiveMatchData, LiveMatchState } from "../../context/Match/types";
 import { nanoid } from "nanoid";
 import { OutletContext } from "../../context/outlet";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function MatchList(): JSX.Element {
   const isLoggedIn = !!localStorage.getItem("userData");
+  const navigate = useNavigate();
 
   const { isOpen } = useContext(OutletContext);
 
@@ -24,6 +27,25 @@ export default function MatchList(): JSX.Element {
       if (isLoggedIn) {
         try {
           const data: Preferences = await FetchPreferences();
+
+          if (data?.errors) {
+            //! Below IF Condition Redirect User on Login Page if Authentication Fail from API
+            if (data?.errors) {
+              toast.error("Authentication Failed\nPlease Try To Login Again", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+              });
+            }
+
+            navigate("/login");
+          }
+
           if (
             data?.preferences?.SelectedSport.length !== 0 &&
             data?.preferences?.SelectedSport !== undefined
@@ -71,7 +93,6 @@ export default function MatchList(): JSX.Element {
   if (isError) {
     return <span>{errorMessage}</span>;
   }
-  console.log(filteredMatches);
   return filteredMatches.some((match) => match.isRunning === true) &&
     !isLoading ? (
     <div className="flex items-center justify-between m-4">

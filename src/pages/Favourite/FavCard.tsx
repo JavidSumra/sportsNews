@@ -30,6 +30,7 @@ const FavCard = ({ sport, team }: PropState) => {
   useEffect(() => {
     let filteredNews = [...news];
 
+    // Below Two If Condition Are Used For Filtering of Data on Base of Selected Team and Sport Type
     if (sport) {
       filteredNews = filteredNews.filter(
         (newsData) => newsData.sport.name === sport

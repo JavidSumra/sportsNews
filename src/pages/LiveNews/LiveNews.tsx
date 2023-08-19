@@ -52,6 +52,7 @@ const LiveNews = () => {
       const fetchPreferences = async () => {
         try {
           const data: Preferences = await FetchPreferences();
+
           if (
             isLoggedIn &&
             data?.preferences?.SelectedSport.length !== 0 &&
