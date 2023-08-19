@@ -24,10 +24,10 @@ const NewsList = ({ sportName, filter }: PropsState) => {
 
   useMemo(() => {
     let filteredNews: NewsData[];
-    isLoggedin ? (filteredNews = newsList) : (filteredNews = news);
+    isLoggedin ? (filteredNews = userPreferences) : (filteredNews = news);
 
     if (sportName === "" && filter === "") {
-      isLoggedin ? setNewsList(userPreferences) : setNewsList(news);
+      isLoggedin ? setNewsList(filteredNews) : setNewsList(news);
     } else if (filter || sportName) {
       if (sportName) {
         if (isLoggedin) {
@@ -41,6 +41,8 @@ const NewsList = ({ sportName, filter }: PropsState) => {
           });
           setNewsList(filteredNews);
         }
+      } else if (sportName === "" && isLoggedin) {
+        setNewsList(userPreferences);
       }
       if (filter) {
         if (filter === "Date") {
