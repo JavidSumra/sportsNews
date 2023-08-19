@@ -41,10 +41,8 @@ const Navbar = React.memo(() => {
     let newTheme = "";
     if (theme === "Light") {
       newTheme = "Dark";
-      // document.documentElement.classList.add("dark");
     } else {
       newTheme = "Light";
-      // document.documentElement.classList.remove("dark");
     }
 
     localStorage.setItem("theme", newTheme);

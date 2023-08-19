@@ -10,6 +10,8 @@ import { Navigate } from "react-router-dom";
 import LiveNews from "../pages/LiveNews/LiveNews";
 import Prefrences from "../layouts/account/prefrences";
 import ForgotPassword from "../pages/Forgotpass";
+import ErrorBoundary from "../components/ErrorBoundary";
+import { Suspense } from "react";
 
 const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/dashboard" replace /> },
@@ -37,8 +39,12 @@ const router = createBrowserRouter([
         path: "",
         element: (
           <>
-            <LiveMatch />
-            <LiveNews />
+            <ErrorBoundary>
+              <Suspense fallback={<div>Loading...</div>}>
+                <LiveMatch />
+                <LiveNews />
+              </Suspense>
+            </ErrorBoundary>
           </>
         ),
         children: [

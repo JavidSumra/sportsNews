@@ -6,9 +6,11 @@ import MatchesList from "./MatchList";
 
 const LiveScore: React.FC = () => {
   const dispactchMatches = useMatchesDispatch();
+
   useEffect(() => {
     FetchMatches(dispactchMatches);
   }, []);
+
   return (
     <>
       <div className="font-[Poppins] text-2xl font-bold ">Live Score</div>

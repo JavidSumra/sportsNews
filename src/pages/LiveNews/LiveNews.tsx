@@ -2,19 +2,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import { useState, useEffect } from "react";
-import NewsList from "./NewsList";
-import { FetchNews } from "../../context/News/actions";
-import { FunnelIcon } from "@heroicons/react/24/outline";
-import { FetchSports } from "../../context/Sports/actions";
-import { FetchTeams } from "../../context/Teams/actions";
+import React, { useState, useEffect, Suspense } from "react";
+const NewsList = React.lazy(() => import("./NewsList"));
 
-import { useTeamsDispatch } from "../../context/Teams/context";
-import { useNewsDispatch } from "../../context/News/context";
-import {
-  useSportsDispatch,
-  useSportsState,
-} from "../../context/Sports/context";
+import { FunnelIcon } from "@heroicons/react/24/outline";
+
+import { useSportsState } from "../../context/Sports/context";
 
 import { CheckIcon } from "@heroicons/react/24/outline";
 import { Listbox } from "@headlessui/react";
@@ -23,6 +16,7 @@ import Favourite from "../Favourite";
 import { nanoid } from "nanoid";
 import FetchPreferences, { Preferences } from "../FetchPrefrences";
 import { Outlet } from "react-router-dom";
+import ErrorBoundary from "../../components/ErrorBoundary";
 
 interface Sorting {
   name: string;
@@ -38,43 +32,41 @@ const Sort: Sorting[] = [
 const LiveNews = () => {
   const isLoggedIn = !!localStorage.getItem("userData");
 
+  const { sports } = useSportsState();
+
   const [selectedSort, setSelectedSort] = useState("");
   const [sportName, setSportName] = useState("");
-  const [preferences, setPreferences] = useState<string[]>([]);
-
-  const dispacth = useNewsDispatch();
-  const SportDispatch = useSportsDispatch();
-  const teamDispatch = useTeamsDispatch();
+  const [preferences, setPreferences] = useState<string[]>(
+    sports.map((sport) => sport.name)
+  );
 
   const changeFilter = (name: string): void => {
     setSportName(name);
   };
 
-  const { sports } = useSportsState();
-
   useEffect(() => {
-    FetchNews(dispacth);
-    FetchSports(SportDispatch);
-    FetchTeams(teamDispatch);
-  }, []);
-
-  useEffect(() => {
-    const fetchPreferences = async () => {
-      const data: Preferences = await FetchPreferences();
-      if (
-        isLoggedIn &&
-        data?.preferences?.SelectedSport.length !== 0 &&
-        data?.preferences?.SelectedSport !== undefined
-      ) {
-        setPreferences(data.preferences.SelectedSport ?? []);
-      } else {
-        setPreferences(sports.map((sport) => sport.name));
-      }
-    };
     if (isLoggedIn) {
-      fetchPreferences();
+      const fetchPreferences = async () => {
+        try {
+          const data: Preferences = await FetchPreferences();
+          if (
+            isLoggedIn &&
+            data?.preferences?.SelectedSport.length !== 0 &&
+            data?.preferences?.SelectedSport !== undefined
+          ) {
+            setPreferences(data?.preferences?.SelectedSport);
+          } else if (sports.length > 0) {
+            console.log("else");
+            setPreferences(sports.map((sport) => sport.name));
+          } else {
+            setPreferences(sports.map((sport) => sport.name));
+          }
+        } catch (error) {
+          console.log("Error In Live News", error);
+        }
+      };
+      void fetchPreferences();
     } else {
-      console.log("Live News");
       setPreferences(sports.map((sport) => sport.name));
     }
   }, [FetchPreferences]);
@@ -190,7 +182,11 @@ const LiveNews = () => {
               </div>
             </div>
           </div>
-          <NewsList sportName={sportName} filter={selectedSort} />
+          <ErrorBoundary>
+            <Suspense fallback={<div>Loading...</div>}>
+              <NewsList sportName={sportName} filter={selectedSort} />
+            </Suspense>
+          </ErrorBoundary>
           <Outlet />
         </div>
         <div className="bg-gray-300 w-3/12 rounded-r-lg dark:bg-gray-700 max-[766px]:hidden">

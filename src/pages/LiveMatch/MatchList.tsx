@@ -61,6 +61,9 @@ export default function MatchList(): JSX.Element {
   if (isLoading) {
     return <span>Loading...</span>;
   }
+  // if (matches.length === 0) {
+  //   throw new Error("Error!");
+  // }
   if (isError) {
     return <span>{errorMessage}</span>;
   }

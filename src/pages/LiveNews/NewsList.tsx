@@ -78,12 +78,19 @@ const NewsList = ({ sportName, filter }: PropsState) => {
             filteredNews = filteredNews.filter((newsData) =>
               selectedSports.includes(newsData.sport.name)
             );
-            setNewsList(filteredNews);
-            setUserPreferences(filteredNews);
+            if (filteredNews.length !== 0) {
+              setNewsList(filteredNews);
+              setUserPreferences(filteredNews);
+            } else if (news.length > 0) {
+              setNewsList(news);
+              setUserPreferences(news);
+            }
+          } else if (news.length > 0) {
+            setNewsList(news);
+            setUserPreferences(news);
           }
         } catch (error) {
           console.log("Error fetching preferences:", error);
-          window.location.reload();
         }
       };
 
@@ -96,7 +103,9 @@ const NewsList = ({ sportName, filter }: PropsState) => {
   if (news.length === 0 && isLoading) {
     return <span>Loading...</span>;
   }
-
+  // if (news.length === 0) {
+  //   throw new Error("Error!");
+  // }
   if (isError) {
     return <span>{errorMessage}</span>;
   }
