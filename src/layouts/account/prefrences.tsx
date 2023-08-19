@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useMemo } from "react";
 import { Transition, Dialog } from "@headlessui/react";
 import { useNavigate } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
@@ -36,7 +36,7 @@ const Prefrences: React.FC = () => {
     teams: false,
   });
 
-  // Following Function Handle Check box on Change and Also Maintain State of Previously Checky Checkbox
+  //! Following Function Handle Check box on Change and Also Maintain State of Previously Checky Checkbox
   const handleCheckboxChange = (
     event: React.MouseEvent<HTMLInputElement, MouseEvent>
   ) => {
@@ -139,17 +139,16 @@ const Prefrences: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      FetchPreferences()
-        .then((data: { preferences: UserPreferences }) => {
-          setPrevPreferences(data.preferences);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [isOpen, isLoggedIn]);
+  useMemo(() => {
+    console.log("Called");
+    FetchPreferences()
+      .then((data: { preferences: UserPreferences }) => {
+        setPrevPreferences(data.preferences);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [isLoggedIn, isOpen]);
 
   return (
     <Transition appear show={isModalOpen} as={React.Fragment}>

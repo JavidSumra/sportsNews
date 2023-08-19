@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useSportsState } from "../../context/Sports/context";
 import { Listbox } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/20/solid";
@@ -31,17 +31,23 @@ const Favourite = () => {
   );
 
   // Following Functioon Handle Filter of Team For Particular Sport
-  const handleTeamFilter = (selectedSport: string) => {
-    if (selectedSport) {
-      const getTeams = teams.filter((team) => {
-        return team.plays === selectedSport && teamData.includes(team.name);
-      });
-      console.log(getTeams);
-      setTeamPreferences(getTeams.map((team) => team.name));
+  useMemo(() => {
+    if (isLoggedIn) {
+      if (selectedSport) {
+        const getTeams = teams.filter((team) => {
+          return team.plays === selectedSport && teamData.includes(team.name);
+        });
+        setTeamPreferences(getTeams.map((team) => team.name));
+      } else {
+        setTeamPreferences(teams.map((team) => team.name));
+      }
     } else {
-      setTeamPreferences(teams.map((team) => team.name));
+      const teamsPlay = teams.filter(
+        (team) => team.name && team.plays === selectedSport
+      );
+      setTeamPreferences(teamsPlay.map((team) => team.name));
     }
-  };
+  }, [selectedSport]);
 
   useEffect(() => {
     // Following Function is Used For Fetching Prefrences For Login User
@@ -100,7 +106,7 @@ const Favourite = () => {
                     }`
                   }
                   value={sport}
-                  onClick={() => handleTeamFilter(sport)}
+                  // onClick={() => handleTeamFilter(sport)}
                 >
                   {({ selected }) => (
                     <>
