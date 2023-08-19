@@ -64,6 +64,7 @@ export default function MatchList(): JSX.Element {
   if (isError) {
     return <span>{errorMessage}</span>;
   }
+  console.log(filteredMatches);
   return filteredMatches.some((match) => match.isRunning === true) &&
     !isLoading ? (
     <div className="flex items-center justify-between m-4">

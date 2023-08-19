@@ -24,12 +24,12 @@ const Navbar = React.memo(() => {
   const userNavigation = [
     isLogin
       ? [
-          { name: "SignOut", href: "/logout" },
-          { name: "SignUp", href: "/signup" },
+          { name: "Sign Out", href: "/logout" },
+          { name: "Sign Up", href: "/signup" },
         ]
       : [
-          { name: "SignIn", href: "/login" },
-          { name: "SignUp", href: "/signup" },
+          { name: "Sign In", href: "/login" },
+          { name: "Sign Up", href: "/signup" },
         ],
   ];
 

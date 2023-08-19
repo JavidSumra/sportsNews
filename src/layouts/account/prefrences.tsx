@@ -173,7 +173,7 @@ const Prefrences: React.FC = () => {
                     className="text-lg font-medium leading-6 text-gray-900"
                   >
                     <div className="flex items-center justify-between mb-3">
-                      <div className="font-bold text-3xl">Prefrences</div>
+                      <div className="font-bold text-3xl">Preferences</div>
                       <button
                         onClick={handleSubmit(onSubmit)}
                         className="inline-flex justify-center "
