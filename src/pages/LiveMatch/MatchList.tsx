@@ -1,13 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SportCard from "./SportCard";
 import FetchPreferences, { Preferences } from "../FetchPrefrences";
 import { useMatchesState } from "../../context/Match/context";
 import { LiveMatchData, LiveMatchState } from "../../context/Match/types";
 import { nanoid } from "nanoid";
+import { OutletContext } from "../../context/outlet";
 
 export default function MatchList(): JSX.Element {
   const isLoggedIn = !!localStorage.getItem("userData");
+
+  const { isOpen } = useContext(OutletContext);
+
   const { matches, isLoading, isError, errorMessage }: LiveMatchState =
     useMatchesState();
   const [filteredMatches, setFilteredMatches]: [
@@ -56,7 +60,7 @@ export default function MatchList(): JSX.Element {
     } else {
       setFilteredMatches(matches);
     }
-  }, [isLoggedIn, matches]);
+  }, [isLoggedIn, matches, isOpen]);
 
   if (isLoading) {
     return <span>Loading...</span>;

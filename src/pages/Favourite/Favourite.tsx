@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   useSportsDispatch,
   useSportsState,
@@ -13,10 +13,12 @@ import FetchPreferences, { Preferences } from "../FetchPrefrences";
 import { nanoid } from "nanoid";
 import { FetchSports } from "../../context/Sports/actions";
 import { FetchTeams } from "../../context/Teams/actions";
+import { OutletContext } from "../../context/outlet";
 
 const Favourite = () => {
-  console.log("State Updated");
   const isLoggedIn = !!localStorage.getItem("userData");
+
+  const { isOpen } = useContext(OutletContext);
 
   const SportDispatch = useSportsDispatch();
   const teamDispatch = useTeamsDispatch();
@@ -35,7 +37,6 @@ const Favourite = () => {
   );
 
   const handleTeamFilter = (selectedSport: string) => {
-    console.log("called");
     if (selectedSport) {
       const getTeams = teams.filter((team) => {
         return team.plays === selectedSport && teamData.includes(team.name);
@@ -84,7 +85,7 @@ const Favourite = () => {
       setSportPreferences(sports.map((sport) => sport.name));
       setTeamPreferences(teams.map((team) => team.name));
     }
-  }, [sports, FetchPreferences, isLoggedIn]);
+  }, [sports, FetchPreferences, isLoggedIn, isOpen]);
 
   if (isLoading) {
     return <>Loading...</>;

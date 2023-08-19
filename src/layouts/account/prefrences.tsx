@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Transition, Dialog } from "@headlessui/react";
 import { useNavigate } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
@@ -14,6 +14,7 @@ import { Team } from "../../context/Teams/types";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { API_ENDPOINT } from "../../config/constants";
 import FetchPreferences, { UserPreferences } from "../../pages/FetchPrefrences";
+import { OutletContext } from "../../context/outlet";
 
 type FormData = {
   [key: string]: boolean;
@@ -26,6 +27,8 @@ type FormValues = {
 const isLoggedIn = !!localStorage.getItem("userData");
 
 const Prefrences: React.FC = () => {
+  const { isOpen, setIsOpen } = useContext(OutletContext);
+
   const [prevPreferences, setPrevPreferences] =
     React.useState<UserPreferences>();
   const [preferences, setPreferences] = React.useState<FormValues>({
@@ -83,9 +86,10 @@ const Prefrences: React.FC = () => {
   const { sports } = useSportsState();
 
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = React.useState<boolean>(true);
+  const [isModalOpen, setIsModalOpen] = React.useState<boolean>(true);
   function closeModal() {
     setIsOpen(false);
+    setIsModalOpen(false);
     navigate("/dashboard");
   }
   const onSubmit: SubmitHandler<FormData> = async (data) => {
@@ -140,9 +144,9 @@ const Prefrences: React.FC = () => {
           console.log(err);
         });
     }
-  }, []);
+  }, [isOpen]);
   return (
-    <Transition appear show={isOpen} as={React.Fragment}>
+    <Transition appear show={isModalOpen} as={React.Fragment}>
       <Dialog as="div" className="relative z-10" onClose={closeModal}>
         <Transition.Child
           as={React.Fragment}

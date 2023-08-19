@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect, Suspense, useContext } from "react";
 const NewsList = React.lazy(() => import("./NewsList"));
 
 import { FunnelIcon } from "@heroicons/react/24/outline";
@@ -17,6 +17,7 @@ import { nanoid } from "nanoid";
 import FetchPreferences, { Preferences } from "../FetchPrefrences";
 import { Outlet } from "react-router-dom";
 import ErrorBoundary from "../../components/ErrorBoundary";
+import { OutletContext } from "../../context/outlet";
 
 interface Sorting {
   name: string;
@@ -33,6 +34,8 @@ const LiveNews = () => {
   const isLoggedIn = !!localStorage.getItem("userData");
 
   const { sports } = useSportsState();
+
+  const { isOpen } = useContext(OutletContext);
 
   const [selectedSort, setSelectedSort] = useState("");
   const [sportName, setSportName] = useState("");
@@ -56,7 +59,6 @@ const LiveNews = () => {
           ) {
             setPreferences(data?.preferences?.SelectedSport);
           } else if (sports.length > 0) {
-            console.log("else");
             setPreferences(sports.map((sport) => sport.name));
           } else {
             setPreferences(sports.map((sport) => sport.name));
@@ -69,7 +71,7 @@ const LiveNews = () => {
     } else {
       setPreferences(sports.map((sport) => sport.name));
     }
-  }, [FetchPreferences]);
+  }, [FetchPreferences, isOpen]);
 
   return (
     <div className="m-4">

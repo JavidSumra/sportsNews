@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useContext } from "react";
 import { useNewsState } from "../../context/News/context";
 import { NewsState, NewsData } from "../../context/News/types";
 import { Link } from "react-router-dom";
 import FetchPreferences, { Preferences } from "../FetchPrefrences";
+import { OutletContext } from "../../context/outlet";
 
 interface PropsState {
   sportName: string;
@@ -12,6 +13,8 @@ interface PropsState {
 
 const NewsList = ({ sportName, filter }: PropsState) => {
   const isLoggedin = !!localStorage.getItem("userData");
+
+  const { isOpen } = useContext(OutletContext);
 
   const state: NewsState = useNewsState();
   const { news, isError, isLoading, errorMessage } = state;
@@ -65,7 +68,6 @@ const NewsList = ({ sportName, filter }: PropsState) => {
     let filteredNews: NewsData[] = news;
 
     if (isLoggedin) {
-      console.log("Logged IN");
       const fetchPreferences = async (): Promise<void> => {
         try {
           const data: Preferences = await FetchPreferences();
@@ -98,7 +100,7 @@ const NewsList = ({ sportName, filter }: PropsState) => {
     } else {
       setNewsList(news);
     }
-  }, [isLoggedin, news]);
+  }, [isLoggedin, news, isOpen]);
 
   if (news.length === 0 && isLoading) {
     return <span>Loading...</span>;

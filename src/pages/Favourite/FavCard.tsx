@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNewsDispatch, useNewsState } from "../../context/News/context";
 import { NewsData } from "../../context/News/types";
 import { Link } from "react-router-dom";
 import FetchPreferences, { Preferences } from "../FetchPrefrences";
 import { FetchNews } from "../../context/News/actions";
+import { OutletContext } from "../../context/outlet";
 
 interface PropState {
   sport: string;
@@ -12,6 +13,8 @@ interface PropState {
 
 const FavCard = ({ sport, team }: PropState) => {
   const isLoggedIn = !!localStorage.getItem("userData");
+
+  const { isOpen } = useContext(OutletContext);
 
   const dispatch = useNewsDispatch();
 
@@ -63,7 +66,7 @@ const FavCard = ({ sport, team }: PropState) => {
       const filteredNewsList = [...filteredNews];
       setNewsList(filteredNewsList);
     }
-  }, [sport, team, isLoggedIn, isLoading]);
+  }, [sport, team, isLoggedIn, isLoading, isOpen]);
 
   if (isError && news.length === 0) {
     return <>{errorMessage}</>;
