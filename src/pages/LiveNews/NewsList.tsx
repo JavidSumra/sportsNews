@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect, useMemo, useContext } from "react";
 import { useNewsState } from "../../context/News/context";
@@ -5,6 +8,7 @@ import { NewsState, NewsData } from "../../context/News/types";
 import { Link } from "react-router-dom";
 import FetchPreferences, { Preferences } from "../FetchPrefrences";
 import { OutletContext } from "../../context/outlet";
+import { HeartIcon } from "@heroicons/react/20/solid";
 
 interface PropsState {
   sportName: string;
@@ -21,6 +25,42 @@ const NewsList = ({ sportName, filter }: PropsState) => {
 
   const [newsList, setNewsList] = useState<NewsData[]>(news);
   const [userPreferences, setUserPreferences] = useState<NewsData[]>(news);
+
+  const [favorites, setFavorites] = useState<number[]>(
+    JSON.parse(localStorage.getItem("GuestFav") || "[]")
+  );
+  const [loginFav, setLoginFav] = useState<number[]>(
+    JSON.parse(localStorage.getItem("LoginFav") || "[]")
+  );
+
+  // Below Function Handle Favorite
+  const addToFav = (id: number): void => {
+    if (isLoggedin) {
+      const loginUserFav = [...loginFav, id];
+      let userFav: number[] = JSON.parse(
+        localStorage.getItem("LoginFav") || "[]"
+      );
+      if (userFav.includes(id)) {
+        userFav = userFav.filter((arrId) => arrId !== id);
+        localStorage.setItem("LoginFav", JSON.stringify(userFav));
+      } else {
+        localStorage.setItem("LoginFav", JSON.stringify(loginUserFav));
+      }
+      setLoginFav(JSON.parse(localStorage.getItem("LoginFav") || "[]"));
+    } else {
+      const fav = [...favorites, id];
+      let userFav: number[] = JSON.parse(
+        localStorage.getItem("GuestFav") || "[]"
+      );
+      if (userFav.includes(id)) {
+        userFav = userFav.filter((arrId) => arrId !== id);
+        localStorage.setItem("GuestFav", JSON.stringify(userFav));
+      } else {
+        localStorage.setItem("GuestFav", JSON.stringify(fav));
+      }
+      setFavorites(JSON.parse(localStorage.getItem("GuestFav") || "[]"));
+    }
+  };
 
   useMemo(() => {
     let filteredNews: NewsData[];
@@ -107,9 +147,7 @@ const NewsList = ({ sportName, filter }: PropsState) => {
   if (news.length === 0 && isLoading) {
     return <span>Loading...</span>;
   }
-  // if (news.length === 0) {
-  //   throw new Error("Error!");
-  // }
+
   if (isError) {
     return <span>{errorMessage}</span>;
   }
@@ -118,9 +156,9 @@ const NewsList = ({ sportName, filter }: PropsState) => {
       {newsList.map((data: NewsData) => (
         <div
           key={data.id}
-          className="card w-[98%] border-gray-200  shadow hover:bg-gray-100 dark:bg-gray-700  dark:hover:bg-gray-500  flex flex-col lg:flex-row bg-white rounded-lg hover:shadow-xl duration-300 m-2 "
+          className="card w-[98%] group border-gray-200  shadow hover:bg-gray-100 dark:bg-gray-700  dark:hover:bg-gray-500  flex flex-col lg:flex-row bg-white rounded-lg hover:shadow-xl duration-300 m-2 "
         >
-          <div className="">
+          <div>
             <img
               src={data.thumbnail}
               alt="Thumbnail"
@@ -132,6 +170,20 @@ const NewsList = ({ sportName, filter }: PropsState) => {
               <div className="tag mt-4 dark:text-gray-400">
                 {data.sport.name}
               </div>
+              <button onClick={() => addToFav(data.id)}>
+                <HeartIcon
+                  className={`h-8 w-8 mt-4  ${
+                    !isLoggedin
+                      ? favorites.includes(data.id)
+                        ? " text-rose-500 "
+                        : "opacity-0 group-hover:opacity-100 dark:text-rose-400 text-rose-300   hover:text-rose-500 dark:hover:text-rose-500"
+                      : loginFav.includes(data.id)
+                      ? " text-rose-500 "
+                      : "opacity-0 group-hover:opacity-100 dark:text-rose-400 text-rose-300   hover:text-rose-500 dark:hover:text-rose-500"
+                  }    duration-150 hover:-translate-y-1 `}
+                  title="Add To Favourite"
+                ></HeartIcon>
+              </button>
             </div>
             <div className="middle mx-6 my-3">
               <div className="title text-lg font-bold">{data.title}</div>
