@@ -36,7 +36,14 @@ const Prefrences: React.FC = () => {
     teams: false,
   });
 
-  //! Following Function Handle Check box on Change and Also Maintain State of Previously Checky Checkbox
+  const { register, handleSubmit } = useForm<FormData>();
+  const { teams } = useTeamsState();
+  const { sports } = useSportsState();
+
+  const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = React.useState<boolean>(true);
+
+  // Following Function Handle Check box on Change and Also Maintain State of Previously Checky Checkbox
   const handleCheckboxChange = (
     event: React.MouseEvent<HTMLInputElement, MouseEvent>
   ) => {
@@ -82,13 +89,6 @@ const Prefrences: React.FC = () => {
 
   console.log(preferences);
 
-  const { register, handleSubmit } = useForm<FormData>();
-  const { teams } = useTeamsState();
-  const { sports } = useSportsState();
-
-  const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = React.useState<boolean>(true);
-
   function closeModal() {
     setIsOpen(false);
     setIsModalOpen(false);
@@ -104,12 +104,10 @@ const Prefrences: React.FC = () => {
     const SelectedTeams: string[] = prevPreferences?.SelectedTeams ?? [];
 
     Object.entries(data).forEach(([key, value]) => {
-      // ! Function to Check Weather it is sport or team
-
+      // Following Two Function Check if Selected Checkbox is  Sport or Team
       const sport: Sports | undefined = sports.find(
         (sport) => sport.name === key
       );
-      // console.log(sport);
       const team: Sports | undefined = teams.find((team) => team.name === key);
 
       if (value && sport?.name && !SelectedSport.includes(key)) {
@@ -140,7 +138,6 @@ const Prefrences: React.FC = () => {
   };
 
   useMemo(() => {
-    console.log("Called");
     FetchPreferences()
       .then((data: { preferences: UserPreferences }) => {
         setPrevPreferences(data.preferences);

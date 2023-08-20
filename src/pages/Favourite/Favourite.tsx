@@ -106,7 +106,6 @@ const Favourite = () => {
                     }`
                   }
                   value={sport}
-                  // onClick={() => handleTeamFilter(sport)}
                 >
                   {({ selected }) => (
                     <>
@@ -164,9 +163,7 @@ const Favourite = () => {
               ))}
             </Listbox.Options>
           </Listbox>
-          <div className="overflow-auto">
-            <FavCard team={selectedTeam} sport={selectedSport} />
-          </div>
+          <FavCard team={selectedTeam} sport={selectedSport} />
         </div>
       </>
     );

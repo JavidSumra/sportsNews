@@ -24,6 +24,7 @@ interface Sorting {
   id: number;
 }
 
+// Sort Store The Option's Name For Sorting
 const Sort: Sorting[] = [
   { id: 1, name: "Date" },
   { id: 2, name: "Title" },
@@ -43,6 +44,7 @@ const LiveNews = () => {
     sports.map((sport) => sport.name)
   );
 
+  // changeFilter Funtion is Used For Handling Filter Name change
   const changeFilter = (name: string): void => {
     setSportName(name);
   };
@@ -78,7 +80,7 @@ const LiveNews = () => {
     <div className="m-4">
       <div className="font-[Poppins] text-2xl font-bold ">Trending News</div>
       <div className="flex  m-3 bg-gray-200 rounded-lg dark:bg-gray-600 dark:text-white">
-        <div className="flex  p-2 overflow-auto flex-col items-start w-4/5 max-[766px]:w-full">
+        <div className="flex scrollBar  p-2 overflow-auto flex-col items-start w-4/5 max-[766px]:w-full">
           <div className="flex items-center justify-between mb-8 w-full px-4 ">
             {!isLoggedIn && sports.length > 0 ? (
               <div className="flex items-center justify-around overflow-x-auto mx-4 w-4/5">

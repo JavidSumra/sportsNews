@@ -30,7 +30,7 @@ const FavCard = ({ sport, team }: PropState) => {
   useEffect(() => {
     let filteredNews = [...news];
 
-    // Below Two If Condition Are Used For Filtering of Data on Base of Selected Team and Sport Type
+    // Following Two If Condition Are Used For Filtering of Data on Base of Selected Team and Sport Type
     if (sport) {
       filteredNews = filteredNews.filter(
         (newsData) => newsData.sport.name === sport
@@ -43,6 +43,7 @@ const FavCard = ({ sport, team }: PropState) => {
       );
     }
 
+    // Following Condition set News for on base of User Login Condition
     if (isLoggedIn) {
       const fetchPreferences = async () => {
         try {
@@ -75,14 +76,13 @@ const FavCard = ({ sport, team }: PropState) => {
   if (isLoading) {
     return <>Loading...</>;
   }
-  console.log(newsList);
 
   return (
     <>
       {newsList.map((data: NewsData) => (
         <div
           key={data.id}
-          className="card  border-gray-200  shadow hover:bg-gray-100 dark:bg-gray-600  dark:hover:bg-gray-500 flex flex-col lg:flex-row m-2 bg-white rounded-lg hover:shadow-xl duration-300 justify-between "
+          className="card border-gray-200  shadow hover:bg-gray-100 dark:bg-gray-600  dark:hover:bg-gray-500 flex flex-col lg:flex-row m-2 bg-white rounded-lg hover:shadow-xl duration-300 justify-between "
         >
           <div className="flex flex-col  justify-between">
             <div className="type text-start mt-2 ml-4 text-gray-300 font-medium text-sm">

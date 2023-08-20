@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 import React, { Suspense, useEffect } from "react";
 import ErrorBoundary from "../../components/ErrorBoundary";
 import { FetchNews } from "../../context/News/actions";
@@ -18,6 +19,7 @@ const NewsSection = () => {
     FetchSports(SportDispatch);
     FetchTeams(teamDispatch);
   }, []);
+
   return (
     <>
       <ErrorBoundary>

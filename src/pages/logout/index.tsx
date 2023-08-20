@@ -5,6 +5,7 @@ const Logout = () => {
   useEffect(() => {
     localStorage.removeItem("userData");
   }, []);
+
   toast.success(`Signout Successfully`, {
     position: "top-right",
     autoClose: 5000,

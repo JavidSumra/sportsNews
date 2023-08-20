@@ -37,10 +37,12 @@ const SigninForm: React.FC = () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const data = await response.json();
 
+      if (data?.errors) {
+        throw new Error(data?.errors);
+      }
+
       localStorage.setItem("userData", JSON.stringify(data?.user));
       localStorage.setItem("authToken", data?.auth_token);
-
-      console.log(data);
 
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       toast.success(`Welcome Back ${data?.user.name}`, {

@@ -14,6 +14,7 @@ const FavSection = () => {
     void FetchSports(SportDispatch);
     void FetchTeams(teamDispatch);
   }, []);
+
   return <Favourite />;
 };
 export default FavSection;

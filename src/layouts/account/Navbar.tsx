@@ -6,12 +6,17 @@
 import React, { Fragment, useState, useContext } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import "../../App.css";
+
 import {
   UserCircleIcon,
   MoonIcon,
   SunIcon,
   Cog6ToothIcon,
+  ArrowLeftOnRectangleIcon,
+  ArrowRightOnRectangleIcon,
+  PlusIcon,
 } from "@heroicons/react/24/outline";
+
 import { ThemeContext } from "../../context/theme";
 import Logo from "../../assets/images/Logo.png";
 import { Link } from "react-router-dom";
@@ -24,15 +29,33 @@ const Navbar = React.memo(() => {
   const { isOpen, setIsOpen } = useContext(OutletContext);
 
   const isLogin = !!localStorage.getItem("userData");
+
+  // userNavigatio is used to Provide Option on Menu To user For Redirection
   const userNavigation = [
     isLogin
       ? [
-          { name: "Sign Out", href: "/logout" },
-          { name: "Sign Up", href: "/signup" },
+          {
+            icon: <PlusIcon className="w-6 h-6 mr-4  " />,
+            name: "Sign Up",
+            href: "/signup",
+          },
+          {
+            icon: <ArrowLeftOnRectangleIcon className="w-6 h-6 mr-4 " />,
+            name: "Sign Out",
+            href: "/logout",
+          },
         ]
       : [
-          { name: "Sign In", href: "/login" },
-          { name: "Sign Up", href: "/signup" },
+          {
+            icon: <ArrowRightOnRectangleIcon className="w-6 h-6 mr-4 " />,
+            name: "Sign In",
+            href: "/login",
+          },
+          {
+            icon: <PlusIcon className="w-6 h-6 mr-4 " />,
+            name: "Sign Up",
+            href: "/signup",
+          },
         ],
   ];
 
@@ -85,7 +108,7 @@ const Navbar = React.memo(() => {
                     {theme === "Light" ? (
                       <MoonIcon
                         className="
-                      rounded-full  dark:bg-gray-800 bg-white  text-gray-400 hover:text-blue-600"
+                      rounded-full dark:bg-gray-800 bg-white  text-gray-400 hover:text-blue-600"
                       />
                     ) : (
                       <SunIcon className="w-8 dark:text-white bg-white dark:bg-gray-800  dark:hover:text-blue-500  text-gray-400 hover:text-blue-600" />
@@ -129,10 +152,13 @@ const Navbar = React.memo(() => {
                                 href={item.href}
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
-                                  "block px-4 py-2 text-sm text-gray-700"
+                                  "block px-4 py-2 text-sm text-gray-700 dark:text-gray-600"
                                 )}
                               >
-                                {item.name}
+                                <div className="flex items-center">
+                                  {item.icon}
+                                  {item.name}
+                                </div>
                               </a>
                             )}
                           </Menu.Item>

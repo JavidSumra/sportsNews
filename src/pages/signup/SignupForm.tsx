@@ -35,7 +35,10 @@ const SignupForm = () => {
         throw new Error("Signup Failed");
       }
       const data = await response.json();
-      console.log(data);
+
+      if (data?.errors) {
+        throw new Error(data?.errors);
+      }
 
       localStorage.setItem("authToken", data?.auth_token);
       localStorage.setItem("userData", JSON.stringify(data?.user));

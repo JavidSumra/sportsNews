@@ -33,7 +33,7 @@ const NewsList = ({ sportName, filter }: PropsState) => {
     JSON.parse(localStorage.getItem("LoginFav") || "[]")
   );
 
-  // Below Function Handle Favorite
+  // Below Function Handle Favorite Article
   const addToFav = (id: number): void => {
     if (isLoggedin) {
       const loginUserFav = [...loginFav, id];
@@ -62,6 +62,7 @@ const NewsList = ({ sportName, filter }: PropsState) => {
     }
   };
 
+  // Below Function Execute on sportName or filter change and filter news Data
   useMemo(() => {
     let filteredNews: NewsData[];
     isLoggedin ? (filteredNews = userPreferences) : (filteredNews = news);
@@ -110,6 +111,7 @@ const NewsList = ({ sportName, filter }: PropsState) => {
     let filteredNews: NewsData[] = news;
 
     if (isLoggedin) {
+      // fetchPreferences function is used for fetching Previously Slected Values of Login User
       const fetchPreferences = async (): Promise<void> => {
         try {
           const data: Preferences = await FetchPreferences();

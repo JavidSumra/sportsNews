@@ -12,8 +12,13 @@ type ArticleDetail = NewsData & {
 };
 
 const ReadArticle = () => {
+  const navigate = useNavigate();
   const { Id } = useParams();
+
   const [data, setData] = useState<ArticleDetail>();
+  const [isOpen, setIsOpen] = React.useState<boolean>(true);
+
+  // FetchMatchData retrieve Data of Particular Article When User Clicks on Readmore
   const FetchMatchData = async () => {
     const res = await fetch(`${API_ENDPOINT}/articles/${Id}`, {
       method: "GET",
@@ -24,12 +29,10 @@ const ReadArticle = () => {
     const data: ArticleDetail = await res.json();
     setData(data);
   };
+
   useEffect(() => {
     void FetchMatchData();
   }, [Id]);
-
-  const navigate = useNavigate();
-  const [isOpen, setIsOpen] = React.useState<boolean>(true);
 
   function closeModal() {
     setIsOpen(false);

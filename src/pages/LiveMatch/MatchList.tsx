@@ -23,13 +23,14 @@ export default function MatchList(): JSX.Element {
   ] = useState(matches);
 
   useEffect(() => {
+    // Following Function is Used to Fetch Selected Option of Login User
     const fetchPreferences = async (): Promise<void> => {
       if (isLoggedIn) {
         try {
           const data: Preferences = await FetchPreferences();
 
           if (data?.errors) {
-            //! Below IF Condition Redirect User on Login Page if Authentication Fail from API
+            // Below IF Condition Redirect User on Login Page if Authentication Fail from API
             if (data?.errors) {
               toast.error("Authentication Failed\nPlease Try To Login Again", {
                 position: "top-right",
@@ -87,12 +88,11 @@ export default function MatchList(): JSX.Element {
   if (isLoading) {
     return <span>Loading...</span>;
   }
-  // if (matches.length === 0) {
-  //   throw new Error("Error!");
-  // }
+
   if (isError) {
     return <span>{errorMessage}</span>;
   }
+
   return filteredMatches.some((match) => match.isRunning === true) &&
     !isLoading ? (
     <div className="flex items-center justify-between m-4">
