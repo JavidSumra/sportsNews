@@ -21,7 +21,7 @@ const Error = () => {
                   href="/dashboard"
                   className="link_404 bg-green-400 hover:bg-green-600 duration-75 text-white inline-block mx-0 my-5 px-5 py-2.5"
                 >
-                  Go to Home
+                  Go to Dashboard
                 </a>
               </div>
             </div>
