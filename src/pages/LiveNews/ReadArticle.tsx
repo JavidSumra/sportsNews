@@ -87,9 +87,27 @@ const ReadArticle = () => {
                         className="w-full h-[180px] object-cover rounded-lg"
                         alt="Thumbnail"
                       />
-                      <div className="text-lg text-center font-medium mt-2">
-                        Sport Type : {data.sport.name}
+                      <div className="text-lg text-left font-medium mt-2 flex justify-between">
+                        <div>Sport Type : {data.sport.name}</div>
+                        <div className="mx-4">
+                          {new Date(data.date).toUTCString().split("", 16)}
+                        </div>
                       </div>
+                      <div
+                        className={`text-lg flex text-left font-medium mt-2 ${
+                          data.teams.length > 0 ? "" : "hidden"
+                        }`}
+                      >
+                        <div className="mr-2"> Playing Teams :</div>
+                        <ul typeof="1">
+                          {data.teams.map((team, index) => (
+                            <li key={team.id}>
+                              ({index + 1}) {team.name}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <hr className="m-2" />
                       <div className="overflow-y-auto text-lg font-medium mt-4 h-[300px]">
                         {data.content}
                       </div>

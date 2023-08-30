@@ -8,6 +8,8 @@ import { nanoid } from "nanoid";
 import { OutletContext } from "../../context/outlet";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export default function MatchList(): JSX.Element {
   const isLoggedIn = !!localStorage.getItem("userData");
@@ -86,7 +88,13 @@ export default function MatchList(): JSX.Element {
   }, [isLoggedIn, matches, isOpen]);
 
   if (isLoading) {
-    return <span>Loading...</span>;
+    return (
+      <div className="flex items-center justify-between">
+        <Skeleton width={250} height={135} className="mx-4" />
+        <Skeleton width={250} height={135} className="mx-4" />
+        <Skeleton width={250} height={135} className="mx-4" />
+      </div>
+    );
   }
 
   if (isError) {

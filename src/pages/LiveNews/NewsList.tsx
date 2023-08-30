@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
@@ -9,6 +11,50 @@ import { Link } from "react-router-dom";
 import FetchPreferences, { Preferences } from "../FetchPrefrences";
 import { OutletContext } from "../../context/outlet";
 import { HeartIcon } from "@heroicons/react/20/solid";
+
+import NewsNotFound from "../../assets/images/ArticleNotFound.gif";
+
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
+const contentArray = Array.from({ length: 5 }, (_, index) => (
+  <div
+    key={index}
+    className="card w-[98%] group border-gray-200  shadow hover:bg-gray-100 dark:bg-gray-700  dark:hover:bg-gray-500  flex flex-col lg:flex-row bg-white rounded-lg hover:shadow-xl duration-300 m-2 "
+  >
+    <div>
+      <Skeleton
+        width={300}
+        height={400}
+        className="min-h-full max-h-[200px]  max-[1023px]:w-full max-[1023px]:rounded-t-lg  object-cover min-[1024px]:rounded-l-lg"
+      />
+    </div>
+    <div className="flex flex-col justify-between">
+      <div className="top flex flex-row justify-between mx-4 font-semibold text-gray-500">
+        <div className="tag mt-4 dark:text-gray-400">
+          <Skeleton width={100} height={25} />
+        </div>
+      </div>
+
+      <div className="middle mx-6 my-3">
+        <div className="title text-lg font-bold">
+          <Skeleton width={350} height={25} />
+        </div>
+        <div className="excerpt text-sm font-medium">
+          <Skeleton width={500} height={40} />
+        </div>
+      </div>
+      <div className="bottom flex justify-between items-center text-sm font-bold mx-10">
+        <div className="date mb-4">
+          <Skeleton width={100} height={20} />
+        </div>
+        <div className="readmore hover:text-blue-500 duration-75 underline">
+          <Skeleton width={100} height={15} />
+        </div>
+      </div>
+    </div>
+  </div>
+));
 
 interface PropsState {
   sportName: string;
@@ -33,7 +79,7 @@ const NewsList = ({ sportName, filter }: PropsState) => {
     JSON.parse(localStorage.getItem("LoginFav") || "[]")
   );
 
-  // Below Function Handle Favorite Article
+  // Function Handle Favorite Article
   const addToFav = (id: number): void => {
     if (isLoggedin) {
       const loginUserFav = [...loginFav, id];
@@ -62,7 +108,7 @@ const NewsList = ({ sportName, filter }: PropsState) => {
     }
   };
 
-  // Below Function Execute on sportName or filter change and filter news Data
+  // Function Execute on sportName or filter change and filter news Data
   useMemo(() => {
     let filteredNews: NewsData[];
     isLoggedin ? (filteredNews = userPreferences) : (filteredNews = news);
@@ -96,6 +142,13 @@ const NewsList = ({ sportName, filter }: PropsState) => {
           setNewsList(
             filteredNews.sort((a, b) => a.title.localeCompare(b.title))
           );
+        } else if (filter === "Favourites") {
+          const favList = isLoggedin
+            ? JSON.parse(localStorage.getItem("LoginFav") || "[]")
+            : JSON.parse(localStorage.getItem("GuestFav") || "[]");
+          setNewsList(filteredNews.filter((news) => favList.includes(news.id)));
+        } else if (filter === "Select Type") {
+          setNewsList(filteredNews.sort(() => Math.random() - 0.5));
         } else {
           setNewsList(
             filteredNews.sort((a, b) =>
@@ -146,19 +199,35 @@ const NewsList = ({ sportName, filter }: PropsState) => {
     }
   }, [isLoggedin, news, isOpen]);
 
-  if (news.length === 0 && isLoading) {
-    return <span>Loading...</span>;
+  if (isLoading) {
+    return (
+      <SkeletonTheme baseColor="#f0f0f0" highlightColor="#dcdcdc">
+        {contentArray}
+      </SkeletonTheme>
+    );
   }
 
   if (isError) {
     return <span>{errorMessage}</span>;
   }
+  // if (newsList.length === 0 && !isLoading) {
+  //   return (
+  //     <div>
+  //       <img
+  //         src={NewsNotFound}
+  //         alt="News Not Found"
+  //         className="w-full h-full z-10 mix-blend-color-burn"
+  //         title="Articles Not Found"
+  //       />
+  //     </div>
+  //   );
+  // }
   return (
     <>
       {newsList.map((data: NewsData) => (
         <div
           key={data.id}
-          className="card w-[98%] group border-gray-200  shadow hover:bg-gray-100 dark:bg-gray-700  dark:hover:bg-gray-500  flex flex-col lg:flex-row bg-white rounded-lg hover:shadow-xl duration-300 m-2 "
+          className="card max-w-[98%] w-full group border-gray-200  shadow hover:bg-gray-100 dark:bg-gray-700  dark:hover:bg-gray-500  flex flex-col lg:flex-row bg-white rounded-lg hover:shadow-xl duration-300 m-2 "
         >
           <div>
             <img

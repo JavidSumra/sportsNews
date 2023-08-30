@@ -12,6 +12,8 @@ import { nanoid } from "nanoid";
 import { Sports } from "../../context/Sports/types";
 import { LiveMatchData } from "../../context/Match/types";
 import { HeartIcon } from "@heroicons/react/20/solid";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 interface SportCardProps {
   detail: LiveMatchData;
@@ -78,6 +80,7 @@ const SportCard = (props: SportCardProps) => {
       let userFav: number[] = JSON.parse(
         localStorage.getItem("LoginMatchFav") || "[]"
       );
+      console.log(userFav);
       if (userFav.includes(id)) {
         userFav = userFav.filter((arrId) => arrId !== id);
         localStorage.setItem("LoginMatchFav", JSON.stringify(userFav));
@@ -96,12 +99,16 @@ const SportCard = (props: SportCardProps) => {
       } else {
         localStorage.setItem("GuestMatchFav", JSON.stringify(fav));
       }
-      setFavorites(JSON.parse(localStorage.getItem("GuestFav") || "[]"));
+      setFavorites(JSON.parse(localStorage.getItem("GuestMatchFav") || "[]"));
     }
   };
-
-  console.log(data);
-
+  if (!data) {
+    return (
+      <div className="flex items-center justify-between">
+        <Skeleton width={250} height={135} className="flex" />
+      </div>
+    );
+  }
   if (teams && isRunning) {
     return (
       <div

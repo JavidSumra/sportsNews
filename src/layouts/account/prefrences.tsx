@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React, { useContext, useMemo } from "react";
+import React, { useContext, useEffect } from "react";
 import { Transition, Dialog } from "@headlessui/react";
 import { useNavigate } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
@@ -15,6 +15,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { API_ENDPOINT } from "../../config/constants";
 import FetchPreferences, { UserPreferences } from "../../pages/FetchPrefrences";
 import { OutletContext } from "../../context/outlet";
+import { TailSpin } from "react-loader-spinner";
 
 type FormData = {
   [key: string]: boolean;
@@ -31,10 +32,20 @@ const Prefrences: React.FC = () => {
 
   const [prevPreferences, setPrevPreferences] =
     React.useState<UserPreferences>();
-  const [preferences, setPreferences] = React.useState<FormValues>({
+  const [, setPreferences] = React.useState<FormValues>({
     sports: false,
     teams: false,
   });
+
+  useEffect(() => {
+    FetchPreferences()
+      .then((data: { preferences: UserPreferences }) => {
+        setPrevPreferences(data.preferences);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [isLoggedIn, isOpen]);
 
   const { register, handleSubmit } = useForm<FormData>();
   const { teams } = useTeamsState();
@@ -87,8 +98,6 @@ const Prefrences: React.FC = () => {
     }
   };
 
-  console.log(preferences);
-
   function closeModal() {
     setIsOpen(false);
     setIsModalOpen(false);
@@ -118,7 +127,6 @@ const Prefrences: React.FC = () => {
     });
     try {
       const preferences = { SelectedSport, SelectedTeams };
-      console.log(preferences);
       const res = await fetch(`${API_ENDPOINT}/user/preferences`, {
         method: "PATCH",
         headers: {
@@ -127,7 +135,6 @@ const Prefrences: React.FC = () => {
         },
         body: JSON.stringify({ preferences }),
       });
-      console.log(res);
       if (!res.ok) {
         throw new Error("Failed To Upload Prefrences");
       }
@@ -137,43 +144,129 @@ const Prefrences: React.FC = () => {
     }
   };
 
-  useMemo(() => {
-    FetchPreferences()
-      .then((data: { preferences: UserPreferences }) => {
-        setPrevPreferences(data.preferences);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [isLoggedIn, isOpen]);
-
-  return (
-    <Transition appear show={isModalOpen} as={React.Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={closeModal}>
-        <Transition.Child
-          as={React.Fragment}
-          enter="ease-out duration-50"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-100"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <div className="fixed inset-0 bg-black bg-opacity-25" />
-        </Transition.Child>
-        <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full  items-center justify-center p-4 text-center">
-            <Transition.Child
-              as={React.Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
-              <Dialog.Panel className="w-full max-w-screen-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                <form onSubmit={handleSubmit(onSubmit)}>
+  if (prevPreferences) {
+    return (
+      <Transition appear show={isModalOpen} as={React.Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+          <Transition.Child
+            as={React.Fragment}
+            enter="ease-out duration-50"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-100"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full  items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={React.Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-screen-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                  <form onSubmit={handleSubmit(onSubmit)}>
+                    <Dialog.Title
+                      as="h3"
+                      className="text-lg font-medium leading-6 text-gray-900"
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="font-bold text-3xl">Preferences</div>
+                        <button
+                          onClick={handleSubmit(onSubmit)}
+                          className="inline-flex justify-center"
+                          title="Save Preferences"
+                        >
+                          <XMarkIcon className="w-8 h-8 text-black" />
+                        </button>
+                      </div>
+                    </Dialog.Title>
+                    <div className="mt-2 grid grid-cols-3">
+                      {sports.map((sport: Sports) => (
+                        <div key={sport.id} className="m-4 flex items-center ">
+                          <input
+                            type="checkbox"
+                            defaultChecked={prevPreferences?.SelectedSport.includes(
+                              sport.name
+                            )}
+                            className="mx-2 w-5 h-5"
+                            {...register(sport.name)}
+                            id={`sport-${sport.id}`}
+                            data-type="sport"
+                            onClick={handleCheckboxChange}
+                          />
+                          <label htmlFor={`sport-${sport.id}`}>
+                            <div className="text-2xl font-medium">
+                              {sport.name}
+                            </div>
+                          </label>
+                        </div>
+                      ))}
+                      <hr className="w-[70dvw]" />
+                    </div>
+                    <div className="mt-2 grid grid-cols-3">
+                      {teams.map((team: Team) => (
+                        <div key={team.id} className="m-4 flex items-center ">
+                          <input
+                            type="checkbox"
+                            defaultChecked={prevPreferences?.SelectedTeams.includes(
+                              team.name
+                            )}
+                            className="mx-2 w-5 h-5"
+                            {...register(team.name)}
+                            id={`team-${team.id}`}
+                            data-type="team"
+                            onClick={handleCheckboxChange}
+                          />
+                          <label htmlFor={`team-${team.id}`}>
+                            <div className="text-2xl font-medium">
+                              {team.name}
+                            </div>
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </form>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
+    );
+  } else {
+    return (
+      <Transition appear show={isModalOpen} as={React.Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+          <Transition.Child
+            as={React.Fragment}
+            enter="ease-out duration-50"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-100"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full  items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={React.Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-screen-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
@@ -182,78 +275,24 @@ const Prefrences: React.FC = () => {
                       <div className="font-bold text-3xl">Preferences</div>
                       <button
                         onClick={handleSubmit(onSubmit)}
-                        className="inline-flex justify-center "
+                        className="inline-flex justify-center"
+                        title="Save Preferences"
                       >
                         <XMarkIcon className="w-8 h-8 text-black" />
                       </button>
                     </div>
                   </Dialog.Title>
-                  <div className="mt-2 grid grid-cols-3">
-                    {sports.map((sport: Sports) => (
-                      <div key={sport.id} className="m-4 flex items-center ">
-                        <input
-                          type="checkbox"
-                          defaultChecked={prevPreferences?.SelectedSport.includes(
-                            sport.name
-                          )}
-                          className="mx-2 w-5 h-5"
-                          {...register(sport.name)}
-                          id={`sport-${sport.id}`}
-                          data-type="sport"
-                          onClick={handleCheckboxChange}
-                        />
-                        <label htmlFor={`sport-${sport.id}`}>
-                          <div className="text-2xl font-medium">
-                            {sport.name}
-                          </div>
-                        </label>
-                      </div>
-                    ))}
-                    <hr className="w-[70dvw]" />
+                  <div className="w-full h-full flex items-center justify-center">
+                    <TailSpin />
                   </div>
-                  <div className="mt-2 grid grid-cols-3">
-                    {teams.map((team: Team) => (
-                      <div key={team.id} className="m-4 flex items-center ">
-                        <input
-                          type="checkbox"
-                          defaultChecked={prevPreferences?.SelectedTeams.includes(
-                            team.name
-                          )}
-                          className="mx-2 w-5 h-5"
-                          {...register(team.name)}
-                          id={`team-${team.id}`}
-                          data-type="team"
-                          onClick={handleCheckboxChange}
-                        />
-                        <label htmlFor={`team-${team.id}`}>
-                          <div className="text-2xl font-medium">
-                            {team.name}
-                          </div>
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="flex items-center justify-end mx-16">
-                    <button
-                      className="bg-gray-800 p-2 rounded text-xl font-medium text-white mx-4"
-                      onClick={() => closeModal()}
-                    >
-                      Cancel
-                    </button>
-                    <input
-                      type="submit"
-                      className="bg-blue-500 cursor-pointer p-2 rounded text-xl font-medium text-white "
-                      value="Save"
-                    />
-                  </div>
-                </form>
-              </Dialog.Panel>
-            </Transition.Child>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
           </div>
-        </div>
-      </Dialog>
-    </Transition>
-  );
+        </Dialog>
+      </Transition>
+    );
+  }
 };
 
 export default Prefrences;

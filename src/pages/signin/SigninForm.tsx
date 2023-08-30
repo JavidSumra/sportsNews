@@ -30,12 +30,12 @@ const SigninForm: React.FC = () => {
       body: JSON.stringify({ email, password }),
     });
     try {
-      if (!response.ok) {
-        throw new Error("Sign in Failed");
-      }
-
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data?.errors);
+      }
 
       if (data?.errors) {
         throw new Error(data?.errors);
@@ -115,7 +115,7 @@ const SigninForm: React.FC = () => {
         )}
         <div className="flex items-center justify-between w-full my-3">
           <div className="hover:underline font-medium hover:text-blue-600 duration-150 cursor-pointer">
-            <a href="/ForgotPass">Forgot Password?</a>
+            <a href="/ForgotPass">Change Password</a>
           </div>
           <div>
             <input

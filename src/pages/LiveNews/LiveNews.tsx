@@ -5,7 +5,7 @@
 import React, { useState, useEffect, Suspense, useContext } from "react";
 const NewsList = React.lazy(() => import("./NewsList"));
 
-import { FunnelIcon } from "@heroicons/react/24/outline";
+import { FunnelIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 import { useSportsState } from "../../context/Sports/context";
 
@@ -29,6 +29,7 @@ const Sort: Sorting[] = [
   { id: 1, name: "Date" },
   { id: 2, name: "Title" },
   { id: 3, name: "Sport Type" },
+  { id: 4, name: "Favourites" },
 ];
 
 const LiveNews = () => {
@@ -38,7 +39,8 @@ const LiveNews = () => {
 
   const { isOpen } = useContext(OutletContext);
 
-  const [selectedSort, setSelectedSort] = useState("");
+  const [selectedSort, setSelectedSort] = useState("Select Type");
+
   const [sportName, setSportName] = useState("");
   const [preferences, setPreferences] = useState<string[]>(
     sports.map((sport) => sport.name)
@@ -74,7 +76,7 @@ const LiveNews = () => {
     } else {
       setPreferences(sports.map((sport) => sport.name));
     }
-  }, [FetchPreferences, isOpen]);
+  }, [isOpen, sports]);
 
   return (
     <div className="m-4">
@@ -139,11 +141,11 @@ const LiveNews = () => {
             <div className="flex items-center w-1/3 justify-around">
               <div>
                 <Listbox value={selectedSort} onChange={setSelectedSort}>
-                  <Listbox.Button className="flex justify-around border rounded-md py-2 px-3 my-2 mx-2 bg-gray-100 text-base text-left w-full dark:bg-gray-500 dark:border-gray-400 dark:text-white">
+                  <Listbox.Button className="flex shadow-sm justify-around border rounded-md py-2 px-3 my-2 mx-2 bg-gray-100 text-base text-left w-full dark:bg-gray-500 dark:border-gray-400 dark:text-white">
                     <Listbox.Label className="font-medium">
                       Sort By:
                     </Listbox.Label>
-                    {selectedSort ? selectedSort : "Team"}
+                    {selectedSort ? selectedSort : "Select Filter"}
                   </Listbox.Button>
                   <Listbox.Options className="absolute overflow-y-auto mt-1 max-h-60 rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                     {Sort.map((team: Sorting) => (
@@ -182,8 +184,18 @@ const LiveNews = () => {
                   </Listbox.Options>
                 </Listbox>
               </div>
-              <div className="mx-2 cursor-pointer">
-                <FunnelIcon className="w-10 h-10 bg-gray-300 dark:bg-gray-500 dark:border-gray-200 border mx-2 p-1 rounded" />
+              <div className="mx-2 cursor-pointer ">
+                {selectedSort !== "Select Type" ? (
+                  <sup>
+                    <XMarkIcon
+                      onClick={() => setSelectedSort("Select Type")}
+                      className="w-7 h-7 p-1 font-bold bg-white text-rose-500 hover:bg-rose-500 hover:text-white duration-150 mx-9 -my-2 absolute  rounded-full"
+                    />
+                  </sup>
+                ) : (
+                  <></>
+                )}
+                <FunnelIcon className="w-10 h-10 bg-gray-300 dark:bg-gray-500 dark:border-gray-200 border mx-2 p-1 rounded " />
               </div>
             </div>
           </div>

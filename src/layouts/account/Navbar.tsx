@@ -14,6 +14,7 @@ import {
   Cog6ToothIcon,
   ArrowLeftOnRectangleIcon,
   ArrowRightOnRectangleIcon,
+  KeyIcon,
   PlusIcon,
 } from "@heroicons/react/24/outline";
 
@@ -43,6 +44,11 @@ const Navbar = React.memo(() => {
             icon: <ArrowLeftOnRectangleIcon className="w-6 h-6 mr-4 " />,
             name: "Sign Out",
             href: "/logout",
+          },
+          {
+            icon: <KeyIcon className="w-5 h-5 mr-4 " />,
+            name: "Change Password",
+            href: "/ForgotPass",
           },
         ]
       : [
