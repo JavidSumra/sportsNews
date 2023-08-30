@@ -12,7 +12,7 @@ import FetchPreferences, { Preferences } from "../FetchPrefrences";
 import { OutletContext } from "../../context/outlet";
 import { HeartIcon } from "@heroicons/react/20/solid";
 
-import NewsNotFound from "../../assets/images/ArticleNotFound.gif";
+// import NewsNotFound from "../../assets/images/ArticleNotFound.gif";
 
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
