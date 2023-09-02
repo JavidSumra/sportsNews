@@ -16,7 +16,7 @@ export default ({ mode }) => {
         },
         manifest: {
           name: "Sports News Application",
-          short_name: "Sports News",
+          short_name: "Sports Edge",
           icons: [
             {
               src: "/favicon.ico",

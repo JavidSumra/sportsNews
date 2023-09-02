@@ -12,7 +12,7 @@ import FetchPreferences, { Preferences } from "../FetchPrefrences";
 import { OutletContext } from "../../context/outlet";
 import { HeartIcon } from "@heroicons/react/20/solid";
 
-// import NewsNotFound from "../../assets/images/ArticleNotFound.gif";
+import NewsNotFound from "../../assets/images/ArticleNotFound.gif";
 
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -174,9 +174,18 @@ const NewsList = ({ sportName, filter }: PropsState) => {
           ) {
             const selectedSports: string[] =
               data?.preferences?.SelectedSport ?? [];
+            // const selectedTeams: string[] = data?.preferences?.SelectedTeams;
             filteredNews = filteredNews.filter((newsData) =>
               selectedSports.includes(newsData.sport.name)
             );
+            // if (selectedTeams.length > 0) {
+            //   filteredNews = filteredNews.filter(
+            //     (newsData) =>
+            //       selectedSports.includes(newsData.sport.name) &&
+            //       (selectedTeams.includes(newsData?.teams[1]?.name) ||
+            //         selectedTeams.includes(newsData?.teams[0]?.name))
+            //   );
+            // }
             if (filteredNews.length !== 0) {
               setNewsList(filteredNews);
               setUserPreferences(filteredNews);
@@ -197,7 +206,7 @@ const NewsList = ({ sportName, filter }: PropsState) => {
     } else {
       setNewsList(news);
     }
-  }, [isLoggedin, news, isOpen]);
+  }, [isOpen, isLoggedin, news]);
 
   if (isLoading) {
     return (
@@ -222,57 +231,68 @@ const NewsList = ({ sportName, filter }: PropsState) => {
   //     </div>
   //   );
   // }
-  return (
-    <>
-      {newsList.map((data: NewsData) => (
-        <div
-          key={data.id}
-          className="card max-w-[98%] w-full group border-gray-200  shadow hover:bg-gray-100 dark:bg-gray-700  dark:hover:bg-gray-500  flex flex-col lg:flex-row bg-white rounded-lg hover:shadow-xl duration-300 m-2 "
-        >
-          <div>
-            <img
-              src={data.thumbnail}
-              alt="Thumbnail"
-              className="w-[300px] min-h-full max-h-[200px] max-[1023px]:w-full max-[1023px]:rounded-t-lg  object-cover min-[1024px]:rounded-l-lg"
-            />
-          </div>
-          <div className="flex flex-col justify-between">
-            <div className="top flex flex-row justify-between mx-4 font-semibold text-gray-500">
-              <div className="tag mt-4 dark:text-gray-400">
-                {data.sport.name}
-              </div>
-              <button onClick={() => addToFav(data.id)}>
-                <HeartIcon
-                  className={`h-8 w-8 mt-4  ${
-                    !isLoggedin
-                      ? favorites.includes(data.id)
+  console.log(newsList.length);
+  if (newsList.length > 0) {
+    return (
+      <>
+        {newsList.map((data: NewsData) => (
+          <div
+            key={data.id}
+            className="card max-w-[98%] w-full group border-gray-200  shadow hover:bg-gray-100 dark:bg-gray-700  dark:hover:bg-gray-500  flex flex-col lg:flex-row bg-white rounded-lg hover:shadow-xl duration-300 m-2 "
+          >
+            <div>
+              <img
+                src={data.thumbnail}
+                alt="Thumbnail"
+                className="w-[300px] min-h-full max-h-[200px] max-[1023px]:w-full max-[1023px]:rounded-t-lg  object-cover min-[1024px]:rounded-l-lg"
+              />
+            </div>
+            <div className="flex flex-col justify-between">
+              <div className="top flex flex-row justify-between mx-4 font-semibold text-gray-500">
+                <div className="tag mt-4 dark:text-gray-400">
+                  {data.sport.name}
+                </div>
+                <button onClick={() => addToFav(data.id)}>
+                  <HeartIcon
+                    className={`h-8 w-8 mt-4  ${
+                      !isLoggedin
+                        ? favorites.includes(data.id)
+                          ? " text-rose-500 "
+                          : "opacity-0 group-hover:opacity-100 dark:text-rose-400 text-rose-300   hover:text-rose-500 dark:hover:text-rose-500"
+                        : loginFav.includes(data.id)
                         ? " text-rose-500 "
                         : "opacity-0 group-hover:opacity-100 dark:text-rose-400 text-rose-300   hover:text-rose-500 dark:hover:text-rose-500"
-                      : loginFav.includes(data.id)
-                      ? " text-rose-500 "
-                      : "opacity-0 group-hover:opacity-100 dark:text-rose-400 text-rose-300   hover:text-rose-500 dark:hover:text-rose-500"
-                  }    duration-150 hover:-translate-y-1 `}
-                  title="Add To Favourite"
-                ></HeartIcon>
-              </button>
-            </div>
-            <div className="middle mx-6 my-3">
-              <div className="title text-lg font-bold">{data.title}</div>
-              <div className="excerpt text-sm font-medium">{data.summary}</div>
-            </div>
-            <div className="bottom flex justify-between items-center text-sm font-bold mx-10">
-              <div className="date mb-4">
-                {new Date(data.date).toUTCString().split("", 16)}
+                    }    duration-150 hover:-translate-y-1 `}
+                    title="Add To Favourite"
+                  ></HeartIcon>
+                </button>
               </div>
-              <div className="readmore hover:text-blue-500 duration-75 underline">
-                <Link to={`News/${data.id}`}>Readmore...</Link>
+              <div className="middle mx-6 my-3">
+                <div className="title text-lg font-bold">{data.title}</div>
+                <div className="excerpt text-sm font-medium">
+                  {data.summary}
+                </div>
+              </div>
+              <div className="bottom flex justify-between items-center text-sm font-bold mx-10">
+                <div className="date mb-4">
+                  {new Date(data.date).toUTCString().split("", 16)}
+                </div>
+                <div className="readmore hover:text-blue-500 duration-75 underline">
+                  <Link to={`News/${data.id}`}>Readmore...</Link>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      ))}
-    </>
-  );
+        ))}
+      </>
+    );
+  } else {
+    return (
+      <div className="flex items-center justify-center w-full">
+        <img src={NewsNotFound} alt="News Not Found" />
+      </div>
+    );
+  }
 };
 
 export default NewsList;

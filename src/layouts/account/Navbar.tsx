@@ -109,7 +109,9 @@ const Navbar = React.memo(() => {
                   <button
                     className="w-7 "
                     onClick={toggleTheme}
-                    title={`Change Mode to ${theme}`}
+                    title={`Switch to ${
+                      theme === "Light" ? "Dark" : "Light"
+                    } Mode`}
                   >
                     {theme === "Light" ? (
                       <MoonIcon

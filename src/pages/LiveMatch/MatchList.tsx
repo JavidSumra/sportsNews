@@ -50,8 +50,10 @@ export default function MatchList(): JSX.Element {
           }
 
           if (
-            data?.preferences?.SelectedSport.length !== 0 &&
-            data?.preferences?.SelectedSport !== undefined
+            (data?.preferences?.SelectedSport.length !== 0 &&
+              data?.preferences?.SelectedSport !== undefined) ||
+            (data?.preferences?.SelectedTeams.length !== 0 &&
+              data?.preferences?.SelectedTeams !== undefined)
           ) {
             const selectedSports: string[] =
               data?.preferences?.SelectedSport ?? [];
@@ -60,9 +62,8 @@ export default function MatchList(): JSX.Element {
             if (SelectedTeams.length > 0) {
               const filtered: LiveMatchData[] = matches.filter(
                 (match) =>
-                  selectedSports.includes(match.sportName) &&
-                  (SelectedTeams.includes(match?.teams[1]?.name) ||
-                    SelectedTeams.includes(match?.teams[0]?.name))
+                  SelectedTeams.includes(match?.teams[1]?.name) ||
+                  SelectedTeams.includes(match?.teams[0]?.name)
               );
               setFilteredMatches(filtered);
             } else {
@@ -85,7 +86,7 @@ export default function MatchList(): JSX.Element {
     } else {
       setFilteredMatches(matches);
     }
-  }, [isLoggedIn, matches, isOpen]);
+  }, [isOpen, isLoggedIn, matches]);
 
   if (isLoading) {
     return (
