@@ -231,7 +231,6 @@ const NewsList = ({ sportName, filter }: PropsState) => {
   //     </div>
   //   );
   // }
-  console.log(newsList.length);
   if (newsList.length > 0) {
     return (
       <>

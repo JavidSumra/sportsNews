@@ -111,7 +111,7 @@ export default function MatchList(): JSX.Element {
     </div>
   ) : (
     <div className="flex items-center justify-between m-4 text-center text-2xl font-medium">
-      There is currently no live match.
+      At the moment, there are no ongoing Live Matches.
     </div>
   );
 }
