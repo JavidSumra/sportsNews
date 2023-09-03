@@ -90,7 +90,9 @@ const SigninForm: React.FC = () => {
           id="email"
           {...register("email", { required: true })}
           className={`w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue  ${
-            errors.email ? "focus:shadow-outline-blue" : ""
+            errors.email
+              ? "focus:shadow-outline-red bg-red-100 shadow-red-200 shadow-lg focus:border-red-400 border-red-200"
+              : ""
           }`}
         />
         {errors.email && (
@@ -107,7 +109,9 @@ const SigninForm: React.FC = () => {
           id="password"
           {...register("password", { required: true })}
           className={`w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue ${
-            errors.password ? "focus:shadow-outline-blue" : ""
+            errors.password
+              ? "focus:shadow-outline-red bg-red-100 shadow-red-200 shadow-lg focus:border-red-400 border-red-200"
+              : ""
           }`}
         />
         {errors.password && (
@@ -115,7 +119,7 @@ const SigninForm: React.FC = () => {
         )}
         <div className="flex items-center justify-between w-full my-3">
           <div className="hover:underline font-medium hover:text-blue-600 duration-150 cursor-pointer">
-            <a href="/ForgotPass">Change Password</a>
+            <a href="/ForgotPass">Change Password?</a>
           </div>
           <div>
             <input
@@ -142,6 +146,7 @@ const SigninForm: React.FC = () => {
             <a
               href="/dashboard"
               className="text-blue-500 mx-2 font-bold hover:underline"
+              onClick={() => localStorage.removeItem("userData")}
             >
               Start As Guest
             </a>

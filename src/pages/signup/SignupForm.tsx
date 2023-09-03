@@ -31,13 +31,13 @@ const SignupForm = () => {
         },
         body: JSON.stringify({ name, email, password }),
       });
-      if (!response.ok) {
-        throw new Error("Signup Failed");
-      }
       const data = await response.json();
-
       if (data?.errors) {
         throw new Error(data?.errors);
+      }
+
+      if (!response.ok) {
+        throw new Error("Signup Failed");
       }
 
       localStorage.setItem("authToken", data?.auth_token);
@@ -88,7 +88,9 @@ const SignupForm = () => {
           id="name"
           {...register("name", { required: true })}
           className={`w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue  ${
-            errors.name ? "focus:shadow-outline-blue" : ""
+            errors.name
+              ? "focus:shadow-outline-red bg-red-100 shadow-red-200 shadow-sm focus:border-red-400 border-red-200"
+              : ""
           }`}
         />
         {errors.name && (
@@ -105,7 +107,9 @@ const SignupForm = () => {
           id="email"
           {...register("email", { required: true })}
           className={`w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue  ${
-            errors.email ? "focus:shadow-outline-blue" : ""
+            errors.email
+              ? "focus:shadow-outline-red bg-red-100 shadow-red-200 shadow-sm focus:border-red-400 border-red-200"
+              : ""
           }`}
         />
         {errors.email && (
@@ -122,7 +126,9 @@ const SignupForm = () => {
           id="password"
           {...register("password", { required: true })}
           className={`w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue ${
-            errors.password ? "focus:shadow-outline-blue" : ""
+            errors.password
+              ? "focus:shadow-outline-red bg-red-100 shadow-red-200 shadow-sm focus:border-red-400 border-red-200"
+              : ""
           }`}
         />
         {errors.password && (

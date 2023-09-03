@@ -11,7 +11,9 @@ import { TailSpin } from "react-loader-spinner";
 import { nanoid } from "nanoid";
 import { Sports } from "../../context/Sports/types";
 import { LiveMatchData } from "../../context/Match/types";
-import { HeartIcon } from "@heroicons/react/20/solid";
+import { HeartIcon } from "@heroicons/react/24/outline";
+import { HeartIcon as SolidHeartIcon } from "@heroicons/react/20/solid";
+
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
@@ -119,18 +121,13 @@ const SportCard = (props: SportCardProps) => {
           <div className="text-sm font-bold">{sportName}</div>
           <div>
             <button onClick={() => addToFav(id)}>
-              <HeartIcon
-                className={`h-7 w-7  mx-2 ${
-                  !isLoggedin
-                    ? favorites.includes(id)
-                      ? "text-rose-500"
-                      : "opacity-0 group-hover:opacity-100 dark:text-rose-400 text-rose-300  hover:text-rose-500 dark:hover:text-rose-500"
-                    : loginFav.includes(id)
-                    ? " text-rose-500"
-                    : "opacity-0 group-hover:opacity-100 text-rose-300 dark:text-rose-400  hover:text-rose-500 dark:hover:text-rose-500"
-                }    duration-150 hover:-translate-y-1 cursor-pointer`}
-                title="Add To Favourite"
-              ></HeartIcon>
+              {isLoggedin && loginFav.includes(id) ? (
+                <SolidHeartIcon className="w-8 h-8 duration-150 hover:-translate-y-1 text-rose-500 dark:text-rose-400  dark:hover:text-rose" />
+              ) : !isLoggedin && favorites.includes(id) ? (
+                <SolidHeartIcon className="w-8 h-8  duration-150 hover:-translate-y-1 text-rose-500 dark:text-rose-400  dark:hover:text-rose" />
+              ) : (
+                <HeartIcon className="w-8 h-8  text-rose-400 opacity-0 group-hover:opacity-100 duration-150 hover:-translate-y-1 " />
+              )}
             </button>
             <button onClick={() => fetchData(id)}>
               <ArrowPathIcon

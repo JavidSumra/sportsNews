@@ -87,7 +87,9 @@ const ForgotpassForm: React.FC = () => {
             id="cpass"
             {...register("current_password", { required: true })}
             className={`w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue  ${
-              errors.current_password ? "focus:shadow-outline-blue" : ""
+              errors.current_password
+                ? "focus:shadow-outline-red bg-red-100 shadow-red-200 shadow-sm focus:border-red-400 border-red-200"
+                : ""
             }`}
           />
           {errors.current_password && (
@@ -104,7 +106,9 @@ const ForgotpassForm: React.FC = () => {
             id="npassword"
             {...register("new_password", { required: true })}
             className={`w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue ${
-              errors.new_password ? "focus:shadow-outline-blue" : ""
+              errors.new_password
+                ? "focus:shadow-outline-red bg-red-100 shadow-red-200 shadow-sm focus:border-red-400 border-red-200"
+                : ""
             }`}
           />
           {errors.new_password && (

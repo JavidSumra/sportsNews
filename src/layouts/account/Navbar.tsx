@@ -98,7 +98,7 @@ const Navbar = React.memo(() => {
             <div className="flex h-16 items-center justify-between">
               <div className="flex items-center">
                 <div className="flex-shrink-0  ">
-                  <img className="h-20  z-10" src={Logo} alt="Smarter Tasks " />
+                  <img className="h-20  z-10" src={Logo} alt="Sports News" />
                 </div>
               </div>
               <div className="font-[BroLink] text-center font-medium text-3xl dark:text-white">

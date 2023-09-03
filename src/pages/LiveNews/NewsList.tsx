@@ -10,51 +10,14 @@ import { NewsState, NewsData } from "../../context/News/types";
 import { Link } from "react-router-dom";
 import FetchPreferences, { Preferences } from "../FetchPrefrences";
 import { OutletContext } from "../../context/outlet";
-import { HeartIcon } from "@heroicons/react/20/solid";
+import { HeartIcon as SolidHeartIcon } from "@heroicons/react/20/solid";
+import { HeartIcon } from "@heroicons/react/24/outline";
 
 import NewsNotFound from "../../assets/images/ArticleNotFound.gif";
 
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-
-const contentArray = Array.from({ length: 5 }, (_, index) => (
-  <div
-    key={index}
-    className="card w-[98%] group border-gray-200  shadow hover:bg-gray-100 dark:bg-gray-700  dark:hover:bg-gray-500  flex flex-col lg:flex-row bg-white rounded-lg hover:shadow-xl duration-300 m-2 "
-  >
-    <div>
-      <Skeleton
-        width={300}
-        height={400}
-        className="min-h-full max-h-[200px]  max-[1023px]:w-full max-[1023px]:rounded-t-lg  object-cover min-[1024px]:rounded-l-lg"
-      />
-    </div>
-    <div className="flex flex-col justify-between">
-      <div className="top flex flex-row justify-between mx-4 font-semibold text-gray-500">
-        <div className="tag mt-4 dark:text-gray-400">
-          <Skeleton width={100} height={25} />
-        </div>
-      </div>
-
-      <div className="middle mx-6 my-3">
-        <div className="title text-lg font-bold">
-          <Skeleton width={350} height={25} />
-        </div>
-        <div className="excerpt text-sm font-medium">
-          <Skeleton width={500} height={40} />
-        </div>
-      </div>
-      <div className="bottom flex justify-between items-center text-sm font-bold mx-10">
-        <div className="date mb-4">
-          <Skeleton width={100} height={20} />
-        </div>
-        <div className="readmore hover:text-blue-500 duration-75 underline">
-          <Skeleton width={100} height={15} />
-        </div>
-      </div>
-    </div>
-  </div>
-));
+import SkeletonLoading from "./SkeletonLoading";
 
 interface PropsState {
   sportName: string;
@@ -211,7 +174,11 @@ const NewsList = ({ sportName, filter }: PropsState) => {
   if (isLoading) {
     return (
       <SkeletonTheme baseColor="#f0f0f0" highlightColor="#dcdcdc">
-        {contentArray}
+        <SkeletonLoading />
+        <SkeletonLoading />
+        <SkeletonLoading />
+        <SkeletonLoading />
+        <SkeletonLoading />
       </SkeletonTheme>
     );
   }
@@ -252,18 +219,13 @@ const NewsList = ({ sportName, filter }: PropsState) => {
                   {data.sport.name}
                 </div>
                 <button onClick={() => addToFav(data.id)}>
-                  <HeartIcon
-                    className={`h-8 w-8 mt-4  ${
-                      !isLoggedin
-                        ? favorites.includes(data.id)
-                          ? " text-rose-500 "
-                          : "opacity-0 group-hover:opacity-100 dark:text-rose-400 text-rose-300   hover:text-rose-500 dark:hover:text-rose-500"
-                        : loginFav.includes(data.id)
-                        ? " text-rose-500 "
-                        : "opacity-0 group-hover:opacity-100 dark:text-rose-400 text-rose-300   hover:text-rose-500 dark:hover:text-rose-500"
-                    }    duration-150 hover:-translate-y-1 `}
-                    title="Add To Favourite"
-                  ></HeartIcon>
+                  {isLoggedin && loginFav.includes(data.id) ? (
+                    <SolidHeartIcon className="w-8 h-8 mt-4   duration-150 hover:-translate-y-1 text-rose-500 dark:text-rose-400  dark:hover:text-rose" />
+                  ) : !isLoggedin && favorites.includes(data.id) ? (
+                    <SolidHeartIcon className="w-8 h-8 mt-4   duration-150 hover:-translate-y-1 text-rose-500 dark:text-rose-400  dark:hover:text-rose" />
+                  ) : (
+                    <HeartIcon className="w-8 h-8 mt-4 text-rose-400 opacity-0 group-hover:opacity-100 duration-150 hover:-translate-y-1 " />
+                  )}
                 </button>
               </div>
               <div className="middle mx-6 my-3">
