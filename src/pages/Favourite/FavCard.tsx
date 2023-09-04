@@ -77,36 +77,45 @@ const FavCard = ({ sport, team }: PropState) => {
     return <>Loading...</>;
   }
 
-  return (
-    <>
-      {newsList.map((data: NewsData) => (
-        <div
-          key={data.id}
-          className="card border-gray-200  shadow hover:bg-gray-100 dark:bg-gray-600  dark:hover:bg-gray-500 flex flex-col lg:flex-row m-2 bg-white rounded-lg hover:shadow-xl duration-300 justify-between "
-        >
-          <div className="flex flex-col  justify-between">
-            <div className="type text-start mt-2 ml-4 text-gray-300 font-medium text-sm">
-              {data.sport.name}
-            </div>
-            <div className="middle mx-6 my-3">
-              <div className="title text-lg font-bold">{data.title}</div>
-              <div className="summ text-sm font-medium">{data.summary}</div>
-            </div>
+  if (newsList.length > 0) {
+    return (
+      <>
+        {newsList.map((data: NewsData) => (
+          <div
+            key={data.id}
+            className="card border-gray-200  shadow hover:bg-gray-100 dark:bg-gray-600  dark:hover:bg-gray-500 flex flex-col lg:flex-row m-2 bg-white rounded-lg hover:shadow-xl duration-300 justify-between "
+          >
+            <div className="flex flex-col  justify-between">
+              <div className="type text-start mt-2 ml-4 text-gray-300 font-medium text-sm">
+                {data.sport.name}
+              </div>
+              <div className="middle mx-6 my-3">
+                <div className="title text-lg font-bold">{data.title}</div>
+                <div className="summ text-sm font-medium">{data.summary}</div>
+              </div>
 
-            <div className="bottom flex justify-between items-center text-sm font-bold w-full">
-              <div className="readmore my-2 p-2 text-xl duration-75 w-full">
-                <Link to={`News/${data.id}`}>
-                  <button className="bg-gray-500 dark:bg-gray-700 rounded text-white w-full">
-                    Read more
-                  </button>
-                </Link>
+              <div className="bottom flex justify-between items-center text-sm font-bold w-full">
+                <div className="readmore my-2 p-2 text-xl duration-75 w-full">
+                  <Link to={`News/${data.id}`}>
+                    <button className="bg-gray-500 dark:bg-gray-700 rounded text-white w-full">
+                      Read more
+                    </button>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      ))}
-    </>
-  );
+        ))}
+      </>
+    );
+  } else if (newsList.length === 0) {
+    return (
+      <div className="text-center font-medium m-3">
+        There is No News Article
+        {sport ? (team ? `For ${sport} and ${team}` : sport) : ""}
+      </div>
+    );
+  }
 };
 
 export default FavCard;

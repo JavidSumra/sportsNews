@@ -33,18 +33,16 @@ const Favourite = () => {
   // Following Functioon Handle Filter of Team For Particular Sport
   useMemo(() => {
     if (isLoggedIn) {
-      if (selectedSport) {
-        const getTeams = teams.filter((team) => {
-          return team.plays === selectedSport && teamData.includes(team.name);
-        });
-        setTeamPreferences(getTeams.map((team) => team.name));
-      } else {
-        setTeamPreferences(teams.map((team) => team.name));
-      }
+      const getTeams = selectedSport
+        ? teams.filter((team) => {
+            return team.plays === selectedSport && teamData.includes(team.name);
+          })
+        : teams;
+      setTeamPreferences(getTeams.map((team) => team.name));
     } else {
-      const teamsPlay = teams.filter(
-        (team) => team.name && team.plays === selectedSport
-      );
+      const teamsPlay = selectedSport
+        ? teams.filter((team) => team.name && team.plays === selectedSport)
+        : teams;
       setTeamPreferences(teamsPlay.map((team) => team.name));
     }
   }, [selectedSport]);
@@ -55,20 +53,20 @@ const Favourite = () => {
       const data: Preferences = await FetchPreferences();
       if (
         isLoggedIn &&
-        data?.preferences?.SelectedSport.length !== 0 &&
+        data?.preferences?.SelectedSport?.length !== 0 &&
         data?.preferences?.SelectedSport !== undefined
       ) {
-        setSportPreferences(data.preferences.SelectedSport ?? []);
+        setSportPreferences(data?.preferences?.SelectedSport ?? []);
       } else if (sports.length > 0) {
         setSportPreferences(sports.map((sport) => sport.name));
       }
       if (
         isLoggedIn &&
-        data?.preferences?.SelectedTeams.length !== 0 &&
+        data?.preferences?.SelectedTeams?.length !== 0 &&
         data?.preferences?.SelectedTeams !== undefined
       ) {
         setTeamData(data?.preferences?.SelectedTeams);
-        setTeamPreferences(data.preferences.SelectedTeams ?? []);
+        setTeamPreferences(data?.preferences?.SelectedTeams ?? []);
       } else if (teams.length > 0) {
         setTeamData(teams.map((team) => team.name));
         setTeamPreferences(teams.map((team) => team.name));

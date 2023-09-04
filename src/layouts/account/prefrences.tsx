@@ -192,7 +192,7 @@ const Prefrences: React.FC = () => {
                         <div key={sport.id} className="m-4 flex items-center ">
                           <input
                             type="checkbox"
-                            defaultChecked={prevPreferences?.SelectedSport.includes(
+                            defaultChecked={prevPreferences?.SelectedSport?.includes(
                               sport.name
                             )}
                             className="mx-2 w-5 h-5"
@@ -215,7 +215,7 @@ const Prefrences: React.FC = () => {
                         <div key={team.id} className="m-4 flex items-center ">
                           <input
                             type="checkbox"
-                            defaultChecked={prevPreferences?.SelectedTeams.includes(
+                            defaultChecked={prevPreferences?.SelectedTeams?.includes(
                               team.name
                             )}
                             className="mx-2 w-5 h-5"

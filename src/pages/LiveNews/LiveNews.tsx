@@ -59,7 +59,7 @@ const LiveNews = () => {
 
           if (
             isLoggedIn &&
-            data?.preferences?.SelectedSport.length !== 0 &&
+            data?.preferences?.SelectedSport?.length !== 0 &&
             data?.preferences?.SelectedSport !== undefined
           ) {
             setPreferences(data?.preferences?.SelectedSport);
@@ -85,7 +85,7 @@ const LiveNews = () => {
         <div className="flex scrollBar  p-2 overflow-auto flex-col items-start w-4/5 max-[766px]:w-full">
           <div className="flex items-center justify-between mb-8 w-full px-4 ">
             {!isLoggedIn && sports.length > 0 ? (
-              <div className="flex items-center justify-around overflow-x-auto mx-4 w-4/5">
+              <div className="overflow-x-auto flex items-center justify-around  mx-3 w-4/5">
                 <button
                   className={`font-lg  mx-1 duration-150 ${
                     sportName === ""

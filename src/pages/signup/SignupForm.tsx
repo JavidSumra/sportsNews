@@ -13,6 +13,27 @@ interface UserInputs {
   password: string;
 }
 
+// Validation of Password
+
+function validatePassword(password: string): string {
+  if (password.length < 8) {
+    return "Password must be at least 8 characters long.";
+  }
+  if (!/(?=.*[A-Z])/.test(password)) {
+    return "Password must contain at least one uppercase letter.";
+  }
+  if (!/(?=.*[a-z])/.test(password)) {
+    return "Password must contain at least one lowercase letter.";
+  }
+  if (!/(?=.*\d)/.test(password)) {
+    return "Password must contain at least one digit.";
+  }
+  if (!/(?=.*[@$!%*?&])/.test(password)) {
+    return "Password must contain at least one special character (@$!%*?&).";
+  }
+  return "";
+}
+
 const SignupForm = () => {
   const navigate = useNavigate();
   const {
@@ -23,26 +44,12 @@ const SignupForm = () => {
 
   const onSubmit: SubmitHandler<UserInputs> = async (data) => {
     const { name, email, password } = data;
-    try {
-      const response = await fetch(`${API_ENDPOINT}/users`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, email, password }),
-      });
-      const data = await response.json();
-      if (data?.errors) {
-        throw new Error(data?.errors);
-      }
 
-      if (!response.ok) {
-        throw new Error("Signup Failed");
-      }
+    const passwordRegex =
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-      localStorage.setItem("authToken", data?.auth_token);
-      localStorage.setItem("userData", JSON.stringify(data?.user));
-      toast.success(`Welcome ${data?.user.name}`, {
+    if (!passwordRegex.test(password)) {
+      toast.info(validatePassword(password), {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -52,19 +59,51 @@ const SignupForm = () => {
         progress: undefined,
         theme: "colored",
       });
-      navigate("/dashboard");
-    } catch (error) {
-      console.log(`Operation Failed:${error}`);
-      toast.error(`${error}`, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      navigate("/signup");
+    } else {
+      try {
+        const response = await fetch(`${API_ENDPOINT}/users`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, email, password }),
+        });
+        const data = await response.json();
+        if (data?.errors) {
+          throw new Error(data?.errors);
+        }
+
+        if (!response.ok) {
+          throw new Error("Signup Failed");
+        }
+
+        localStorage.setItem("authToken", data?.auth_token);
+        localStorage.setItem("userData", JSON.stringify(data?.user));
+        toast.success(`Welcome ${data?.user.name}`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        navigate("/dashboard");
+      } catch (error) {
+        console.log(`Operation Failed:${error}`);
+        toast.error(`${error}`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
     }
   };
   return (

@@ -132,23 +132,15 @@ const NewsList = ({ sportName, filter }: PropsState) => {
         try {
           const data: Preferences = await FetchPreferences();
           if (
-            data?.preferences?.SelectedSport.length !== 0 &&
+            data?.preferences?.SelectedSport?.length !== 0 &&
             data?.preferences?.SelectedSport !== undefined
           ) {
             const selectedSports: string[] =
               data?.preferences?.SelectedSport ?? [];
             // const selectedTeams: string[] = data?.preferences?.SelectedTeams;
             filteredNews = filteredNews.filter((newsData) =>
-              selectedSports.includes(newsData.sport.name)
+              selectedSports?.includes(newsData.sport.name)
             );
-            // if (selectedTeams.length > 0) {
-            //   filteredNews = filteredNews.filter(
-            //     (newsData) =>
-            //       selectedSports.includes(newsData.sport.name) &&
-            //       (selectedTeams.includes(newsData?.teams[1]?.name) ||
-            //         selectedTeams.includes(newsData?.teams[0]?.name))
-            //   );
-            // }
             if (filteredNews.length !== 0) {
               setNewsList(filteredNews);
               setUserPreferences(filteredNews);
@@ -186,18 +178,7 @@ const NewsList = ({ sportName, filter }: PropsState) => {
   if (isError) {
     return <span>{errorMessage}</span>;
   }
-  // if (newsList.length === 0 && !isLoading) {
-  //   return (
-  //     <div>
-  //       <img
-  //         src={NewsNotFound}
-  //         alt="News Not Found"
-  //         className="w-full h-full z-10 mix-blend-color-burn"
-  //         title="Articles Not Found"
-  //       />
-  //     </div>
-  //   );
-  // }
+
   if (newsList.length > 0) {
     return (
       <>
