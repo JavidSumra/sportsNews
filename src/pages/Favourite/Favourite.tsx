@@ -10,6 +10,7 @@ import FetchPreferences, { Preferences } from "../FetchPrefrences";
 import { nanoid } from "nanoid";
 
 import { OutletContext } from "../../context/outlet";
+import Skeleton from "react-loading-skeleton";
 
 const Favourite = () => {
   const isLoggedIn = !!localStorage.getItem("userData");
@@ -80,10 +81,18 @@ const Favourite = () => {
       setSportPreferences(sports.map((sport) => sport.name));
       setTeamPreferences(teams.map((team) => team.name));
     }
-  }, [sports, FetchPreferences, isLoggedIn, isOpen]);
+  }, [sports, FetchPreferences, isLoggedIn, isOpen, teams]);
 
   if (isLoading) {
-    return <>Loading...</>;
+    return (
+      <>
+        <div className="p-4 text-2xl font-bold dark:text-white">Favourites</div>
+        <div className="flex items-center justify-between flex-col">
+          <Skeleton width={220} height={40} />
+          <Skeleton width={220} height={40} />
+        </div>
+      </>
+    );
   }
   if (sports) {
     return (
@@ -91,7 +100,7 @@ const Favourite = () => {
         <div className="p-4 text-2xl font-bold dark:text-white">Favourites</div>
         <div>
           <Listbox value={selectedSport} onChange={setSelectedSport}>
-            <Listbox.Button className=" border w-4/5 font-bold dark:hover:bg-gray-400 dark:hover:border-gray-700  dark:bg-gray-500 dark:border-gray-400 dark:text-white rounded-md py-2 px-3 my-2 mx-2 bg-gray-100 text-base text-left">
+            <Listbox.Button className="border w-4/5 font-bold dark:hover:bg-gray-400 dark:hover:border-gray-700  dark:bg-gray-500 dark:border-gray-400 dark:text-white rounded-md py-2 px-3 my-2 mx-2 bg-gray-100 text-base text-left">
               {selectedSport ? selectedSport : "Select Sport"}
             </Listbox.Button>
             <Listbox.Options className="absolute dark:bg-slate-900  overflow-y-auto mt-1 max-h-60 rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import FetchPreferences, { Preferences } from "../FetchPrefrences";
 import { FetchNews } from "../../context/News/actions";
 import { OutletContext } from "../../context/outlet";
+import SkeletonLoading from "./SkeletonLoading";
 
 interface PropState {
   sport: string;
@@ -74,7 +75,14 @@ const FavCard = ({ sport, team }: PropState) => {
     return <>{errorMessage}</>;
   }
   if (isLoading) {
-    return <>Loading...</>;
+    return (
+      <>
+        <SkeletonLoading />
+        <SkeletonLoading />
+        <SkeletonLoading />
+        <SkeletonLoading />
+      </>
+    );
   }
 
   if (newsList.length > 0) {

@@ -16,7 +16,7 @@ const Logout = () => {
     progress: undefined,
     theme: "colored",
   });
-  return <Navigate to="/login" />;
+  return <Navigate to="/dashboard" />;
 };
 
 export default Logout;

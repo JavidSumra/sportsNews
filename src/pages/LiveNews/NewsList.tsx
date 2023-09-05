@@ -18,6 +18,8 @@ import NewsNotFound from "../../assets/images/ArticleNotFound.gif";
 import { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import SkeletonLoading from "./SkeletonLoading";
+import { useTeamsState } from "../../context/Teams/context";
+import { nanoid } from "nanoid";
 
 interface PropsState {
   sportName: string;
@@ -30,7 +32,9 @@ const NewsList = ({ sportName, filter }: PropsState) => {
   const { isOpen } = useContext(OutletContext);
 
   const state: NewsState = useNewsState();
+
   const { news, isError, isLoading, errorMessage } = state;
+  const { teams } = useTeamsState();
 
   const [newsList, setNewsList] = useState<NewsData[]>(news);
   const [userPreferences, setUserPreferences] = useState<NewsData[]>(news);
@@ -71,6 +75,73 @@ const NewsList = ({ sportName, filter }: PropsState) => {
     }
   };
 
+  useEffect(() => {
+    let filteredNews: NewsData[] = news;
+
+    if (isLoggedin) {
+      // fetchPreferences function is used for fetching Previously Slected Values of Login User
+      const fetchPreferences = async (): Promise<void> => {
+        try {
+          const data: Preferences = await FetchPreferences();
+          if (
+            data?.preferences?.SelectedSport?.length !== 0 &&
+            data?.preferences?.SelectedSport !== undefined
+          ) {
+            const selectedSports: string[] =
+              data?.preferences?.SelectedSport ?? [];
+
+            const selectedTeams: string[] = data?.preferences?.SelectedTeams;
+
+            const teamData = teams.filter((team) =>
+              selectedTeams?.includes(team.name)
+            );
+
+            filteredNews = filteredNews.filter((newsData) =>
+              selectedSports?.includes(newsData.sport.name)
+            );
+
+            const newNews: NewsData[] = [];
+            filteredNews.map((news) => {
+              teamData.forEach((team) => {
+                if (
+                  team?.plays === news?.sport?.name &&
+                  (selectedTeams?.includes(news?.teams[0]?.name) ||
+                    selectedTeams?.includes(news?.teams[1]?.name))
+                ) {
+                  newNews.push(news);
+                } else if (
+                  news?.sport?.name !== team?.plays &&
+                  selectedSports?.includes(team?.plays)
+                ) {
+                  newNews.push(news);
+                }
+              });
+            });
+            if (newNews.length > 0) {
+              filteredNews = [...new Set(newNews)];
+            }
+            if (filteredNews.length !== 0) {
+              setNewsList(filteredNews);
+              setUserPreferences(filteredNews);
+            } else if (news.length > 0) {
+              setNewsList(news);
+              setUserPreferences(news);
+            }
+          } else if (news.length > 0) {
+            setNewsList(news);
+            setUserPreferences(news);
+          }
+        } catch (error) {
+          console.log("Error fetching preferences:", error);
+        }
+      };
+
+      void fetchPreferences();
+    } else {
+      setNewsList(news);
+    }
+  }, [isOpen, isLoggedin, news]);
+
   // Function Execute on sportName or filter change and filter news Data
   useMemo(() => {
     let filteredNews: NewsData[];
@@ -81,9 +152,9 @@ const NewsList = ({ sportName, filter }: PropsState) => {
     } else if (filter || sportName) {
       if (sportName) {
         if (isLoggedin) {
-          filteredNews = userPreferences.filter((news) => {
-            return news.sport.name === sportName;
-          });
+          filteredNews = userPreferences.filter(
+            (news) => news.sport.name === sportName
+          );
           setNewsList(filteredNews);
         } else {
           filteredNews = filteredNews.filter((news) => {
@@ -123,46 +194,6 @@ const NewsList = ({ sportName, filter }: PropsState) => {
     }
   }, [sportName, filter]);
 
-  useEffect(() => {
-    let filteredNews: NewsData[] = news;
-
-    if (isLoggedin) {
-      // fetchPreferences function is used for fetching Previously Slected Values of Login User
-      const fetchPreferences = async (): Promise<void> => {
-        try {
-          const data: Preferences = await FetchPreferences();
-          if (
-            data?.preferences?.SelectedSport?.length !== 0 &&
-            data?.preferences?.SelectedSport !== undefined
-          ) {
-            const selectedSports: string[] =
-              data?.preferences?.SelectedSport ?? [];
-            // const selectedTeams: string[] = data?.preferences?.SelectedTeams;
-            filteredNews = filteredNews.filter((newsData) =>
-              selectedSports?.includes(newsData.sport.name)
-            );
-            if (filteredNews.length !== 0) {
-              setNewsList(filteredNews);
-              setUserPreferences(filteredNews);
-            } else if (news.length > 0) {
-              setNewsList(news);
-              setUserPreferences(news);
-            }
-          } else if (news.length > 0) {
-            setNewsList(news);
-            setUserPreferences(news);
-          }
-        } catch (error) {
-          console.log("Error fetching preferences:", error);
-        }
-      };
-
-      void fetchPreferences();
-    } else {
-      setNewsList(news);
-    }
-  }, [isOpen, isLoggedin, news]);
-
   if (isLoading) {
     return (
       <SkeletonTheme baseColor="#f0f0f0" highlightColor="#dcdcdc">
@@ -184,7 +215,7 @@ const NewsList = ({ sportName, filter }: PropsState) => {
       <>
         {newsList.map((data: NewsData) => (
           <div
-            key={data.id}
+            key={nanoid()}
             className="card max-w-[98%] w-full group border-gray-200  shadow hover:bg-gray-100 dark:bg-gray-700  dark:hover:bg-gray-500  flex flex-col lg:flex-row bg-white rounded-lg hover:shadow-xl duration-300 m-2 "
           >
             <div>

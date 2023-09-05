@@ -50,10 +50,8 @@ export default function MatchList(): JSX.Element {
           }
 
           if (
-            (data?.preferences?.SelectedSport?.length !== 0 &&
-              data?.preferences?.SelectedSport !== undefined) ||
-            (data?.preferences?.SelectedTeams?.length !== 0 &&
-              data?.preferences?.SelectedTeams !== undefined)
+            data?.preferences?.SelectedSport?.length !== 0 &&
+            data?.preferences?.SelectedSport !== undefined
           ) {
             const selectedSports: string[] =
               data?.preferences?.SelectedSport ?? [];
