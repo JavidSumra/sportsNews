@@ -57,7 +57,7 @@ const ReadArticle = () => {
               <div className="fixed inset-0 bg-black bg-opacity-25" />
             </Transition.Child>
             <div className="fixed inset-0 overflow-y-auto">
-              <div className="flex min-h-full  items-center justify-center p-4 text-center">
+              <div className="flex min-h-full items-center justify-center p-4 text-center">
                 <Transition.Child
                   as={React.Fragment}
                   enter="ease-out duration-300"
@@ -67,18 +67,20 @@ const ReadArticle = () => {
                   leaveFrom="opacity-100 scale-100"
                   leaveTo="opacity-0 scale-95"
                 >
-                  <Dialog.Panel className="w-full max-w-screen-sm transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                  <Dialog.Panel className="w-full max-w-screen-sm transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:text-white dark:bg-slate-900">
                     <Dialog.Title
                       as="h3"
-                      className="text-lg font-medium leading-6 text-gray-900"
+                      className="text-lg font-medium leading-6 text-gray-900 "
                     >
                       <div className="flex items-center justify-between mb-3">
-                        <div className="font-bold text-lg">{data.title}</div>
+                        <div className="font-bold text-lg dark:text-white">
+                          {data.title}
+                        </div>
                         <button
                           onClick={closeModal}
                           className="inline-flex justify-center "
                         >
-                          <XMarkIcon className="w-6 h-6 text-black" />
+                          <XMarkIcon className="w-6 h-6 text-black dark:text-white" />
                         </button>
                       </div>
                     </Dialog.Title>
@@ -137,7 +139,7 @@ const ReadArticle = () => {
             <div className="fixed inset-0 bg-black bg-opacity-25" />
           </Transition.Child>
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full  items-center justify-center p-4 text-center">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
               <Transition.Child
                 as={React.Fragment}
                 enter="ease-out duration-300"
@@ -147,7 +149,7 @@ const ReadArticle = () => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-screen-sm transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-screen-sm transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-slate-900">
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
@@ -160,7 +162,7 @@ const ReadArticle = () => {
                         onClick={closeModal}
                         className="inline-flex justify-center "
                       >
-                        <XMarkIcon className="w-6 h-6 text-black" />
+                        <XMarkIcon className="w-6 h-6 text-black dark:text-white" />
                       </button>
                     </div>
                   </Dialog.Title>

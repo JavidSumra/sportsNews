@@ -110,7 +110,7 @@ const NewsList = ({ sportName, filter }: PropsState) => {
             ? JSON.parse(localStorage.getItem("LoginFav") || "[]")
             : JSON.parse(localStorage.getItem("GuestFav") || "[]");
           setNewsList(filteredNews.filter((news) => favList.includes(news.id)));
-        } else if (filter === "Select Type") {
+        } else if (filter === "Select") {
           setNewsList(filteredNews.sort(() => Math.random() - 0.5));
         } else {
           setNewsList(
@@ -219,7 +219,7 @@ const NewsList = ({ sportName, filter }: PropsState) => {
                 <div className="date mb-4">
                   {new Date(data.date).toUTCString().split("", 16)}
                 </div>
-                <div className="readmore hover:text-blue-500 duration-75 underline">
+                <div className="readmore hover:text-blue-500 dark:hover:text-slate-900 duration-75 underline">
                   <Link to={`News/${data.id}`}>Readmore...</Link>
                 </div>
               </div>

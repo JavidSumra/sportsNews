@@ -39,7 +39,7 @@ const LiveNews = () => {
 
   const { isOpen } = useContext(OutletContext);
 
-  const [selectedSort, setSelectedSort] = useState("Select Type");
+  const [selectedSort, setSelectedSort] = useState("Select");
 
   const [sportName, setSportName] = useState("");
   const [preferences, setPreferences] = useState<string[]>(
@@ -141,21 +141,21 @@ const LiveNews = () => {
             <div className="flex items-center w-1/3 justify-around">
               <div>
                 <Listbox value={selectedSort} onChange={setSelectedSort}>
-                  <Listbox.Button className="flex shadow-sm justify-around border rounded-md py-2 px-3 my-2 mx-2 bg-gray-100 text-base text-left w-full dark:bg-gray-500 dark:border-gray-400 dark:text-white">
+                  <Listbox.Button className="flex shadow-sm font-bold justify-around border rounded-md py-2 px-3 my-2 mx-2 bg-gray-100 text-base text-left w-full dark:bg-gray-500 dark:border-gray-400 dark:text-white">
                     <Listbox.Label className="font-medium">
                       Sort By:
                     </Listbox.Label>
-                    {selectedSort ? selectedSort : "Select Filter"}
+                    {selectedSort ? selectedSort : "Select"}
                   </Listbox.Button>
-                  <Listbox.Options className="absolute overflow-y-auto mt-1 max-h-60 rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                  <Listbox.Options className="absolute dark:bg-slate-900  overflow-y-auto mt-1 max-h-60 rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                     {Sort.map((team: Sorting) => (
                       <Listbox.Option
                         key={team.id}
                         className={({ active }) =>
                           `relative cursor-default select-none py-2 pl-10 pr-4 ${
                             active
-                              ? "bg-blue-100 text-blue-900"
-                              : "text-gray-900"
+                              ? "bg-blue-100 text-blue-900 dark:bg-slate-700 dark:text-slate-50"
+                              : "text-gray-900 dark:text-white"
                           }`
                         }
                         value={team.name}
@@ -185,10 +185,10 @@ const LiveNews = () => {
                 </Listbox>
               </div>
               <div className="mx-2 cursor-pointer ">
-                {selectedSort !== "Select Type" ? (
+                {selectedSort !== "Select" ? (
                   <sup>
                     <XMarkIcon
-                      onClick={() => setSelectedSort("Select Type")}
+                      onClick={() => setSelectedSort("Select")}
                       className="w-7 h-7 p-1 font-bold bg-white text-rose-500 hover:bg-rose-500 hover:text-white duration-150 mx-9 -my-2 absolute  rounded-full"
                     />
                   </sup>

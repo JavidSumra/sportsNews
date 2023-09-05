@@ -170,20 +170,22 @@ const Prefrences: React.FC = () => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-screen-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-screen-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-slate-900 dark:text-white">
                   <form onSubmit={handleSubmit(onSubmit)}>
                     <Dialog.Title
                       as="h3"
                       className="text-lg font-medium leading-6 text-gray-900"
                     >
                       <div className="flex items-center justify-between mb-3">
-                        <div className="font-bold text-3xl">Preferences</div>
+                        <div className="font-bold text-3xl dark:text-white">
+                          Preferences
+                        </div>
                         <button
                           onClick={handleSubmit(onSubmit)}
                           className="inline-flex justify-center"
                           title="Save Preferences"
                         >
-                          <XMarkIcon className="w-8 h-8 text-black" />
+                          <XMarkIcon className="w-8 h-8 text-black dark:text-white" />
                         </button>
                       </div>
                     </Dialog.Title>
@@ -266,19 +268,21 @@ const Prefrences: React.FC = () => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-screen-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-screen-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:text-white dark:bg-slate-900">
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
                   >
                     <div className="flex items-center justify-between mb-3">
-                      <div className="font-bold text-3xl">Preferences</div>
+                      <div className="font-bold text-3xl dark:text-white">
+                        Preferences
+                      </div>
                       <button
                         onClick={handleSubmit(onSubmit)}
                         className="inline-flex justify-center"
                         title="Save Preferences"
                       >
-                        <XMarkIcon className="w-8 h-8 text-black" />
+                        <XMarkIcon className="w-8 h-8 text-black dark:text-white" />
                       </button>
                     </div>
                   </Dialog.Title>

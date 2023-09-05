@@ -112,7 +112,7 @@ const FavCard = ({ sport, team }: PropState) => {
     return (
       <div className="text-center font-medium m-3">
         There is No News Article
-        {sport ? (team ? `For ${sport} and ${team}` : sport) : ""}
+        {sport ? (team ? ` For ${sport} and ${team}` : sport) : ""}
       </div>
     );
   }
