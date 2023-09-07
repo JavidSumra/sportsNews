@@ -127,7 +127,7 @@ const NewsList = ({ sportName, filter }: PropsState) => {
               setNewsList(news);
               setUserPreferences(news);
             }
-          } else if (news.length > 0) {
+          } else if (news.length > 0 && !sportName) {
             setNewsList(news);
             setUserPreferences(news);
           }
@@ -152,9 +152,9 @@ const NewsList = ({ sportName, filter }: PropsState) => {
     } else if (filter || sportName) {
       if (sportName) {
         if (isLoggedin) {
-          filteredNews = userPreferences.filter(
-            (news) => news.sport.name === sportName
-          );
+          filteredNews = userPreferences.filter((news) => {
+            return news.sport.name === sportName;
+          });
           setNewsList(filteredNews);
         } else {
           filteredNews = filteredNews.filter((news) => {
@@ -165,6 +165,7 @@ const NewsList = ({ sportName, filter }: PropsState) => {
       } else if (sportName === "" && isLoggedin) {
         setNewsList(userPreferences);
       }
+
       if (filter) {
         if (filter === "Date") {
           setNewsList(
@@ -181,9 +182,9 @@ const NewsList = ({ sportName, filter }: PropsState) => {
             ? JSON.parse(localStorage.getItem("LoginFav") || "[]")
             : JSON.parse(localStorage.getItem("GuestFav") || "[]");
           setNewsList(filteredNews.filter((news) => favList.includes(news.id)));
-        } else if (filter === "Select") {
+        } else if (filter === "Select" && sportName === "") {
           setNewsList(filteredNews.sort(() => Math.random() - 0.5));
-        } else {
+        } else if (filter === "Sport Type") {
           setNewsList(
             filteredNews.sort((a, b) =>
               a.sport.name.localeCompare(b.sport.name)
