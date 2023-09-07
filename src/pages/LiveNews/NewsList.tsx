@@ -120,14 +120,19 @@ const NewsList = ({ sportName, filter }: PropsState) => {
             if (newNews.length > 0) {
               filteredNews = [...new Set(newNews)];
             }
-            if (filteredNews.length !== 0) {
+            if (sportName) {
+              filteredNews = userPreferences.filter((news) => {
+                return news.sport.name === sportName;
+              });
+              setNewsList(filteredNews);
+            } else if (filteredNews.length !== 0) {
               setNewsList(filteredNews);
               setUserPreferences(filteredNews);
             } else if (news.length > 0) {
               setNewsList(news);
               setUserPreferences(news);
             }
-          } else if (news.length > 0 && !sportName) {
+          } else if (news.length > 0) {
             setNewsList(news);
             setUserPreferences(news);
           }
@@ -193,7 +198,7 @@ const NewsList = ({ sportName, filter }: PropsState) => {
         }
       }
     }
-  }, [sportName, filter]);
+  }, [isOpen, sportName, filter]);
 
   if (isLoading) {
     return (

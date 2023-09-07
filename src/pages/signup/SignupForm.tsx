@@ -49,7 +49,7 @@ const SignupForm = () => {
       /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
     if (!passwordRegex.test(password)) {
-      toast.info(validatePassword(password), {
+      toast.warning(validatePassword(password), {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -201,4 +201,5 @@ const SignupForm = () => {
   );
 };
 
+export { validatePassword };
 export default SignupForm;

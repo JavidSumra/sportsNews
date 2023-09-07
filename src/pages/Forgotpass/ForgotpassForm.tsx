@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
@@ -6,6 +9,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { API_ENDPOINT } from "../../config/constants";
 import { toast } from "react-toastify";
+import { validatePassword } from "../signup/SignupForm";
 
 interface UserInputs {
   current_password: string;
@@ -23,50 +27,78 @@ const ForgotpassForm: React.FC = () => {
   const onSubmit: SubmitHandler<UserInputs> = async (data) => {
     const token = localStorage.getItem("authToken");
     const { current_password, new_password } = data;
-    const response = await fetch(`${API_ENDPOINT}/user/password`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ current_password, new_password }),
-    });
-    try {
-      if (!response.ok) {
-        throw new Error("Failed To Update Password");
+
+    const passwordRegex =
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!passwordRegex.test(new_password)) {
+      toast.warning(validatePassword(new_password), {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      navigate("/ChangePass");
+    } else {
+      const response = await fetch(`${API_ENDPOINT}/user/password`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ current_password, new_password }),
+      });
+      try {
+        const data = await response.json();
+
+        if (data?.errors) {
+          toast.error(`${data?.errors} Try to Login First`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+          navigate("/login");
+        } else {
+          if (!response.ok) {
+            throw new Error("Failed To Update Password");
+          }
+          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+          toast.success(`Password Updated Successfully`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+
+          navigate("/login");
+        }
+      } catch (error) {
+        console.log(`Operation Failed : ${error}`);
+        toast.error(`${error}`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        navigate("/ChangePass");
       }
-
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const data = await response.json();
-
-      console.log(data);
-
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-      toast.success(`Password Updated Successfully`, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-
-      navigate("/login");
-    } catch (error) {
-      console.log(`Operation Failed : ${error}`);
-      toast.error(`${error}`, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-      navigate("/ForgotPass");
     }
   };
   return (

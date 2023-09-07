@@ -121,7 +121,7 @@ const SigninForm: React.FC = () => {
         )}
         <div className="flex items-center justify-between w-full my-3">
           <div className="hover:underline font-medium hover:text-blue-600 duration-150 cursor-pointer">
-            <a href="/ForgotPass">Change Password?</a>
+            <a href="/ChangePass">Change Password?</a>
           </div>
           <div>
             <input
