@@ -85,6 +85,7 @@ const ForgotpassForm: React.FC = () => {
           <input
             type="password"
             id="cpass"
+            placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
             {...register("current_password", { required: true })}
             className={`w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue  ${
               errors.current_password
@@ -104,6 +105,7 @@ const ForgotpassForm: React.FC = () => {
           <input
             type="password"
             id="npassword"
+            placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
             {...register("new_password", { required: true })}
             className={`w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue ${
               errors.new_password

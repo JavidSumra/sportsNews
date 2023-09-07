@@ -88,6 +88,7 @@ const SigninForm: React.FC = () => {
         <input
           type="email"
           id="email"
+          placeholder="xyz@gmail.com"
           {...register("email", { required: true })}
           className={`w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue  ${
             errors.email
@@ -107,6 +108,7 @@ const SigninForm: React.FC = () => {
         <input
           type="password"
           id="password"
+          placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
           {...register("password", { required: true })}
           className={`w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue ${
             errors.password
