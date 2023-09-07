@@ -1,5 +1,6 @@
 import React from "react";
 import SigninForm from "./SigninForm";
+import LoginIMG from "../../assets/images/LoginSvg.avif";
 
 const Signin: React.FC = () => {
   return (
@@ -9,10 +10,7 @@ const Signin: React.FC = () => {
           <SigninForm />
         </div>
         <div className="flex items-center justify-center w-full mx-10 max-[634px]:hidden">
-          <img
-            src="https://img.freepik.com/premium-photo/national-sports-day-generative-ai_756405-3691.jpg?w=2000"
-            alt="sportsImage"
-          />
+          <img src={LoginIMG} alt="sportsImage" />
         </div>
       </div>
     </div>

@@ -110,9 +110,8 @@ const SignupForm = () => {
     <form
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onSubmit={handleSubmit(onSubmit)}
-      className="w-2/3"
     >
-      <div className="text-3xl font-bold text-center text-gray-800 mb-8 pr-6">
+      <div className="text-3xl font-bold text-left text-gray-800 mb-8 pr-6">
         Signup
       </div>
       <div>
