@@ -1,6 +1,6 @@
 // import React from "react";
 import ForgotpassForm from "./ForgotpassForm";
-import ForgotIMG from "../../assets/images/Forgot-removebg-preview.png";
+import ChangePassIMG from "../../assets/images/ChangePassword.png";
 
 const ForgotPassword = () => {
   return (
@@ -10,7 +10,7 @@ const ForgotPassword = () => {
           <ForgotpassForm />
         </div>
         <div className="flex items-center justify-center w-full mx-10 max-[634px]:hidden">
-          <img src={ForgotIMG} alt="sportsImage" />
+          <img src={ChangePassIMG} alt="sportsImage" />
         </div>
       </div>
     </div>
