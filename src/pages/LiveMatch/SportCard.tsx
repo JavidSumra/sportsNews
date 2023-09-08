@@ -143,7 +143,7 @@ const SportCard = (props: SportCardProps) => {
             key={nanoid()}
             className="flex justify-between items-center font-bold text-xl"
           >
-            <div>{key}</div>
+            <div>{teams[key].score}</div>
             <div>{teams[key].name}</div>
           </div>
         ))}
