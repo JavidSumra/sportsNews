@@ -11,6 +11,7 @@
 
 ::-webkit-scrollbar {
   height: 3px;
+  width: 100%;
   scroll-behavior: smooth;
 }
 
@@ -19,7 +20,7 @@
 }
 ::-webkit-scrollbar-thumb {
   background: #888;
-  border-radius: 5px;
+  border-radius: 12px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #555;

@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-export default function MatchList(): JSX.Element {
+const MatchList = (): JSX.Element => {
   const isLoggedIn = !!localStorage.getItem("userData");
   const navigate = useNavigate();
 
@@ -103,13 +103,16 @@ export default function MatchList(): JSX.Element {
   return filteredMatches.some((match) => match.isRunning === true) &&
     !isLoading ? (
     <div className="flex items-center justify-between m-4">
-      {filteredMatches.map((match: LiveMatchData) => (
-        <SportCard detail={match} key={nanoid()} />
-      ))}
+      {filteredMatches.map(
+        (match: LiveMatchData) =>
+          match.isRunning && <SportCard detail={match} key={nanoid()} />
+      )}
     </div>
   ) : (
     <div className="flex items-center justify-between m-4 text-center text-2xl font-medium">
       At the moment, there are no ongoing Live Matches.
     </div>
   );
-}
+};
+
+export default MatchList;

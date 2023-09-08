@@ -99,7 +99,6 @@ const Prefrences: React.FC = () => {
   };
 
   function closeModal() {
-    setIsOpen(false);
     setIsModalOpen(false);
     navigate("/dashboard");
   }
@@ -135,10 +134,10 @@ const Prefrences: React.FC = () => {
         },
         body: JSON.stringify({ preferences }),
       });
+      setIsOpen(false);
       if (!res.ok) {
         throw new Error("Failed To Upload Prefrences");
       }
-      navigate("/dashboard");
     } catch (error) {
       console.log(`Operation Failed: ${error}`);
     }

@@ -4,10 +4,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { API_ENDPOINT } from "../../config/constants";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
-import { TailSpin } from "react-loader-spinner";
 import { nanoid } from "nanoid";
 import { Sports } from "../../context/Sports/types";
 import { LiveMatchData } from "../../context/Match/types";
@@ -75,6 +74,10 @@ const SportCard = (props: SportCardProps) => {
     }
   };
 
+  useEffect(() => {
+    void fetchData(id);
+  }, [id]);
+
   // Below Function Handle Favorite
   const addToFav = (id: number): void => {
     if (isLoggedin) {
@@ -82,7 +85,6 @@ const SportCard = (props: SportCardProps) => {
       let userFav: number[] = JSON.parse(
         localStorage.getItem("LoginMatchFav") || "[]"
       );
-      console.log(userFav);
       if (userFav.includes(id)) {
         userFav = userFav.filter((arrId) => arrId !== id);
         localStorage.setItem("LoginMatchFav", JSON.stringify(userFav));
@@ -143,28 +145,10 @@ const SportCard = (props: SportCardProps) => {
             key={nanoid()}
             className="flex justify-between items-center font-bold text-xl"
           >
-            <div>{key}</div>
+            <div>{data.score[teams[key].name]}</div>
             <div>{teams[key].name}</div>
           </div>
         ))}
-      </div>
-    );
-  } else if (!isRunning) {
-    return null;
-  } else {
-    return (
-      <div className="w-60 flex items-center justify-center p-2 mx-4 bg-white border border-gray-200 rounded shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-        <TailSpin
-          height="60"
-          width="60"
-          color="#414141"
-          ariaLabel="tail-spin-loading"
-          radius="2"
-          wrapperStyle={{}}
-          wrapperClass=""
-          visible={true}
-          key={nanoid()}
-        />
       </div>
     );
   }
