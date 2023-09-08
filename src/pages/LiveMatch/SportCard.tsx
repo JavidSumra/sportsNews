@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { useState } from "react";
+import { useEffect,useState } from "react";
 import { API_ENDPOINT } from "../../config/constants";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { TailSpin } from "react-loader-spinner";
@@ -75,6 +75,10 @@ const SportCard = (props: SportCardProps) => {
     }
   };
 
+  useEffect(()=>{
+      fetchData(id);
+  },[id]);
+
   // Below Function Handle Favorite
   const addToFav = (id: number): void => {
     if (isLoggedin) {
@@ -143,7 +147,7 @@ const SportCard = (props: SportCardProps) => {
             key={nanoid()}
             className="flex justify-between items-center font-bold text-xl"
           >
-            <div>{score[teams[key].name]}</div>
+            <div>{data.score[teams[key].name]}</div>
             <div>{teams[key].name}</div>
           </div>
         ))}
