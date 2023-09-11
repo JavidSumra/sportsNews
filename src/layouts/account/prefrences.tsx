@@ -13,9 +13,13 @@ import { Sports } from "../../context/Sports/types";
 import { Team } from "../../context/Teams/types";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { API_ENDPOINT } from "../../config/constants";
-import FetchPreferences, { UserPreferences } from "../../pages/FetchPrefrences";
+import FetchPreferences, {
+  Preferences,
+  UserPreferences,
+} from "../../pages/FetchPrefrences";
 import { OutletContext } from "../../context/outlet";
 import { TailSpin } from "react-loader-spinner";
+import { toast } from "react-toastify";
 
 type FormData = {
   [key: string]: boolean;
@@ -39,7 +43,21 @@ const Prefrences: React.FC = () => {
 
   useEffect(() => {
     FetchPreferences()
-      .then((data: { preferences: UserPreferences }) => {
+      .then((data: Preferences) => {
+        if (data?.errors) {
+          toast.error("Authentication Failed\nPlease Try To Login Again", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+
+          navigate("/login");
+        }
         setPrevPreferences(data.preferences);
       })
       .catch((err) => {

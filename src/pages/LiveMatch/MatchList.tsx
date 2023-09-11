@@ -31,20 +31,18 @@ const MatchList = (): JSX.Element => {
         try {
           const data: Preferences = await FetchPreferences();
 
+          // Below IF Condition Redirect User on Login Page if Authentication Fail from API
           if (data?.errors) {
-            // Below IF Condition Redirect User on Login Page if Authentication Fail from API
-            if (data?.errors) {
-              toast.error("Authentication Failed\nPlease Try To Login Again", {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "colored",
-              });
-            }
+            toast.error("Authentication Failed\nPlease Try To Login Again", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
 
             navigate("/login");
           }
@@ -110,7 +108,7 @@ const MatchList = (): JSX.Element => {
     </div>
   ) : (
     <div className="flex items-center justify-between m-4 text-center text-2xl font-medium">
-      At the moment, there are no ongoing Live Matches.
+      At the moment, there are no ongoing Live Matches for Selected Teams.
     </div>
   );
 };

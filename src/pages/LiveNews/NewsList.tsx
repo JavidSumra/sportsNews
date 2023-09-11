@@ -99,10 +99,12 @@ const NewsList = ({ sportName, filter }: PropsState) => {
 
             if (data?.preferences?.SelectedTeams?.length > 0) {
               setSelectedTeams(data?.preferences?.SelectedTeams ?? []);
-              const teamDetail = teams.filter((team) =>
-                data?.preferences?.SelectedTeams.includes(team.name)
+
+              setTeamData(
+                teams.filter((team) =>
+                  data?.preferences?.SelectedTeams.includes(team.name)
+                )
               );
-              setTeamData(teamDetail);
             }
 
             filteredNews = filteredNews.filter((newsData) => {
@@ -180,6 +182,9 @@ const NewsList = ({ sportName, filter }: PropsState) => {
           filteredNews = news.filter((newsData) => {
             return selectedSports?.includes(newsData.sport.name);
           });
+          setTeamData(
+            teams.filter((team) => selectedTeams.includes(team.name))
+          );
           if (selectedTeams.length > 0) {
             filteredNews = filteredNews.filter((newsData) => {
               if (
