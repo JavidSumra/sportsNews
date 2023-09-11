@@ -134,7 +134,9 @@ const Prefrences: React.FC = () => {
         },
         body: JSON.stringify({ preferences }),
       });
-      setIsOpen(false);
+
+      setIsOpen(isModalOpen ? true : false);
+
       if (!res.ok) {
         throw new Error("Failed To Upload Prefrences");
       }
@@ -234,6 +236,14 @@ const Prefrences: React.FC = () => {
                       ))}
                     </div>
                   </form>
+                  <div className="flex items-center justify-end">
+                    <button
+                      className="p-2 mx-4 border border-gray-900 dark:border-white rounded font-medium text-xl font-[Poppins] dark:hover:bg-white dark:hover:text-gray-900 hover:bg-gray-900 hover:text-white  duration-200"
+                      onClick={closeModal}
+                    >
+                      Cancel
+                    </button>
+                  </div>
                 </Dialog.Panel>
               </Transition.Child>
             </div>

@@ -63,21 +63,31 @@ const SportCard = (props: SportCardProps) => {
 
   // fetchData Function is Used for Fetching Data of Particular Match When User Click on Refresh Button
   const fetchData = async (id: number) => {
-    const response = await fetch(`${API_ENDPOINT}/matches/${id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data: LiveScore = await response.json();
-    if (data.isRunning) {
-      setData(data);
+    try {
+      const response = await fetch(`${API_ENDPOINT}/matches/${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data: LiveScore = await response.json();
+      if (data.isRunning) {
+        setData(data);
+      }
+    } catch (error) {
+      throw new Error(`Failed To Fetch Match Deatils With id : ${id}`);
     }
   };
 
   useEffect(() => {
     void fetchData(id);
   }, [id]);
+
+  // Function Handles Arrow Icon Rotation
+  function handleClick(event: React.MouseEvent<SVGSVGElement, MouseEvent>) {
+    const target = event.target as SVGSVGElement;
+    target.classList.toggle("rotate-180");
+  }
 
   // Below Function Handle Favorite
   const addToFav = (id: number): void => {
@@ -134,7 +144,8 @@ const SportCard = (props: SportCardProps) => {
             </button>
             <button onClick={() => fetchData(id)}>
               <ArrowPathIcon
-                className="h-6 w-6 font-bold hover:rotate-180 ease-linear duration-1000"
+                className="w-6 h-6 font-bold transition duration-1000 ease-in-out transform"
+                onClick={handleClick}
                 title="Refresh"
               />
             </button>

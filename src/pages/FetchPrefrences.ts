@@ -14,17 +14,22 @@ export interface Preferences {
 const FetchPreferences = async () => {
     const token: string | null = localStorage.getItem("authToken");
 
-    const response = await fetch(`${API_ENDPOINT}/user/preferences`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-        },
-    });
+    try {
+        const response = await fetch(`${API_ENDPOINT}/user/preferences`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
 
-    const data: Preferences = await response.json();
+        const data: Preferences = await response.json();
 
-    return data;
+        return data;
+    }
+    catch (error) {
+        throw new Error("Failed To Fetch Preferences");
+    }
 };
 
 export default FetchPreferences;

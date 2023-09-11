@@ -20,6 +20,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import SkeletonLoading from "./SkeletonLoading";
 import { useTeamsState } from "../../context/Teams/context";
 import { nanoid } from "nanoid";
+import { Team } from "../../context/Teams/types";
 
 interface PropsState {
   sportName: string;
@@ -35,6 +36,13 @@ const NewsList = ({ sportName, filter }: PropsState) => {
 
   const { news, isError, isLoading, errorMessage } = state;
   const { teams } = useTeamsState();
+
+  const [selectedSports, setSelectedSports] = useState<string[]>([]);
+  const [selectedTeams, setSelectedTeams] = useState<string[]>([]);
+
+  const [teamData, setTeamData] = useState<Team[]>(
+    teams.filter((team) => selectedTeams?.includes(team.name))
+  );
 
   const [newsList, setNewsList] = useState<NewsData[]>(news);
   const [userPreferences, setUserPreferences] = useState<NewsData[]>(news);
@@ -87,43 +95,55 @@ const NewsList = ({ sportName, filter }: PropsState) => {
             data?.preferences?.SelectedSport?.length !== 0 &&
             data?.preferences?.SelectedSport !== undefined
           ) {
-            const selectedSports: string[] =
-              data?.preferences?.SelectedSport ?? [];
+            setSelectedSports(data?.preferences?.SelectedSport ?? []);
 
-            const selectedTeams: string[] = data?.preferences?.SelectedTeams;
+            if (data?.preferences?.SelectedTeams?.length > 0) {
+              setSelectedTeams(data?.preferences?.SelectedTeams ?? []);
+              const teamDetail = teams.filter((team) =>
+                data?.preferences?.SelectedTeams.includes(team.name)
+              );
+              setTeamData(teamDetail);
+            }
 
-            const teamData = teams.filter((team) =>
-              selectedTeams?.includes(team.name)
-            );
+            filteredNews = filteredNews.filter((newsData) => {
+              return data?.preferences?.SelectedSport?.includes(
+                newsData.sport.name
+              );
+            });
 
-            filteredNews = filteredNews.filter((newsData) =>
-              selectedSports?.includes(newsData.sport.name)
-            );
-
-            const newNews: NewsData[] = [];
-            filteredNews.map((news) => {
-              teamData.forEach((team) => {
+            if (data?.preferences?.SelectedTeams?.length > 0) {
+              filteredNews = filteredNews.filter((newsData) => {
                 if (
-                  team?.plays === news?.sport?.name &&
-                  (selectedTeams?.includes(news?.teams[0]?.name) ||
-                    selectedTeams?.includes(news?.teams[1]?.name))
+                  newsData?.teams?.some((team) =>
+                    teamData?.map((team) => team.name).includes(team.name)
+                  )
                 ) {
-                  newNews.push(news);
+                  return (
+                    data?.preferences?.SelectedSport?.includes(
+                      newsData.sport.name
+                    ) &&
+                    (data?.preferences?.SelectedTeams?.includes(
+                      newsData.teams[0]?.name
+                    ) ||
+                      data?.preferences?.SelectedTeams?.includes(
+                        newsData.teams[1]?.name
+                      ))
+                  );
                 } else if (
-                  news?.sport?.name !== team?.plays &&
-                  selectedSports?.includes(team?.plays)
+                  !teamData
+                    ?.map((team) => team.plays)
+                    .includes(newsData.sport.name) &&
+                  data?.preferences?.SelectedSport.includes(newsData.sport.name)
                 ) {
-                  newNews.push(news);
+                  return newsData;
                 }
               });
-            });
-            if (newNews.length > 0) {
-              filteredNews = [...new Set(newNews)];
             }
-            if (sportName) {
-              filteredNews = userPreferences.filter((news) => {
-                return news.sport.name === sportName;
-              });
+
+            if (sportName !== "" && filteredNews.length > 0) {
+              filteredNews = filteredNews.filter(
+                (news) => news.sport.name === sportName
+              );
               setNewsList(filteredNews);
             } else if (filteredNews.length !== 0) {
               setNewsList(filteredNews);
@@ -153,54 +173,103 @@ const NewsList = ({ sportName, filter }: PropsState) => {
     isLoggedin ? (filteredNews = userPreferences) : (filteredNews = news);
 
     if (sportName === "" && filter === "") {
-      isLoggedin ? setNewsList(filteredNews) : setNewsList(news);
+      isLoggedin ? setNewsList(userPreferences) : setNewsList(news);
     } else if (filter || sportName) {
       if (sportName) {
         if (isLoggedin) {
-          filteredNews = userPreferences.filter((news) => {
-            return news.sport.name === sportName;
+          filteredNews = news.filter((newsData) => {
+            return selectedSports?.includes(newsData.sport.name);
           });
+          if (selectedTeams.length > 0) {
+            filteredNews = filteredNews.filter((newsData) => {
+              if (
+                sportName === newsData?.sport?.name &&
+                newsData?.teams?.some((team) =>
+                  teamData?.map((team) => team.name).includes(team.name)
+                )
+              ) {
+                return (
+                  sportName === newsData?.sport?.name &&
+                  selectedSports?.includes(newsData.sport.name) &&
+                  (selectedTeams?.includes(newsData.teams[0]?.name) ||
+                    selectedTeams?.includes(newsData.teams[1]?.name))
+                );
+              } else if (
+                sportName === newsData?.sport?.name &&
+                !teamData
+                  ?.map((team) => team.plays)
+                  .includes(newsData.sport.name) &&
+                selectedSports?.includes(newsData.sport.name)
+              ) {
+                return newsData;
+              }
+            });
+          } else {
+            filteredNews = filteredNews.filter(
+              (news) => news.sport.name === sportName
+            );
+          }
           setNewsList(filteredNews);
         } else {
-          filteredNews = filteredNews.filter((news) => {
-            return news.sport.name === sportName;
-          });
+          filteredNews = news.filter((news) => news.sport.name === sportName);
           setNewsList(filteredNews);
         }
       } else if (sportName === "" && isLoggedin) {
-        setNewsList(userPreferences);
-      }
-
-      if (filter) {
-        if (filter === "Date") {
-          setNewsList(
-            filteredNews.sort(
-              (a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf()
-            )
-          );
-        } else if (filter === "Title") {
-          setNewsList(
-            filteredNews.sort((a, b) => a.title.localeCompare(b.title))
-          );
-        } else if (filter === "Favourites") {
-          const favList = isLoggedin
-            ? JSON.parse(localStorage.getItem("LoginFav") || "[]")
-            : JSON.parse(localStorage.getItem("GuestFav") || "[]");
-          setNewsList(filteredNews.filter((news) => favList.includes(news.id)));
-        } else if (filter === "Select" && sportName === "") {
-          setNewsList(filteredNews.sort(() => Math.random() - 0.5));
-        } else if (filter === "Sport Type") {
-          setNewsList(
-            filteredNews.sort((a, b) =>
-              a.sport.name.localeCompare(b.sport.name)
-            )
-          );
+        if (selectedTeams.length > 0) {
+          filteredNews = filteredNews.filter((newsData) => {
+            if (
+              newsData?.teams?.some((team) =>
+                teamData?.map((team) => team.name).includes(team.name)
+              )
+            ) {
+              return (
+                selectedSports?.includes(newsData.sport.name) &&
+                (selectedTeams?.includes(newsData.teams[0]?.name) ||
+                  selectedTeams?.includes(newsData.teams[1]?.name))
+              );
+            } else if (
+              !teamData
+                ?.map((team) => team.plays)
+                .includes(newsData.sport.name) &&
+              selectedSports?.includes(newsData.sport.name)
+            ) {
+              return newsData;
+            }
+          });
+          setNewsList(filteredNews);
+        } else {
+          setNewsList(userPreferences);
         }
       }
     }
-  }, [isOpen, sportName, filter]);
 
-  if (isLoading) {
+    if (filter) {
+      if (filter === "Date") {
+        setNewsList(
+          filteredNews.sort(
+            (a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf()
+          )
+        );
+      } else if (filter === "Title") {
+        setNewsList(
+          filteredNews.sort((a, b) => a.title.localeCompare(b.title))
+        );
+      } else if (filter === "Favourites") {
+        const favList = isLoggedin
+          ? JSON.parse(localStorage.getItem("LoginFav") || "[]")
+          : JSON.parse(localStorage.getItem("GuestFav") || "[]");
+        setNewsList(filteredNews.filter((news) => favList.includes(news.id)));
+      } else if (filter === "Select" && sportName === "") {
+        setNewsList(filteredNews.sort(() => Math.random() - 0.5));
+      } else if (filter === "Sport Type") {
+        setNewsList(
+          filteredNews.sort((a, b) => a.sport.name.localeCompare(b.sport.name))
+        );
+      }
+    }
+  }, [sportName, filter]);
+
+  if (isLoading && teamData.length === 0) {
     return (
       <SkeletonTheme baseColor="#f0f0f0" highlightColor="#dcdcdc">
         <SkeletonLoading />

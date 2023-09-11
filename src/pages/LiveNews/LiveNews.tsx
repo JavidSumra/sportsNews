@@ -81,7 +81,7 @@ const LiveNews = () => {
   return (
     <div className="mt-4">
       <div className="font-[Poppins] text-2xl font-bold">Trending News</div>
-      <div className="flex m-3 bg-gray-200 rounded-lg dark:bg-gray-600 dark:text-white">
+      <div className="flex m-3 bg-gray-200 rounded-lg dark:bg-gray-600 dark:text-white max-[766px]:flex-col">
         <div className="flex scrollBar  p-2 overflow-auto flex-col items-start w-4/5 max-[766px]:w-full">
           <div className="flex items-center justify-between mb-8 w-full px-4 ">
             {!isLoggedIn && sports.length > 0 ? (
@@ -201,12 +201,14 @@ const LiveNews = () => {
           </div>
           <ErrorBoundary>
             <Suspense fallback={<div>Loading...</div>}>
-              <NewsList sportName={sportName} filter={selectedSort} />
+              <div className="overflow-auto">
+                <NewsList sportName={sportName} filter={selectedSort} />
+              </div>
             </Suspense>
           </ErrorBoundary>
           <Outlet />
         </div>
-        <div className="bg-gray-300 w-3/12 rounded-r-lg dark:bg-gray-700 max-[766px]:hidden">
+        <div className="bg-gray-300 w-3/12 rounded-r-lg dark:bg-gray-700 max-[766px]:w-full overflow-scroll">
           <aside>
             <Favourite />
           </aside>

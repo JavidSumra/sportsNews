@@ -4,7 +4,7 @@ import { MatchReducer } from "./reducer";
 import { LiveMatchState, MatchDispatch, initialState } from "./types";
 
 const MatchesStateContext = createContext<LiveMatchState>(initialState);
-const MatcheDispatchContext = createContext<MatchDispatch>(() => {});
+const MatchesDispatchContext = createContext<MatchDispatch>(() => {});
 
 export const MatchesProvider: React.FC<React.PropsWithChildren> = ({
   children,
@@ -12,12 +12,12 @@ export const MatchesProvider: React.FC<React.PropsWithChildren> = ({
   const [state, dispacth] = useReducer(MatchReducer, initialState);
   return (
     <MatchesStateContext.Provider value={state}>
-      <MatcheDispatchContext.Provider value={dispacth}>
+      <MatchesDispatchContext.Provider value={dispacth}>
         {children}
-      </MatcheDispatchContext.Provider>
+      </MatchesDispatchContext.Provider>
     </MatchesStateContext.Provider>
   );
 };
 
 export const useMatchesState = () => useContext(MatchesStateContext);
-export const useMatchesDispatch = () => useContext(MatcheDispatchContext);
+export const useMatchesDispatch = () => useContext(MatchesDispatchContext);
