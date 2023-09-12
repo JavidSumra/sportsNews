@@ -15,7 +15,7 @@ It targets mainly two types of users:
 
 &rarr; The user directly lands on the dashboard page where they can see currently ongoing matches, trending news, and can also interact with the favorite section where they can see news on their choice.
 
-&rarr; In this scenario, there is another facility where the user can apply available filters on the News Article section, and the user can also mark their favorite matches and news articles as favorite/bookmark.
+&rarr; In this scenario, there is another facility where the user can apply available filters on the News Article section, and the user can also mark their favorite matches and news articles as favorite/bookmarks.
 
 `(2) Sports Enthusiast:`
 
@@ -37,7 +37,7 @@ It targets mainly two types of users:
 
 `Optional Features:`
 
-- Allow users to save favourite news articles and matches.
+- Allow users to save favorite news articles and matches.
 - Implement the ability for users to change their account passwords.
 
 ---
@@ -45,15 +45,25 @@ It targets mainly two types of users:
 `Demo Screenshot:`
 
 `Signup Page:`
+
 ![Sports Edge - Google Chrome 12-09-2023 08_49_23 PM](https://github.com/JavidSumra/sportsNews/assets/112365664/15af95be-c3e2-4c2d-a6bb-45be40362747)
 
 `Login Page:`
- 
+
+ ![Sports Edge - Google Chrome 12-09-2023 08_49_16 PM](https://github.com/JavidSumra/sportsNews/assets/112365664/2df82f77-3177-4389-8582-0b798753801f)
+
 `Dashboard:`
 
+![Sports Edge - Google Chrome 12-09-2023 08_48_45 PM](https://github.com/JavidSumra/sportsNews/assets/112365664/ae0fb9eb-3f2e-4a14-b5de-8bc781605e55)
+
+`Preferences Screen:`
+
+![Sports Edge - Google Chrome 12-09-2023 08_50_55 PM](https://github.com/JavidSumra/sportsNews/assets/112365664/a7c27a45-0959-489e-be11-25e608352efb)
+
+`Article Modal:`
+
+![Sports Edge - Google Chrome 12-09-2023 10_21_51 PM](https://github.com/JavidSumra/sportsNews/assets/112365664/b0d3a60b-fa27-4d98-a59a-1cd2dcbdeb05)
 
 
-
-
-
+# Live App Link : cheerful-manatee-4cd7c6.netlify.app/
 
