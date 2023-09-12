@@ -32,6 +32,7 @@ It targets mainly two types of users:
 - Personalize Dashboard
 - Filtering Based on User Preferences
 - Preferences Screen
+
 - Filter Layout
 
 `Optional Features:`
@@ -42,3 +43,17 @@ It targets mainly two types of users:
 ---
 
 `Demo Screenshot:`
+
+`Signup Page:`
+![Sports Edge - Google Chrome 12-09-2023 08_49_23 PM](https://github.com/JavidSumra/sportsNews/assets/112365664/15af95be-c3e2-4c2d-a6bb-45be40362747)
+
+`Login Page:`
+ 
+`Dashboard:`
+
+
+
+
+
+
+
