@@ -178,33 +178,39 @@ const NewsList = ({ sportName, filter }: PropsState) => {
       setTeamData(teams.filter((team) => selectedTeams?.includes(team?.name)));
       if (sportName) {
         if (isLoggedin) {
-          filteredNews = news.filter((newsData) => {
-            return selectedSports?.includes(newsData.sport.name);
-          });
-          if (selectedTeams.length > 0) {
-            filteredNews = filteredNews.filter((newsData) => {
-              if (
-                sportName === newsData?.sport?.name &&
-                newsData?.teams?.some((team) =>
-                  teamData?.map((team) => team.name).includes(team.name)
-                )
-              ) {
-                return (
-                  sportName === newsData?.sport?.name &&
-                  selectedSports?.includes(newsData.sport.name) &&
-                  (selectedTeams?.includes(newsData.teams[0]?.name) ||
-                    selectedTeams?.includes(newsData.teams[1]?.name))
-                );
-              } else if (
-                sportName === newsData?.sport?.name &&
-                !teamData
-                  ?.map((team) => team.plays)
-                  .includes(newsData.sport.name) &&
-                selectedSports?.includes(newsData.sport.name)
-              ) {
-                return newsData;
-              }
+          if (selectedSports.length > 0) {
+            filteredNews = news.filter((newsData) => {
+              return selectedSports?.includes(newsData.sport.name);
             });
+            if (selectedTeams.length > 0) {
+              filteredNews = filteredNews.filter((newsData) => {
+                if (
+                  sportName === newsData?.sport?.name &&
+                  newsData?.teams?.some((team) =>
+                    teamData?.map((team) => team.name).includes(team.name)
+                  )
+                ) {
+                  return (
+                    sportName === newsData?.sport?.name &&
+                    selectedSports?.includes(newsData.sport.name) &&
+                    (selectedTeams?.includes(newsData.teams[0]?.name) ||
+                      selectedTeams?.includes(newsData.teams[1]?.name))
+                  );
+                } else if (
+                  sportName === newsData?.sport?.name &&
+                  !teamData
+                    ?.map((team) => team.plays)
+                    .includes(newsData.sport.name) &&
+                  selectedSports?.includes(newsData.sport.name)
+                ) {
+                  return newsData;
+                }
+              });
+            } else {
+              filteredNews = filteredNews.filter(
+                (news) => news.sport.name === sportName
+              );
+            }
           } else {
             filteredNews = filteredNews.filter(
               (news) => news.sport.name === sportName
@@ -216,9 +222,10 @@ const NewsList = ({ sportName, filter }: PropsState) => {
           setNewsList(filteredNews);
         }
       } else if (sportName === "" && isLoggedin) {
-        filteredNews = news.filter((newsData) => {
-          return selectedSports?.includes(newsData.sport.name);
-        });
+        if (selectedSports.length === 0) {
+          setNewsList(news);
+        }
+
         if (selectedTeams.length > 0) {
           filteredNews = filteredNews.filter((newsData) => {
             if (
