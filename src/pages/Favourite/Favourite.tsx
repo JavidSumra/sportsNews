@@ -61,6 +61,7 @@ const Favourite = () => {
       } else if (sports.length > 0) {
         setSportPreferences(sports.map((sport) => sport.name));
       }
+
       if (
         isLoggedIn &&
         data?.preferences?.SelectedTeams?.length !== 0 &&
@@ -69,8 +70,25 @@ const Favourite = () => {
         setTeamData(data?.preferences?.SelectedTeams);
         setTeamPreferences(data?.preferences?.SelectedTeams ?? []);
       } else if (teams.length > 0) {
-        setTeamData(teams.map((team) => team.name));
-        setTeamPreferences(teams.map((team) => team.name));
+        if (data?.preferences?.SelectedSport?.length > 0 && teams) {
+          setTeamData(
+            teams
+              .filter((team) =>
+                data?.preferences?.SelectedSport.includes(team.plays)
+              )
+              .map((team) => team.name)
+          );
+          setTeamPreferences(
+            teams
+              .filter((team) =>
+                data?.preferences?.SelectedSport.includes(team.plays)
+              )
+              .map((team) => team.name)
+          );
+        } else {
+          setTeamData(teams.map((team) => team.name));
+          setTeamPreferences(teams.map((team) => team.name));
+        }
       }
     };
 
@@ -81,7 +99,7 @@ const Favourite = () => {
       setSportPreferences(sports.map((sport) => sport.name));
       setTeamPreferences(teams.map((team) => team.name));
     }
-  }, [sports, FetchPreferences, isLoggedIn, isOpen, teams]);
+  }, [isOpen, sports, FetchPreferences, isLoggedIn, teams]);
 
   if (isLoading) {
     return (
@@ -174,7 +192,9 @@ const Favourite = () => {
               ))}
             </Listbox.Options>
           </Listbox>
-          <FavCard team={selectedTeam} sport={selectedSport} />
+          <div className="overflow-x-auto max-h-screen">
+            <FavCard team={selectedTeam} sport={selectedSport} />
+          </div>
         </div>
       </>
     );

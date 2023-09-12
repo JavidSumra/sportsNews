@@ -201,14 +201,14 @@ const LiveNews = () => {
           </div>
           <ErrorBoundary>
             <Suspense fallback={<div>Loading...</div>}>
-              <div className="overflow-auto">
+              <div className="overflow-x-auto max-h-screen">
                 <NewsList sportName={sportName} filter={selectedSort} />
               </div>
             </Suspense>
           </ErrorBoundary>
           <Outlet />
         </div>
-        <div className="bg-gray-300 w-3/12 rounded-r-lg dark:bg-gray-700 max-[766px]:w-full overflow-scroll">
+        <div className="bg-gray-300 w-3/12 rounded-r-lg dark:bg-gray-700 max-[766px]:w-full">
           <aside>
             <Favourite />
           </aside>

@@ -96,10 +96,8 @@ const NewsList = ({ sportName, filter }: PropsState) => {
             data?.preferences?.SelectedSport !== undefined
           ) {
             setSelectedSports(data?.preferences?.SelectedSport ?? []);
-
+            setSelectedTeams(data?.preferences?.SelectedTeams ?? []);
             if (data?.preferences?.SelectedTeams?.length > 0) {
-              setSelectedTeams(data?.preferences?.SelectedTeams ?? []);
-
               setTeamData(
                 teams.filter((team) =>
                   data?.preferences?.SelectedTeams.includes(team.name)
@@ -177,14 +175,12 @@ const NewsList = ({ sportName, filter }: PropsState) => {
     if (sportName === "" && filter === "") {
       isLoggedin ? setNewsList(userPreferences) : setNewsList(news);
     } else if (filter || sportName) {
+      setTeamData(teams.filter((team) => selectedTeams?.includes(team?.name)));
       if (sportName) {
         if (isLoggedin) {
           filteredNews = news.filter((newsData) => {
             return selectedSports?.includes(newsData.sport.name);
           });
-          setTeamData(
-            teams.filter((team) => selectedTeams.includes(team.name))
-          );
           if (selectedTeams.length > 0) {
             filteredNews = filteredNews.filter((newsData) => {
               if (
@@ -220,6 +216,9 @@ const NewsList = ({ sportName, filter }: PropsState) => {
           setNewsList(filteredNews);
         }
       } else if (sportName === "" && isLoggedin) {
+        filteredNews = news.filter((newsData) => {
+          return selectedSports?.includes(newsData.sport.name);
+        });
         if (selectedTeams.length > 0) {
           filteredNews = filteredNews.filter((newsData) => {
             if (
@@ -321,10 +320,12 @@ const NewsList = ({ sportName, filter }: PropsState) => {
                 </button>
               </div>
               <div className="middle mx-6 my-3">
-                <div className="title text-lg font-bold">{data.title}</div>
-                <div className="excerpt text-sm font-medium">
-                  {data.summary}
-                </div>
+                <Link to={`News/${data.id}`}>
+                  <div className="title text-lg font-bold">{data.title}</div>
+                  <div className="excerpt text-sm font-medium">
+                    {data.summary}
+                  </div>
+                </Link>
               </div>
               <div className="bottom flex justify-between items-center text-sm font-bold mx-10">
                 <div className="date mb-4">

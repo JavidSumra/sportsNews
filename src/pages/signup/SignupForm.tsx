@@ -15,7 +15,7 @@ interface UserInputs {
 
 // Validation of Password
 
-function validatePassword(password: string): string {
+function validatePassword(password: string): string | undefined {
   if (password.length < 8) {
     return "Password must be at least 8 characters long.";
   }
@@ -31,7 +31,6 @@ function validatePassword(password: string): string {
   if (!/(?=.*[@$!%*?&])/.test(password)) {
     return "Password must contain at least one special character (@$!%*?&).";
   }
-  return "";
 }
 
 const SignupForm = () => {

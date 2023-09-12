@@ -246,7 +246,10 @@ const Prefrences: React.FC = () => {
                             onClick={handleCheckboxChange}
                           />
                           <label htmlFor={`team-${team.id}`}>
-                            <div className="text-2xl font-medium">
+                            <div
+                              className="text-2xl font-medium"
+                              title={`${team.plays} Team`}
+                            >
                               {team.name}
                             </div>
                           </label>
