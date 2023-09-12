@@ -65,5 +65,7 @@ It targets mainly two types of users:
 ![Sports Edge - Google Chrome 12-09-2023 10_21_51 PM](https://github.com/JavidSumra/sportsNews/assets/112365664/b0d3a60b-fa27-4d98-a59a-1cd2dcbdeb05)
 
 
-# Live App Link : cheerful-manatee-4cd7c6.netlify.app/
+# Live App Link : [cheerful-manatee-4cd7c6.netlify.app/](https://cheerful-manatee-4cd7c6.netlify.app/)
+
+# Demo Link : [Video 1](https://www.loom.com/share/f111e709637940bd8a081243ca0dd280?sid=151a5085-0ea4-4df9-a7b6-aed162299e81),[Video 2](https://www.loom.com/share/720f97b73d2545ce9b403b65bf33ae77?sid=2565a70b-917f-41e1-b277-16cce2426d53)
 
