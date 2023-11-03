@@ -10,6 +10,7 @@ import { TeamsProvider } from "./context/Teams/context";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.css";
+import NoInternetConnection from "./components/NoInternetConnection";
 
 function App() {
   const { theme } = useContext(ThemeContext);
@@ -25,16 +26,18 @@ function App() {
 
   return (
     <div className={`h-screen w-full mx-auto  dark:bg-gray-800 `}>
-      <SportsProvider>
-        <MatchesProvider>
-          <TeamsProvider>
-            <NewsProvider>
-              <RouterProvider router={router} />
-            </NewsProvider>
-          </TeamsProvider>
-        </MatchesProvider>
-      </SportsProvider>
-      <ToastContainer />
+      <NoInternetConnection>
+        <SportsProvider>
+          <MatchesProvider>
+            <TeamsProvider>
+              <NewsProvider>
+                <RouterProvider router={router} />
+              </NewsProvider>
+            </TeamsProvider>
+          </MatchesProvider>
+        </SportsProvider>
+        <ToastContainer />
+      </NoInternetConnection>
     </div>
   );
 }
