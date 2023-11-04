@@ -3,11 +3,13 @@ import NoInternetImage from "../assets/images/NoInternet.png";
 
 const NoInternetConnection = (props: any) => {
   // state variable holds the state of the internet connection
+  const [image, setImage] = useState(NoInternetImage);
   const [isOnline, setOnline] = useState(true);
 
   // On initization set the isOnline state.
   useEffect(() => {
     setOnline(navigator.onLine);
+    setImage(NoInternetImage);
   }, []);
 
   // event listeners to update the state
@@ -25,7 +27,7 @@ const NoInternetConnection = (props: any) => {
   } else {
     return (
       <div className="flex items-center justify-center flex-col">
-        <img src={NoInternetImage} alt="No Internet Connection" />
+        <img src={image} alt="No Internet Connection" />
         <div className="font-bold text-2xl">You Are offline!</div>
         <h5 className="font-light">
           It seems there is a Problem with your Connection
