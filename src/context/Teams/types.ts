@@ -1,7 +1,7 @@
 import { Sports } from "../Sports/types";
 
 export type Team = Sports & {
-  plays?: string;
+  plays: string;
 };
 export interface TeamsState {
   teams: Team[];

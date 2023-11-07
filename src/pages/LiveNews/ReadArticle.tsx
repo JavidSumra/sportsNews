@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { API_ENDPOINT } from "../../config/constants";
 import { NewsData } from "../../context/News/types";
 import Skeleton from "react-loading-skeleton";
-import { Team } from "../../context/Teams/types";
+import { Sports } from "../../context/Sports/types";
 
 type dataDetail = NewsData & {
   content?: string;
@@ -121,7 +121,7 @@ const Readdata = () => {
                                 {data?.title}
                               </h3>
                               <p className="my-3 space-x-2">
-                                {data?.teams?.map((team: Team) => (
+                                {data?.teams?.map((team: Sports) => (
                                   <span
                                     className="bg-gray-200/75 text-gray-600/75 p-2 my-2"
                                     key={team?.id}
