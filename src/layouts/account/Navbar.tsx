@@ -16,6 +16,7 @@ import {
   ArrowRightOnRectangleIcon,
   KeyIcon,
   PlusIcon,
+  AdjustmentsVerticalIcon,
 } from "@heroicons/react/24/outline";
 
 import { ThemeContext } from "../../context/theme";
@@ -36,8 +37,13 @@ const Navbar = React.memo(() => {
     isLogin
       ? [
           {
+            icon: <UserCircleIcon className="w-6 h-6 mr-4  " />,
+            name: "Profile",
+            href: "profile",
+          },
+          {
             icon: <PlusIcon className="w-6 h-6 mr-4  " />,
-            name: "Sign Up",
+            name: "Signup",
             href: "/signup",
           },
           {
@@ -137,7 +143,7 @@ const Navbar = React.memo(() => {
                   <Menu as="div" className="relative ml-3">
                     <div>
                       <Menu.Button className="w-8 dark:text-white dark:hover:text-blue-500 dark:bg-gray-800 bg-white p-1 text-gray-400 hover:text-blue-600">
-                        <UserCircleIcon
+                        <AdjustmentsVerticalIcon
                           className="h-8 w-8 "
                           aria-hidden="true"
                         />
@@ -156,8 +162,8 @@ const Navbar = React.memo(() => {
                         {userNavigation.flat(1).map((item) => (
                           <Menu.Item key={item.name}>
                             {({ active }) => (
-                              <a
-                                href={item.href}
+                              <Link
+                                to={item.href}
                                 className={classNames(
                                   active ? "bg-gray-100 dark:bg-slate-800" : "",
                                   "block px-4 py-2 text-sm text-gray-70"
@@ -167,7 +173,7 @@ const Navbar = React.memo(() => {
                                   {item.icon}
                                   {item.name}
                                 </div>
-                              </a>
+                              </Link>
                             )}
                           </Menu.Item>
                         ))}

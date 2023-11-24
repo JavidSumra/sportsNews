@@ -86,7 +86,7 @@ const SportCard = (props: SportCardProps) => {
   // Function Handles Arrow Icon Rotation
   function handleClick(event: React.MouseEvent<SVGSVGElement, MouseEvent>) {
     const target = event.target as SVGSVGElement;
-    target.classList.toggle("rotate-180");
+    target.classList.toggle("animate-wiggle");
   }
 
   // Below Function Handle Favorite
@@ -131,7 +131,14 @@ const SportCard = (props: SportCardProps) => {
         className="w-60 p-2 group mx-4 bg-white border border-gray-200 rounded shadow hover:bg-gray-100 dark:bg-gray-700 dark:border-gray-400 dark:hover:bg-gray-600 duration-150"
       >
         <div className="flex justify-between items-center">
-          <div className="text-sm font-bold">{sportName}</div>
+          <div className="text-lg font-bold flex items-center justify-center">
+            <span className="relative flex h-3 w-3 mr-3">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+            </span>
+
+            {sportName}
+          </div>
           <div>
             <button onClick={() => addToFav(id)}>
               {isLoggedin && loginFav.includes(id) ? (

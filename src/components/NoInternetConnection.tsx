@@ -29,7 +29,7 @@ const NoInternetConnection = (props: any) => {
     return props.children;
   } else {
     return (
-      <div className="flex items-center justify-center flex-col">
+      <div className="h-screen flex items-center justify-center flex-col dark:text-white dark:bg-gray-900">
         <img src={image} alt="No Internet Connection" />
         <div className="font-bold text-2xl">You Are offline!</div>
         <h5 className="font-light">
