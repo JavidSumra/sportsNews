@@ -9,6 +9,7 @@ import Skeleton from "react-loading-skeleton";
 import { Sports } from "../../context/Sports/types";
 
 type dataDetail = NewsData & {
+  isRunning: boolean;
   content?: string;
 };
 
@@ -55,7 +56,7 @@ const Readdata = () => {
             >
               <div className="fixed inset-0 bg-black bg-opacity-25" />
             </Transition.Child>
-            <div className="fixed inset-0 overflow-y-auto custom-scrollbar">
+            <div className="fixed inset-0 overflow-y-auto custom-scrollbar ">
               <div className="flex min-h-full items-center justify-center sm:p-12 text-center">
                 <Transition.Child
                   as={Fragment}
@@ -66,11 +67,11 @@ const Readdata = () => {
                   leaveFrom="opacity-100 scale-100"
                   leaveTo="opacity-0 scale-95"
                 >
-                  <Dialog.Panel className="w-full transform overflow-hidden rounded-2xl bg-white p-4 md:p-6 text-left align-middle shadow-xl transition-all">
+                  <Dialog.Panel className="w-full transform overflow-hidden rounded-2xl bg-white p-4 md:p-6 text-left align-middle shadow-xl transition-all dark:text-white dark:bg-gray-900">
                     <div className="absolute right-0 top-0 pr-4 pt-4 ">
                       <button
                         type="button"
-                        className=" text-xl font-semibold rounded-md bg-white text-gray-400 hover:text-gray-500"
+                        className=" text-xl font-semibold rounded-md  text-gray-400 hover:text-gray-500"
                         onClick={closeModal}
                       >
                         <svg
@@ -87,19 +88,20 @@ const Readdata = () => {
                         </svg>
                       </button>
                     </div>
+
                     <Dialog.Title
                       as="h3"
                       className="text-lg font-light leading-6 text-gray-700/75"
                     ></Dialog.Title>
                     <div className="mt-4">
-                      <div className="bg-white">
+                      <div className="bg-white dark:text-white dark:bg-gray-900">
                         <div className="mx-auto max-w-7xl md:px-8">
-                          <div className="mx-auto flex max-w-2xl flex-col items-end justify-between gap-16 lg:mx-0 lg:max-w-none lg:flex-row">
+                          <div className="mx-auto flex max-w-2xl flex-col items-baseline justify-between gap-16 lg:mx-0 lg:max-w-none lg:flex-row">
                             <div className="w-full lg:max-w-lg lg:flex-auto">
-                              <h2 className="text-xl font-bold tracking-tight text-gray-900 md:text-4xl">
+                              <h2 className="text-xl font-bold tracking-tight text-gray-900 md:text-4xl dark:text-white">
                                 {data?.sport?.name}
                               </h2>
-                              <p className="text-sm font-semibold mt-2 ">
+                              <p className="text-sm font-semibold mt-2">
                                 {
                                   String(data?.date)
                                     ?.toString()
@@ -113,7 +115,7 @@ const Readdata = () => {
                               </p>
                               <img
                                 src={data?.thumbnail}
-                                className="mt-16 aspect-[6/5] w-full rounded-2xl bg-gray-50 object-cover lg:aspect-auto lg:h-[34.5rem]"
+                                className="mt-12 aspect-[6/5] w-full rounded-2xl bg-gray-50 object-cover lg:aspect-auto lg:h-[34.5rem]"
                               />
                             </div>
                             <div className="w-full lg:max-w-xl lg:flex-auto">
@@ -123,14 +125,14 @@ const Readdata = () => {
                               <p className="my-3 space-x-2">
                                 {data?.teams?.map((team: Sports) => (
                                   <span
-                                    className="bg-gray-200/75 text-gray-600/75 p-2 my-2"
+                                    className="bg-gray-200/75 text-gray-600/75 p-2 my-2 dark:text-white dark:bg-gray-700 rounded"
                                     key={team?.id}
                                   >
                                     # {team?.name}
                                   </span>
                                 ))}
                               </p>
-                              <p className="my-6 text-md md:text-xl leading-normal md:leading-8 text-gray-600">
+                              <p className="md:my-6 xl:my-24 text-md md:text-xl leading-normal md:leading-8 text-gray-600">
                                 {data?.content}
                               </p>
                             </div>
@@ -172,11 +174,11 @@ const Readdata = () => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-screen-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-slate-900">
+                <Dialog.Panel className="w-full max-w-screen-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-gray-900">
                   <div className="absolute right-0 top-0 pr-4 pt-4 ">
                     <button
                       type="button"
-                      className=" text-xl font-semibold rounded-md bg-white text-gray-400 hover:text-gray-500"
+                      className=" text-xl font-semibold rounded-md bg-whites text-gray-400 hover:text-gray-500"
                       onClick={closeModal}
                     >
                       <svg
@@ -198,7 +200,7 @@ const Readdata = () => {
                     className="text-lg font-medium leading-6 text-gray-900"
                   ></Dialog.Title>
                   <div className="mt-4">
-                    <div className="bg-white">
+                    <div className="bg-white dark:bg-gray-900">
                       <div className="mx-auto max-w-7xl md:px-8">
                         <div className="mx-auto flex max-w-2xl flex-col items-end justify-between gap-16 lg:mx-0 lg:max-w-none lg:flex-row">
                           <div className="w-full lg:max-w-lg lg:flex-auto">

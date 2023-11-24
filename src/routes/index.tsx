@@ -13,6 +13,7 @@ import ForgotPassword from "../pages/Forgotpass";
 import ErrorBoundary from "../components/ErrorBoundary";
 import { Suspense } from "react";
 import NotFound from "../pages/NotFound";
+import Profile from "../layouts/account/Profile";
 
 const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/dashboard" replace /> },
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
           {
             path: "prefrences",
             element: <Prefrences />,
+          },
+          {
+            path: "profile",
+            element: <Profile />,
           },
         ],
       },

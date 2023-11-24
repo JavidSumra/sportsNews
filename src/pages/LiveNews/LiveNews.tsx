@@ -101,7 +101,7 @@ const LiveNews = () => {
                     key={sport.id}
                     className={`font-lg  mx-4 duration-150 ${
                       sportName === sport.name
-                        ? "border-b-2 dark:text-gray-50 border-black p-2 font-bold text-black text-lg "
+                        ? "border-b-2 dark:text-gray-50 border-black p-2 font-bold text-black text-lg"
                         : "text-gray-400 text-sm"
                     }`}
                     onClick={() => changeFilter(sport.name)}
