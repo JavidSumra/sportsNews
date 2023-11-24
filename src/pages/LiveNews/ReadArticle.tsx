@@ -71,7 +71,7 @@ const Readdata = () => {
                     <div className="absolute right-0 top-0 pr-4 pt-4 ">
                       <button
                         type="button"
-                        className=" text-xl font-semibold rounded-md bg-white text-gray-400 hover:text-gray-500"
+                        className=" text-xl font-semibold rounded-md  text-gray-400 hover:text-gray-500"
                         onClick={closeModal}
                       >
                         <svg

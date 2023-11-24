@@ -338,7 +338,7 @@ const NewsList = ({ sportName, filter }: PropsState) => {
                 <div className="date mb-4">
                   {new Date(data.date).toUTCString().split("", 16)}
                 </div>
-                <div className="readmore hover:text-blue-500 dark:hover:text-slate-900 duration-75 underline">
+                <div className="readmore hover:text-blue-500 dark:hover:text-slate-700/80 duration-75 underline">
                   <Link to={`News/${data.id}`}>Readmore...</Link>
                 </div>
               </div>
